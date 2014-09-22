@@ -1,0 +1,12 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Main routes
+GET     /                           controllers.UserController.index
+GET     /quote/:id                  controllers.UserController.quote(id: Long)
+POST    /quote                      controllers.AdminController.addQuote
+DELETE  /quote/:id                  controllers.AdminController.deleteQuote(id: Long)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

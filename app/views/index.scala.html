@@ -1,0 +1,16 @@
+@(quotes: Seq[models.Quote])
+
+@main("Log List") {
+    <div class="center-content quotes">
+    @quotes.map { quote =>
+        <div class="quote">
+            <div class="quote-header">
+                <a href="quote/@quote.id">#@quote.id</a>
+                <span class="quote-time">@quote.time</span>
+                <span class="clear"></span>
+            </div>
+            <div class="quote-content">@quote.content</div>
+        </div>
+    }
+    </div>
+}

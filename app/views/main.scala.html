@@ -1,0 +1,19 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/reset.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    </head>
+    <body>
+        <dev class="header center-content">
+            <a href="/"><span class="highlight">L</span>og<span class="highlight">L</span>ist</a>
+        </dev>
+        <dev class="content center-content">@content</dev>
+        <dev class="footer center-content"><span class="highlight">codingteam ©</span> 2014</dev>
+    </body>
+</html>
