@@ -36,6 +36,7 @@ body {
    border-width: 2px;
    border-color: #445544;
    border-style: solid;
+   word-wrap: break-word;
 }
 
 .quote-time {
