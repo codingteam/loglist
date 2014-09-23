@@ -31,7 +31,7 @@ body {
 .quote-content {
    background: #334433;
    padding: 10px;
-   white-space: pre;
+   white-space: pre-wrap;
    line-height: 1.3;
    border-width: 2px;
    border-color: #445544;
