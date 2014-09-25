@@ -1,0 +1,10 @@
+language: scala
+jdk: oraclejdk7
+sudo: false
+scala:
+  - 2.11.1
+script:
+  - "./activator compile"
+notifications:
+  email:
+    - reximkut@gmail.com
