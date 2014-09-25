@@ -4,7 +4,7 @@ sudo: false
 scala:
   - 2.11.1
 script:
-  - "./activator compile"
+  - sbt -jvm-opts compile
 notifications:
   email:
     - reximkut@gmail.com
