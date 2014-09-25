@@ -24,7 +24,7 @@ object Data {
 
   def getAllQuotes(implicit dataSource: DataSource): Seq[Quote] = {
     Database.forDataSource(dataSource) withSession { implicit session =>
-      val quotes = for (quote <- quoteTableQuery) yield (quote.id, quote.time, quote.content)
+      val quotes = for (quote <- quoteTableQuery.sortBy(_.time.desc)) yield (quote.id, quote.time, quote.content)
       quotes.list.map {
         case (id, time, content) => Quote(id, new DateTime(time.getTime), content)
       }
