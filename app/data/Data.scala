@@ -41,7 +41,9 @@ object Data {
 
   def insertQuote(content: String)(implicit dataSource: DataSource): Unit = {
     Database.forDataSource(dataSource) withSession { implicit session =>
-      quoteTableQuery += (0, new Timestamp(DateTime.now.getMillis), content)
+      quoteTableQuery
+        .map(q => (q.time, q.content))
+        .insert((new Timestamp(DateTime.now.getMillis), content))
     }
   }
 
