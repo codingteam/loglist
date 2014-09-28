@@ -1,4 +1,4 @@
-@(quotes: Seq[models.Quote])
+@(quotes: Seq[models.Quote], currentPage: Long, countPages: Int)
 
 @main("Log List") {
     <div class="center-content quotes">
@@ -9,8 +9,17 @@
                 <span class="quote-time">@quote.time</span>
                 <span class="clear"></span>
             </div>
-            <div class="quote-content">@quote.content</div>
+            <div class="quote-content plate">@quote.content</div>
         </div>
     }
+    </div>
+    <div class="pages">
+        @for(i <- 0 to (countPages - 1)) {
+            @if(i != currentPage) {
+                <a href="/?page=@i">@i</a>
+            } else {
+                <strong>@i</strong>
+            }
+        }
     </div>
 }

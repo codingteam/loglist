@@ -4,16 +4,20 @@ body {
     font-family: Monospace;
 }
 
-.header {
+strong {
+    font-weight: bold;
+}
+
+.plate {
     background: #334433;
+}
+
+.header {
     text-align: center;
     padding-top: 20px;
     padding-bottom: 20px;
     margin-bottom: 20px;
     font-size: 50px;
-    border-width: 2px;
-    border-color: #445544;
-    border-style: solid;
 }
 
 .highlight {
@@ -29,13 +33,9 @@ body {
 }
 
 .quote-content {
-   background: #334433;
    padding: 10px;
    white-space: pre-wrap;
    line-height: 1.3;
-   border-width: 2px;
-   border-color: #445544;
-   border-style: solid;
    word-wrap: break-word;
 }
 
@@ -75,6 +75,14 @@ a:hover {
 
 a:active {
     text-decoration: underline;
+}
+
+.header a:link {
+    color: #BBBBBB;
+}
+
+.header a:visited {
+    color: #BBBBBB;
 }
 
 .header a:hover {
