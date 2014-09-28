@@ -1,10 +1,9 @@
 package controllers
 
 import security.BasicAuth
-import controllers.UserController._
 import data.Data
+import helpers.TypeHelpers._
 
-import play.api._
 import play.api.Play.current
 import play.api.db.DB
 import play.api.mvc._
@@ -26,12 +25,12 @@ object AdminController extends Controller {
     }
   }
 
-  def deleteQuote(id: Long) = BasicAuth {
+  def deleteQuote(idString: String) = BasicAuth {
     Action { implicit request =>
-      if (Data.removeQuoteById(id))
-        Ok(s"The quote $id has been deleted")
-      else
-        NotFound(s"There is no quote with id $id")
+      parseLong(idString).flatMap(id => Some(Data.removeQuoteById(id))) match {
+        case Some(true) => Ok(s"The quote $idString has been deleted")
+        case _          => NotFound(s"There is no quote with id $idString")
+      }
     }
   }
 }

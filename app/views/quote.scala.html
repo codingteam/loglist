@@ -1,18 +1,14 @@
-@(quote: Option[models.Quote])
+@(quote: models.Quote)
 
 @main("Log List") {
   <div class="center-content quotes">
-  @quote match {
-    case Some(quote) => {
-        <div class="quote">
-            <div class="quote-header">
-                <a href="@quote.id">#@quote.id</a>
-                <span class="quote-time">@quote.time</span>
-                <span class="clear"></span>
-            </div>
-            <div class="quote-content">@quote.content</div>
+    <div class="quote">
+        <div class="quote-header">
+            <a href="@quote.id">#@quote.id</a>
+            <span class="quote-time">@quote.time</span>
+            <span class="clear"></span>
         </div>
-    }
-  }
+        <div class="quote-content">@quote.content</div>
+    </div>
   </div>
 }

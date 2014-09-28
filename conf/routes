@@ -4,9 +4,9 @@
 
 # Main routes
 GET     /                           controllers.UserController.index
-GET     /quote/:id                  controllers.UserController.quote(id: Long)
+GET     /quote/$id<[0-9]+>          controllers.UserController.quote(id: String)
 POST    /quote                      controllers.AdminController.addQuote
-DELETE  /quote/:id                  controllers.AdminController.deleteQuote(id: Long)
+DELETE  /quote/$id<[0-9]+>          controllers.AdminController.deleteQuote(id: String )
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
