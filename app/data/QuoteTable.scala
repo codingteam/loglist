@@ -1,6 +1,6 @@
 package data
 
-import scala.slick.driver.H2Driver.simple._
+import scala.slick.driver.PostgresDriver.simple._
 import java.sql.Timestamp
 
 class QuoteTable(tag: Tag) extends Table[(Long, Timestamp, String)](tag, "QUOTE") {
