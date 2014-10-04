@@ -31,6 +31,20 @@ object Data {
     }
   }
 
+  def getPageOfQuotes(pageNumber: Long, pageSize: Long)(implicit dataSource: DataSource): Seq[Quote] = {
+    Database.forDataSource(dataSource) withSession { implicit session =>
+      quoteTableQuery.sortBy(_.time.desc).drop(pageNumber * pageSize).take(pageSize).list.map {
+        case (id, time, content) => Quote(id, new DateTime(time.getTime), content)
+      }
+    }
+  }
+
+  def countQuotes(implicit dataSource: DataSource): Int = {
+    Database.forDataSource(dataSource) withSession { implicit session =>
+      quoteTableQuery.size.run
+    }
+  }
+
   def getQuoteById(id: Long)(implicit dataSource: DataSource): Option[Quote] = {
     Database.forDataSource(dataSource) withSession { implicit session =>
       quoteTableQuery.filter(_.id === id).firstOption.map {
