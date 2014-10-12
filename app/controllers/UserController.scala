@@ -1,12 +1,11 @@
 package controllers
 
-import models.QuoteQueries
-
-import scala.math._
 import helpers.TypeHelpers._
+import models.QuoteQueries
 import play.api.Play.current
 import play.api.db.DB
 import play.api.mvc._
+import play.api.libs.json.Json
 
 
 object UserController extends Controller {
@@ -32,6 +31,17 @@ object UserController extends Controller {
     parseLong(idString).flatMap(QuoteQueries.getQuoteById) match {
       case Some(quote) => Ok(views.html.quote(quote))
       case _           => NotFound("Not found")
+    }
+  }
+
+  def vote(id: String, up: Boolean) = Action { implicit request =>
+    val action = QuoteQueries.updateRating(if (up) 1 else -1) _
+    parseLong(id).map(action) match {
+      case Some(rating) =>
+        val data = Map("rating" -> rating)
+        val json = Json.toJson(data)
+        Ok(json)
+      case _            => NotFound("Not found")
     }
   }
 }

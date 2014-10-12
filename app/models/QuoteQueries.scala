@@ -10,7 +10,7 @@ object QuoteQueries {
     val q = Quote.syntax("q")
     withSQL {
       select(
-        q.id, q.time, q.content
+        q.*
       ).from(Quote as q)
        .orderBy(q.time).desc
        .offset(pageNumber * pageSize)
@@ -46,5 +46,17 @@ object QuoteQueries {
     withSQL {
       delete.from(Quote).where.eq(q.id, id)
     }.update().apply() != 0
+  }
+
+  def updateRating(increment: Int)(id: Long): Int = {
+    val q = Quote.column
+    DB localTx { implicit session =>
+      withSQL {
+        update(Quote).set(
+          q.rating -> sqls"${q.rating} + $increment"
+        ).where.eq(q.id, id)
+          .append(sqls"returning ${q.rating}")
+      }.map(rs => rs.int(1)).first().apply().getOrElse(0)
+    }
   }
 }
