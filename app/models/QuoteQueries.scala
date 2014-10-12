@@ -49,10 +49,14 @@ object QuoteQueries {
   }
 
   def updateRating(increment: Int)(id: Long): Int = {
+    val q = Quote.column
     DB localTx { implicit session =>
-      sql"update quote set rating = rating + $increment where id = $id returning rating"
-        .map(rs => rs.int(1))
-        .first().apply().getOrElse(0)
+      withSQL {
+        update(Quote).set(
+          q.rating -> sqls"${q.rating} + $increment"
+        ).where.eq(q.id, id)
+          .append(sqls"returning ${q.rating}")
+      }.map(rs => rs.int(1)).first().apply().getOrElse(0)
     }
   }
 }
