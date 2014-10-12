@@ -29,7 +29,7 @@ object QuoteQueries {
     val q = Quote.syntax("q")
     withSQL {
       select(
-        q.id, q.time, q.content
+        q.*
       ).from(Quote as q).where.eq(q.id, id)
     }.map(rs => Quote(rs)).first().apply()
   }
