@@ -3,10 +3,13 @@
 # ~~~~
 
 # Main routes
-GET     /                           controllers.UserController.index
-GET     /quote/$id<[0-9]+>          controllers.UserController.quote(id: String)
-POST    /quote                      controllers.AdminController.addQuote
-DELETE  /quote/$id<[0-9]+>          controllers.AdminController.deleteQuote(id: String)
+GET           /                                  controllers.UserController.index
+GET           /quote/$id<[0-9]+>                 controllers.UserController.quote(id: String)
+POST          /quote/$id<[0-9]+>/upvote          controllers.UserController.vote(id: String, up: Boolean = true)
+POST          /quote/$id<[0-9]+>/downvote        controllers.UserController.vote(id: String, up: Boolean = false)
+POST          /quote                             controllers.AdminController.addQuote
+DELETE        /quote/$id<[0-9]+>                 controllers.AdminController.deleteQuote(id: String)
+
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET           /assets/*file                      controllers.Assets.at(path="/public", file)
