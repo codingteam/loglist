@@ -1,7 +1,7 @@
 package controllers
 
+import models.QuoteQueries
 import security.BasicAuth
-import data.Data
 import helpers.TypeHelpers._
 
 import play.api.Play.current
@@ -15,7 +15,7 @@ object AdminController extends Controller {
     Action { implicit request =>
       request.body.asText match {
         case Some(content) => {
-          Data.insertQuote(content)
+          QuoteQueries.insertQuote(content)
           Ok("The quote has been added")
         }
 
@@ -27,7 +27,7 @@ object AdminController extends Controller {
 
   def deleteQuote(idString: String) = BasicAuth {
     Action { implicit request =>
-      parseLong(idString).flatMap(id => Some(Data.removeQuoteById(id))) match {
+      parseLong(idString).flatMap(id => Some(QuoteQueries.removeQuoteById(id))) match {
         case Some(true) => Ok(s"The quote $idString has been deleted")
         case _          => NotFound(s"There is no quote with id $idString")
       }

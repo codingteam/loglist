@@ -1,4 +1,4 @@
-@(quotes: Seq[models.Quote], currentPage: Long, countPages: Int)
+@(quotes: Seq[models.Quote], currentPage: Int, countPages: Int)
 
 @main("Log List") {
     <div class="center-content quotes">
@@ -9,7 +9,7 @@
                 <span class="quote-time">@quote.time</span>
                 <span class="clear"></span>
             </div>
-            <div class="quote-content plate">@quote.content</div>
+            <div class="quote-content plate">@quote.content.getOrElse("")</div>
         </div>
     }
     </div>

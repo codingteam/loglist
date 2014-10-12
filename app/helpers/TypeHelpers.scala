@@ -6,4 +6,10 @@ object TypeHelpers {
   } catch {
     case _ : java.lang.NumberFormatException => None
   }
+
+  def parseInt(s: String): Option[Int] = try {
+    Some(java.lang.Integer.parseInt(s))
+  } catch {
+    case _ : java.lang.NumberFormatException => None
+  }
 }
