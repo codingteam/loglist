@@ -6,13 +6,17 @@ import scalikejdbc._
 object QuoteQueries {
   implicit val session = AutoSession
 
-  def getPageOfQuotes(pageNumber: Int, pageSize: Int): Seq[Quote] = {
+  def getPageOfQuotes(pageNumber: Int, pageSize: Int, order: String): Seq[Quote] = {
     val q = Quote.syntax("q")
+    val ord = order match {
+      case "time" => q.time
+      case "rating" => q.rating
+    }
     withSQL {
       select(
         q.*
       ).from(Quote as q)
-       .orderBy(q.time).desc
+       .orderBy(ord).desc
        .offset(pageNumber * pageSize)
        .limit(pageSize)
     }.map(rs => Quote(rs)).list().apply()
