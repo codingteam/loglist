@@ -1,22 +1,34 @@
 package models
 
-import org.joda.time.DateTime
+import org.joda.time._
 import scalikejdbc._
 
 object QuoteQueries {
   implicit val session = AutoSession
 
-  def getPageOfQuotes(pageNumber: Int, pageSize: Int, order: String): Seq[Quote] = {
+  def getPageOfQuotes(pageNumber: Int, pageSize: Int, best: String): Seq[Quote] = {
     val q = Quote.syntax("q")
-    val ord = order match {
+
+    val order = best match {
+      case "none" => q.time
       case "time" => q.time
-      case "rating" => q.rating
+      case _ => q.rating
     }
+
+    val range = best match {
+      case "year" => DateTime.now().minusYears(1)
+      case "month" => DateTime.now().minusMonths(1)
+      case "week" => DateTime.now().minusWeeks(1)
+      case "day" => DateTime.now().minusDays(1)
+      case _ => new DateTime(0)
+    }
+
     withSQL {
       select(
         q.*
       ).from(Quote as q)
-       .orderBy(ord).desc
+       .where.between(q.time, range, DateTime.now())
+       .orderBy(order).desc
        .offset(pageNumber * pageSize)
        .limit(pageSize)
     }.map(rs => Quote(rs)).list().apply()
