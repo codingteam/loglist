@@ -31,9 +31,9 @@ object ApplicationBuild extends Build with UniversalKeys {
     base = file(sharedSrcDir)
   ) settings (sharedScalaSettings: _*)
 
-  lazy val scalajvmSettings =
+  lazy val scalajvmSettings = 
     Seq(
-      name := "loglist",
+      name := "loglist-jvm",
       version := Versions.app,
       scalaVersion := Versions.scala,
       scalajsOutputDir := (crossTarget in Compile).value / "classes" / "public" / "javascripts",
