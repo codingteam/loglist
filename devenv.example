@@ -1,0 +1,4 @@
+export DATABASE_URL="jdbc:postgresql:loglist?user=horta&password=hell"
+export APPLY_EVOLUTIONS_SILENTLY=false
+export BASIC_AUTH_USERNAME=horta
+export BASIC_AUTH_PASSWORD=hell
