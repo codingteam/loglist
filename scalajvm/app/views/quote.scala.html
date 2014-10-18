@@ -5,6 +5,11 @@
     <div class="quote">
         <div class="quote-header">
             <a href="@quote.id">#@quote.id</a>
+	        <span class="quote-rating" data-id="@quote.id">
+		        <span class="quote-button plus">+</span>
+		        <span class="quote-rating-value">@quote.rating</span>
+		        <span class="quote-button minus">–</span>
+	        </span>
             <span class="quote-time">@quote.time</span>
             <span class="clear"></span>
         </div>

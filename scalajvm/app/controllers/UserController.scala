@@ -5,8 +5,7 @@ import models.QuoteQueries
 import play.api.Play.current
 import play.api.db.DB
 import play.api.mvc._
-import play.api.libs.json.Json
-
+import ru.org.codingteam.loglist.QuoteRating
 
 object UserController extends Controller {
   implicit def dataSource = DB.getDataSource()
@@ -38,9 +37,9 @@ object UserController extends Controller {
     val action = QuoteQueries.updateRating(if (up) 1 else -1) _
     parseLong(id).map(action) match {
       case Some(rating) =>
-        val data = Map("rating" -> rating)
-        val json = Json.toJson(data)
-        Ok(json)
+        val data = QuoteRating(rating)
+        val json = upickle.write(data)
+        Ok(json).as("application/json")
       case _            => NotFound("Not found")
     }
   }
