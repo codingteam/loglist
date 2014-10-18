@@ -1,20 +1,19 @@
-package ru.org.codingteam
+package ru.org.codingteam.loglist
 
 import org.scalajs.dom
+import org.scalajs.dom.extensions.Ajax
 import org.scalajs.dom.extensions._
 import org.scalajs.dom.{Element, Event}
 
-import scala.scalajs.concurrent.JSExecutionContext
 import scala.scalajs.js
-
 
 object Application extends js.JSApp {
 
   def voteHandler(action: String, id: String)(event: Event) = {
-    import JSExecutionContext.Implicits.queue
+    import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
     Ajax.post(s"/quote/$id/$action").onSuccess { case request =>
-      val result = request.response
-      dom.console.log(result)
+      val response = upickle.read[QuoteRating](request.responseText)
+      dom.console.log(response.rating)
     }
   }
 

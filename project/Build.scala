@@ -58,7 +58,8 @@ object ApplicationBuild extends Build with UniversalKeys {
       persistLauncher in Test := false,
       resolvers += Resolver.sonatypeRepo("releases"),
       libraryDependencies ++= Seq(
-        "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6"
+        "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
+        "com.lihaoyi" %%% "upickle" % "0.2.5"
       ) ++ Dependencies.scalajs
     ) ++ sharedDirectorySettings
 
@@ -93,11 +94,12 @@ object Dependencies {
   val shared = Seq()
 
   val scalajvm = Seq(
-	jdbc,
-	cache,
-	"org.scalikejdbc" %% "scalikejdbc" % "2.1.2",
-	"org.scalikejdbc" %% "scalikejdbc-play-dbplugin-adapter" % "2.3.2",
-	"org.postgresql" % "postgresql" % "9.3-1102-jdbc41"
+    jdbc,
+    cache,
+    "org.scalikejdbc" %% "scalikejdbc" % "2.1.2",
+    "org.scalikejdbc" %% "scalikejdbc-play-dbplugin-adapter" % "2.3.2",
+    "org.postgresql" % "postgresql" % "9.3-1102-jdbc41",
+    "com.lihaoyi" %% "upickle" % "0.2.5"
   ) ++ shared
 
   val scalajs = Seq() ++ shared
