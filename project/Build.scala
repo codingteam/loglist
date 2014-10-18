@@ -57,7 +57,9 @@ object ApplicationBuild extends Build with UniversalKeys {
       persistLauncher := true,
       persistLauncher in Test := false,
       resolvers += Resolver.sonatypeRepo("releases"),
-      libraryDependencies ++= Dependencies.scalajs
+      libraryDependencies ++= Seq(
+        "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6"
+      ) ++ Dependencies.scalajs
     ) ++ sharedDirectorySettings
 
   lazy val sharedScalaSettings =
@@ -98,9 +100,7 @@ object Dependencies {
 	"org.postgresql" % "postgresql" % "9.3-1102-jdbc41"
   ) ++ shared
 
-  val scalajs = Seq(
-    compilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full)
-  ) ++ shared
+  val scalajs = Seq() ++ shared
 }
 
 object Versions {
