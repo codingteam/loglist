@@ -39,6 +39,19 @@ strong {
    word-wrap: break-word;
 }
 
+.quote-button {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	background: #334433;
+	text-align: center;
+}
+
+.quote-button:hover {
+	background: #445566;
+}
+
 .quote-time {
     float: right;
 }
