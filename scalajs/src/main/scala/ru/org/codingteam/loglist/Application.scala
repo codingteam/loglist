@@ -9,11 +9,11 @@ import scala.scalajs.js
 
 object Application extends js.JSApp {
 
-  def voteHandler(action: String, id: String)(event: Event) = {
+  def voteHandler(action: String, id: String, ratingContainer: Element)(event: Event) = {
     import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
     Ajax.post(s"/quote/$id/$action").onSuccess { case request =>
       val response = upickle.read[QuoteRating](request.responseText)
-      dom.console.log(response.rating)
+      ratingContainer.textContent = response.rating.toString
     }
   }
 
@@ -23,11 +23,12 @@ object Application extends js.JSApp {
         val id = node.attributes.getNamedItem("data-id").value
 
         val element = node.asInstanceOf[Element]
+        val rating = element.querySelector(".quote-rating-value")
         val plus = element.querySelector(".plus")
         val minus = element.querySelector(".minus")
 
-        plus.addEventListener("click", voteHandler("upvote", id) _)
-        minus.addEventListener("click", voteHandler("downvote", id) _)
+        plus.addEventListener("click", voteHandler("upvote", id, rating) _)
+        minus.addEventListener("click", voteHandler("downvote", id, rating) _)
       }
     }
   }
