@@ -1,8 +1,10 @@
 package controllers
 
 import helpers.TypeHelpers._
-import models.QuoteQueries
+import models.{QueuedQuoteQueries, QuoteQueries}
 import play.api.Play.current
+import play.api.data.Forms._
+import play.api.data._
 import play.api.db.DB
 import play.api.mvc._
 import ru.org.codingteam.loglist.QuoteRating
@@ -27,7 +29,19 @@ object UserController extends Controller {
   }
 
   def newQuote() = Action { implicit request =>
-    Ok(views.html.newQuote())
+    Ok(views.html.newQuote(quoteForm))
+  }
+
+  def addQuote() = Action { implicit request =>
+    quoteForm.bindFromRequest.fold(
+      formWithErrors => {
+        BadRequest(views.html.newQuote(formWithErrors))
+      },
+      quoteContent => {
+        QueuedQuoteQueries.insertQueuedQuote(quoteContent, Some(request.remoteAddress))
+        Ok(views.html.quoteSuggested())
+      }
+    )
   }
 
   def quote(idString: String) = Action { implicit request =>
@@ -47,4 +61,10 @@ object UserController extends Controller {
       case _            => NotFound("Not found")
     }
   }
+
+  private val quoteForm = Form(
+    single(
+      "content" -> nonEmptyText
+    )
+  )
 }

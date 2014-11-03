@@ -1,3 +1,10 @@
+@(quoteForm: Form[String])
+
+@import helper._
+
 @main("Log List") {
-    TODO: new quote form
+	@form(action = routes.UserController.addQuote()) {
+		@textarea(quoteForm("content"))
+		<button type="submit">Отправить</button>
+	}
 }
