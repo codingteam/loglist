@@ -18,7 +18,7 @@ the application. Possible environment variables can be found in the
 
 The same sample setup for Windows:
 
-	PS> cp devenv.ps1.example devenv.ps1
-	PS> notepad devenv.ps1 # Edit the configuration...
-	PS> .\devenv.ps1
-	PS> sbt run
+    PS> cp devenv.ps1.example devenv.ps1
+    PS> notepad devenv.ps1 # Edit the configuration...
+    PS> .\devenv.ps1
+    PS> sbt run
