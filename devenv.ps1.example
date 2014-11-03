@@ -1,0 +1,4 @@
+$env:DATABASE_URL = 'jdbc:postgresql:loglist?user=horta&password=hell'
+$env:APPLY_EVOLUTIONS_SILENTLY = 'false'
+$env:BASIC_AUTH_USERNAME = 'horta'
+$env:BASIC_AUTH_PASSWORD = 'hell'
