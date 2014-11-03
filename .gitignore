@@ -13,4 +13,6 @@ dist
 /.project
 /RUNNING_PID
 /.settings
+
 devenv
+devenv.ps1

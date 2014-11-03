@@ -15,3 +15,10 @@ the application. Possible environment variables can be found in the
       ... All variable names should be self-explanatory
     $ . ./devenv
     $ sbt run
+
+The same sample setup for Windows:
+
+    PS> cp devenv.ps1.example devenv.ps1
+    PS> notepad devenv.ps1 # Edit the configuration...
+    PS> .\devenv.ps1
+    PS> sbt run
