@@ -16,12 +16,23 @@ strong {
     text-align: center;
     padding-top: 20px;
     padding-bottom: 20px;
-    margin-bottom: 20px;
     font-size: 50px;
 }
 
 .highlight {
     color: #AAFF55
+}
+
+.menu {
+	display: flex;
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 20px;
+	box-sizing: border-box;
+}
+
+.menu li {
+	display: inline-block;
 }
 
 .quote {
