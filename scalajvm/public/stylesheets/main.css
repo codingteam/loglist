@@ -16,12 +16,23 @@ strong {
     text-align: center;
     padding-top: 20px;
     padding-bottom: 20px;
-    margin-bottom: 20px;
     font-size: 50px;
 }
 
 .highlight {
     color: #AAFF55
+}
+
+.menu {
+	display: flex;
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 20px;
+	box-sizing: border-box;
+}
+
+.menu li {
+	display: inline-block;
 }
 
 .quote {
@@ -48,7 +59,7 @@ strong {
 	text-align: center;
 }
 
-.quote-button:hover {
+.quote-button:hover, button:hover {
 	background: #445566;
 }
 
@@ -112,4 +123,44 @@ a:active {
 
 .footer a:active {
     text-decoration: none;
+}
+
+.form-body {
+	display: flex;
+}
+
+.form-body > * {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.form-body:after {
+	clear: both;
+}
+
+.form-element {
+	margin: 10px 0;
+}
+
+.form-element textarea {
+	width: 100%;
+	height: 105px;
+	background: #445544;
+	box-sizing: border-box;
+	resize: none;
+}
+
+.stretch {
+	flex-grow: 1;
+}
+
+button {
+	font-size: 15px;
+	display: block;
+	margin: 10px auto 0 auto;
+	padding: 10px;
+	border: 0;
+	cursor: pointer;
+	background: #334433;
+	color: #BBBBBB;
 }

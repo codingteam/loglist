@@ -1,8 +1,12 @@
 package controllers
 
+import helpers.ReCaptcha
 import helpers.TypeHelpers._
-import models.QuoteQueries
+import models.forms.SuggestQuoteData
+import models.{QueuedQuoteQueries, QuoteQueries}
 import play.api.Play.current
+import play.api.data.Forms._
+import play.api.data._
 import play.api.db.DB
 import play.api.mvc._
 import ru.org.codingteam.loglist.QuoteRating
@@ -26,6 +30,27 @@ object UserController extends Controller {
     Ok(views.html.index(quotes, pageNumber, countPages))
   }
 
+  def newQuote() = Action { implicit request =>
+    Ok(views.html.newQuote(quoteForm))
+  }
+
+  def addQuote() = Action { implicit request =>
+    quoteForm.bindFromRequest.fold(
+      formWithErrors => {
+        BadRequest(views.html.newQuote(formWithErrors))
+      },
+      form => {
+        val remoteAddress = request.remoteAddress
+        if (ReCaptcha.check(remoteAddress, form.reCaptchaChallenge, form.reCapthaResponse)) {
+          QueuedQuoteQueries.insertQueuedQuote(form.content, Some(remoteAddress))
+          Ok(views.html.quoteSuggested())
+        } else {
+          BadRequest(views.html.newQuote(quoteForm.bind(form.toMap))) // TODO: Report captcha error to user
+        }
+      }
+    )
+  }
+
   def quote(idString: String) = Action { implicit request =>
     parseLong(idString).flatMap(QuoteQueries.getQuoteById) match {
       case Some(quote) => Ok(views.html.quote(quote))
@@ -43,4 +68,12 @@ object UserController extends Controller {
       case _            => NotFound("Not found")
     }
   }
+
+  private val quoteForm = Form(
+    mapping(
+      "content" -> nonEmptyText,
+      "recaptcha_challenge_field" -> nonEmptyText,
+      "recaptcha_response_field" -> nonEmptyText
+    )(SuggestQuoteData.apply)(SuggestQuoteData.unapply)
+  )
 }
