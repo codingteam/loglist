@@ -4,6 +4,7 @@
 
 # Main routes
 GET           /                                  controllers.UserController.index
+GET           /quote/new                         controllers.UserController.newQuote
 GET           /quote/$id<[0-9]+>                 controllers.UserController.quote(id: String)
 POST          /quote/$id<[0-9]+>/upvote          controllers.UserController.vote(id: String, up: Boolean = true)
 POST          /quote/$id<[0-9]+>/downvote        controllers.UserController.vote(id: String, up: Boolean = false)

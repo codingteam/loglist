@@ -26,6 +26,10 @@ object UserController extends Controller {
     Ok(views.html.index(quotes, pageNumber, countPages))
   }
 
+  def newQuote() = Action { implicit request =>
+    Ok(views.html.newQuote())
+  }
+
   def quote(idString: String) = Action { implicit request =>
     parseLong(idString).flatMap(QuoteQueries.getQuoteById) match {
       case Some(quote) => Ok(views.html.quote(quote))
