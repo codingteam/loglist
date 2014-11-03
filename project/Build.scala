@@ -99,7 +99,8 @@ object Dependencies {
     "org.scalikejdbc" %% "scalikejdbc" % "2.1.2",
     "org.scalikejdbc" %% "scalikejdbc-play-dbplugin-adapter" % "2.3.2",
     "org.postgresql" % "postgresql" % "9.3-1102-jdbc41",
-    "com.lihaoyi" %% "upickle" % "0.2.5"
+    "com.lihaoyi" %% "upickle" % "0.2.5",
+    "net.tanesha.recaptcha4j" % "recaptcha4j" % "0.0.7"
   ) ++ shared
 
   val scalajs = Seq() ++ shared

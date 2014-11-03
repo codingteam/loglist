@@ -1,10 +1,11 @@
-@(quoteForm: Form[String])
+@(quoteForm: Form[SuggestQuoteModel])
 
 @import helper._
 
 @main("Log List") {
 	@form(action = routes.UserController.addQuote()) {
 		@textarea(quoteForm("content"))
+		@Html(helpers.ReCaptcha.render())
 		<button type="submit">Отправить</button>
 	}
 }
