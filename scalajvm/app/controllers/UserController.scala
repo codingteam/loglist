@@ -2,6 +2,7 @@ package controllers
 
 import helpers.ReCaptcha
 import helpers.TypeHelpers._
+import models.forms.SuggestQuoteData
 import models.{QueuedQuoteQueries, QuoteQueries}
 import play.api.Play.current
 import play.api.data.Forms._
@@ -9,10 +10,6 @@ import play.api.data._
 import play.api.db.DB
 import play.api.mvc._
 import ru.org.codingteam.loglist.QuoteRating
-
-case class SuggestQuoteModel(content: String, reCaptchaChallenge: String, reCapthaResponse: String) {
-  def toMap = Map("content" -> content)
-}
 
 object UserController extends Controller {
   implicit def dataSource = DB.getDataSource()
@@ -77,6 +74,6 @@ object UserController extends Controller {
       "content" -> nonEmptyText,
       "recaptcha_challenge_field" -> nonEmptyText,
       "recaptcha_response_field" -> nonEmptyText
-    )(SuggestQuoteModel.apply)(SuggestQuoteModel.unapply)
+    )(SuggestQuoteData.apply)(SuggestQuoteData.unapply)
   )
 }
