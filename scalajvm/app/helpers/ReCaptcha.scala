@@ -1,7 +1,5 @@
 package helpers
 
-import java.util.Properties
-
 import net.tanesha.recaptcha.{ReCaptchaFactory, ReCaptchaImpl}
 import play.api.Play.current
 
@@ -10,7 +8,7 @@ object ReCaptcha {
   lazy val privateKey = current.configuration.getString("recaptcha.privatekey").get
 
   def render(): String = {
-    ReCaptchaFactory.newReCaptcha(publicKey, privateKey, false).createRecaptchaHtml(null, new Properties)
+    ReCaptchaFactory.newReCaptcha(publicKey, privateKey, false).createRecaptchaHtml(null, "white", 0)
   }
 
   def check(addr: String, challenge: String, response: String): Boolean = { // TODO: Make this asynchronous

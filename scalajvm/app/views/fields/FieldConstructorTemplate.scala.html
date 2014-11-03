@@ -1,0 +1,8 @@
+@(elements: helper.FieldElements)
+
+<div>
+	<label for="@elements.id">@elements.label(elements.lang):</label>
+	<div class="form-element">
+		@elements.input
+	</div>
+</div>
