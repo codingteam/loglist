@@ -1,10 +1,10 @@
-@(quoteForm: Form[models.forms.SuggestQuoteData])
+@(quoteForm: Form[models.forms.SuggestQuoteForm])
 
 @import helper._
 @import views.fields.FieldHelpers._
 
 @main("Log List") {
-	@form(action = routes.UserController.addQuote()) {
+	@form(action = routes.SuggestedQuotes.addQuote()) {
 		<div class="form-body">
 			<div class="stretch">
 				@textarea(quoteForm("content"), '_label -> "Цитата")

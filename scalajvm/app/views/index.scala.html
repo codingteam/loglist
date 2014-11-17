@@ -1,4 +1,4 @@
-@(quotes: Seq[models.Quote], currentPage: Int, countPages: Int)
+@(quotes: Seq[models.data.Quote], currentPage: Int, countPages: Int)
 
 @main("Log List") {
     <div class="center-content quotes">
@@ -6,11 +6,7 @@
         <div class="quote">
             <div class="quote-header">
                 <a href="quote/@quote.id">#@quote.id</a>
-	            <span class="quote-rating" data-id="@quote.id">
-		            <span class="quote-button plus">+</span>
-		            <span class="quote-rating-value">@quote.rating</span>
-		            <span class="quote-button minus">–</span>
-	            </span>
+                @voting.ratingPanel(quote)
                 <span class="quote-time">@quote.time</span>
                 <span class="clear"></span>
             </div>

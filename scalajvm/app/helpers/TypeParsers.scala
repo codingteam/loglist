@@ -1,6 +1,6 @@
 package helpers
 
-object TypeHelpers {
+object TypeParsers {
   def parseLong(s: String): Option[Long] = try {
     Some(java.lang.Long.parseLong(s))
   } catch {
