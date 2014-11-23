@@ -9,7 +9,7 @@ object ReCaptcha {
 
   def render(): String = {
     ReCaptchaFactory.newReCaptcha(publicKey, privateKey, false).createRecaptchaHtml(null, "white", 0)
-  }
+   }
 
   def check(addr: String, challenge: String, response: String): Boolean = { // TODO: Make this asynchronous
     val reCaptcha = new ReCaptchaImpl()
