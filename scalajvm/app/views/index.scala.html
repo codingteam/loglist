@@ -1,11 +1,48 @@
-@(quotes: Seq[models.data.Quote], currentPage: Int, countPages: Int)
+@(quotes: Seq[models.data.Quote],
+        currentPage: Int,
+        countPages: Int,
+        order: models.queries.QuoteOrdering.Value,
+        filter: models.queries.QuoteFilter.Value)
 
-@main("Log List") {
+@import models.queries.QuoteOrdering
+@import models.queries.QuoteFilter
+
+@renderOrdering(value: QuoteOrdering.Value, label: String) = {
+    @if(order == value) {
+        <strong>@label</strong>
+    } else {
+        <a href="@routes.Quotes.list(0, value, filter)">@label</a>
+    }
+}
+
+@renderFilter(value: QuoteFilter.Value, label: String) = {
+    @if(filter == value) {
+        <strong>@label</strong>
+    } else {
+        <a href="@routes.Quotes.list(0, order, value)">@label</a>
+    }
+}
+
+@menu = {
+    <li>
+        Сортировка: @renderOrdering(QuoteOrdering.Time, "по дате")
+        | @renderOrdering(QuoteOrdering.Rating, "по рейтингу")
+    </li>
+    <li>
+        Фильтр: @renderFilter(QuoteFilter.None, "нет")
+        | @renderFilter(QuoteFilter.Year, "за год")
+        | @renderFilter(QuoteFilter.Month, "за месяц")
+        | @renderFilter(QuoteFilter.Week, "за неделю")
+        | @renderFilter(QuoteFilter.Day, "за день")
+    </li>
+}
+
+@main("Log List", menu) {
     <div class="center-content quotes">
     @quotes.map { quote =>
         <div class="quote">
             <div class="quote-header">
-                <a href="quote/@quote.id">#@quote.id</a>
+                <a href="@routes.Quotes.quote(quote.id.toString)">#@quote.id</a>
                 @voting.ratingPanel(quote)
                 <span class="quote-time">@quote.time</span>
                 <span class="clear"></span>
@@ -17,7 +54,7 @@
     <div class="pages">
         @for(i <- 0 to (countPages - 1)) {
             @if(i != currentPage) {
-                <a href="/?page=@i">@i</a>
+                <a href="@routes.Quotes.list(i, order, filter)">@i</a>
             } else {
                 <strong>@i</strong>
             }
