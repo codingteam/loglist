@@ -1,37 +1,49 @@
 package models.queries
 
+import helpers.BindableEnumeration
 import models.data.Quote
 import org.joda.time.DateTime
 import scalikejdbc._
 
+object QuoteOrdering extends BindableEnumeration {
+  val Time, Rating = Value
+}
+
+object QuoteFilter extends BindableEnumeration {
+  val None, Year, Month, Week, Day = Value
+}
+
 object QuoteQueries {
   implicit val session = AutoSession
 
-  def getPageOfQuotes(pageNumber: Int, pageSize: Int, best: String): Seq[Quote] = {
+  def getPageOfQuotes(pageNumber: Int,
+                      pageSize: Int,
+                      ordering: QuoteOrdering.Value,
+                      filter: QuoteFilter.Value): Seq[Quote] = {
     val q = Quote.syntax("q")
 
-    val order = best match {
-      case "none" => q.time
-      case "time" => q.time
-      case _ => q.rating
+    val order = ordering match {
+      case QuoteOrdering.Time => q.time
+      case QuoteOrdering.Rating => q.rating
     }
 
-    val range = best match {
-      case "year" => DateTime.now().minusYears(1)
-      case "month" => DateTime.now().minusMonths(1)
-      case "week" => DateTime.now().minusWeeks(1)
-      case "day" => DateTime.now().minusDays(1)
-      case _ => new DateTime(0)
+    val today = DateTime.now().withTimeAtStartOfDay()
+    val periodStart = filter match {
+      case QuoteFilter.None => None
+      case QuoteFilter.Year => Some(today.withDayOfYear(1))
+      case QuoteFilter.Month => Some(today.withDayOfMonth(1))
+      case QuoteFilter.Week => Some(today.withDayOfWeek(1))
+      case QuoteFilter.Day => Some(today)
     }
 
     withSQL {
       select(
         q.*
       ).from(Quote as q)
-       .where.between(q.time, range, DateTime.now())
-       .orderBy(order).desc
-       .offset(pageNumber * pageSize)
-       .limit(pageSize)
+        .where(sqls.toAndConditionOpt(periodStart.map { period => sqls.ge(q.time, period)}))
+        .orderBy(order).desc
+        .offset(pageNumber * pageSize)
+        .limit(pageSize)
     }.map(rs => Quote(rs)).list().apply()
   }
 
@@ -64,6 +76,4 @@ object QuoteQueries {
       delete.from(Quote).where.eq(q.id, id)
     }.update().apply() != 0
   }
-
-
 }

@@ -3,7 +3,7 @@
 # ~~~~
 
 # Main routes
-GET           /                                  controllers.Quotes.index
+GET           /                                  controllers.Quotes.list(page: Int ?= 0, ordering: models.queries.QuoteOrdering.Value ?= models.queries.QuoteOrdering.Time, filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
 GET           /quote/new                         controllers.SuggestedQuotes.newQuote
 POST          /quote/new                         controllers.SuggestedQuotes.addQuote
 GET           /quote/$id<[0-9]+>                 controllers.Quotes.quote(id: String)
