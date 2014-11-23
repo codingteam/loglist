@@ -19,6 +19,6 @@ abstract class BindableEnumeration extends Enumeration { Self =>
           }
         }
 
-      def unbind(key: String, value: Self.Value) = value.toString
+      def unbind(key: String, value: Self.Value) = stringBinder.unbind(key, value.toString.toLowerCase)
     }
 }

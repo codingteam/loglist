@@ -23,8 +23,9 @@ strong {
     color: #AAFF55
 }
 
-.menu {
+ul.menu {
 	display: flex;
+    justify-content: space-between;
 	padding: 5px;
 	margin-top: 5px;
 	margin-bottom: 20px;

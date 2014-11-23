@@ -13,14 +13,14 @@ object Quotes extends Controller {
   implicit def dataSource: DataSource = DB.getDataSource()
 
   def list(page: Int, order: QuoteOrdering.Value, filter: QuoteFilter.Value) = Action { implicit request =>
-    val countQuotes = QuoteQueries.countQuotes()
+    val countQuotes = QuoteQueries.countQuotes(order, filter)
     val pageSize = 50
     val countPages = (countQuotes + pageSize - 1) / pageSize
 
     val pageNumber = if (0 <= page && page < countPages) page else 0
     val quotes = QuoteQueries.getPageOfQuotes(pageNumber, pageSize, order, filter)
 
-    Ok(views.html.index(quotes, pageNumber, countPages))
+    Ok(views.html.index(quotes, pageNumber, countPages, order, filter))
   }
 
   def quote(idString: String) = Action { implicit request =>
