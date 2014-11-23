@@ -15,6 +15,7 @@ object Quotes extends Controller {
     val countQuotes = QuoteQueries.countQuotes
     val pageSize = 50
     val countPages = (countQuotes + pageSize - 1) / pageSize
+    val best = request.getQueryString("best").getOrElse("none")
 
     val pageNumber: Int =
       request
@@ -22,7 +23,7 @@ object Quotes extends Controller {
         .flatMap(parseInt)
         .flatMap(x => if (0 <= x && x < countPages) Some(x) else None)
         .getOrElse(0)
-    val quotes = QuoteQueries.getPageOfQuotes(pageNumber, pageSize)
+    val quotes = QuoteQueries.getPageOfQuotes(pageNumber, pageSize, best)
 
     Ok(views.html.index(quotes, pageNumber, countPages))
   }
