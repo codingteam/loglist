@@ -11,7 +11,9 @@
                 @textarea(approvalForm("content"), '_label -> "Цитата")
             </div>
         </div>
-        <button type="submit" name="action" value="approve">Одобрить</button>
-        <button type="submit" name="action" value="decline">Отклонить</button>
+        <div class="button-block">
+            <button class="approve" type="submit" name="action" value="approve">Одобрить</button>
+            <button class="decline" type="submit" name="action" value="decline">Отклонить</button>
+        </div>
     }
 }
