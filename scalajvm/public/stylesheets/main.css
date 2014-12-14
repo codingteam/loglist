@@ -146,7 +146,8 @@ a:active {
 .form-element textarea {
 	width: 100%;
 	height: 105px;
-	background: #445544;
+	background: #454;
+    color: #fff;
 	box-sizing: border-box;
 	resize: none;
 }
