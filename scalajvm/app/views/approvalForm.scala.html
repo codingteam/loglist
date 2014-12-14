@@ -1,0 +1,17 @@
+@(approvalForm: Form[models.forms.ApprovalForm])
+
+@import helper._
+@import views.fields.FieldHelpers._
+
+@main("Log List") {
+    @form(action = routes.Approving.approve()) {
+        <div class="form-body">
+            <input type="hidden" name="token" value="@approvalForm.data.get("token")" />
+            <div class="stretch">
+                @textarea(approvalForm("content"), '_label -> "Цитата")
+            </div>
+        </div>
+        <button type="submit" name="action" value="approve">Одобрить</button>
+        <button type="submit" name="action" value="decline">Отклонить</button>
+    }
+}

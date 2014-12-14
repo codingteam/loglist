@@ -4,10 +4,17 @@ Reincarnation of [the famous service](http://www.loglist.net/).
 
 # Development Configuration #
 
-First of all, you need to set up PostgreSQL, create database and user
-for LogList. Then set up required environment variables to configure
-the application. Possible environment variables can be found in the
-`devenv.example` file. Supposed workflow:
+## PostgreSQL ##
+
+Install PostgreSQL, create database and user for LogList. Install and
+activate the following extensions:
+
+* pgcrypto
+
+## Environment Variables ##
+
+Possible environment variables can be found in the `devenv.example`
+file. Supposed workflow:
 
     $ cp devenv.example devenv # devenv is gitignored so you won't accidentally commit it 
     $ emacs devenv

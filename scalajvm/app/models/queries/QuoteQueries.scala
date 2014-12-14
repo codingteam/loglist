@@ -35,10 +35,7 @@ object QuoteFilter extends BindableEnumeration {
   }
 }
 
-object QuoteQueries {
-  implicit val session = AutoSession
-
-
+case class QuoteQueries(implicit session: DBSession) {
 
   def getPageOfQuotes(pageNumber: Int,
                       pageSize: Int,
