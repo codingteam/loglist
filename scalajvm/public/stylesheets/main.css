@@ -165,3 +165,11 @@ button {
 	background: #334433;
 	color: #BBBBBB;
 }
+
+.button-block {
+    display: flex;
+}
+
+.button-block button {
+    width: 250px;
+}
