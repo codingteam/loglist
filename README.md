@@ -1,5 +1,7 @@
 # LogList [![BuildStatus](https://travis-ci.org/codingteam/loglist.png?branch=master)](https://travis-ci.org/codingteam/loglist)
 
+[![codingteam/loglist](http://issuestats.com/github/codingteam/loglist/badge/pr?style=flat-square)](http://www.issuestats.com/github/codingteam/loglist) [![codingteam/loglist](http://issuestats.com/github/codingteam/loglist/badge/issue?style=flat-square)](http://www.issuestats.com/github/codingteam/loglist)
+
 Reincarnation of [the famous service](http://www.loglist.net/).
 
 # Development Configuration #
