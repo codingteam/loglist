@@ -1,11 +1,9 @@
-package controllers
+package api
 
 import helpers.ActionWithTx
 import helpers.TypeParsers._
 import models.queries.VotingQueries
-import play.api.Play.current
 import play.api.mvc._
-import scalikejdbc._
 import ru.org.codingteam.loglist.QuoteRating
 
 object Voting extends Controller {

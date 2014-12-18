@@ -7,8 +7,8 @@ GET           /                                  controllers.Quotes.list(page: I
 GET           /quote/new                         controllers.SuggestedQuotes.newQuote
 POST          /quote/new                         controllers.SuggestedQuotes.addQuote
 GET           /quote/$id<[0-9]+>                 controllers.Quotes.quote(id: String)
-POST          /quote/$id<[0-9]+>/upvote          controllers.Voting.vote(id: String, up: Boolean = true)
-POST          /quote/$id<[0-9]+>/downvote        controllers.Voting.vote(id: String, up: Boolean = false)
+POST          /quote/$id<[0-9]+>/upvote          api.Voting.vote(id: String, up: Boolean = true)
+POST          /quote/$id<[0-9]+>/downvote        api.Voting.vote(id: String, up: Boolean = false)
 POST          /quote                             controllers.Quotes.addQuote
 DELETE        /quote/$id<[0-9]+>                 controllers.Quotes.deleteQuote(id: String)
 GET           /quote/approve                     controllers.Approving.getApprovalForm(token: String)
