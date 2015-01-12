@@ -3,11 +3,12 @@ package controllers
 import helpers.{ActionWithTx, Notifications, ReCaptcha}
 import models.forms.SuggestQuoteForm
 import models.queries.{ApproverQueries, SuggestedQuoteQueries}
-import play.api.Play.current
 import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
-import scalikejdbc._
+
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
 object SuggestedQuotes extends Controller {
 
@@ -25,7 +26,7 @@ object SuggestedQuotes extends Controller {
       },
       form => {
         val remoteAddress = request.remoteAddress
-        if (ReCaptcha.check(remoteAddress, form.reCaptchaChallenge, form.reCapthaResponse)) {
+        if (Await.result(ReCaptcha.check(remoteAddress, form.reCapthaResponse), 30.seconds)) { // TODO: Async check
           val id = SuggestedQuoteQueries().insertQueuedQuote(form.content, Some(remoteAddress))
           SuggestedQuoteQueries().getQueuedQuoteById(id) match {
             case Some(suggestedQuote) => {
@@ -46,8 +47,7 @@ object SuggestedQuotes extends Controller {
   private val quoteForm = Form(
     mapping(
       "content" -> nonEmptyText,
-      "recaptcha_challenge_field" -> nonEmptyText,
-      "recaptcha_response_field" -> nonEmptyText
+      "g-recaptcha-response" -> nonEmptyText
     )(SuggestQuoteForm.apply)(SuggestQuoteForm.unapply)
   )
 }

@@ -1,20 +1,24 @@
 package helpers
 
-import net.tanesha.recaptcha.{ReCaptchaFactory, ReCaptchaImpl}
+import com.netaporter.uri.dsl._
+import dispatch._, Defaults._
 import play.api.Play.current
+import play.libs.Json
+
+import scala.concurrent.Future
 
 object ReCaptcha {
+
   lazy val publicKey = current.configuration.getString("recaptcha.publickey").get
   lazy val privateKey = current.configuration.getString("recaptcha.privatekey").get
 
-  def render(): String = {
-    ReCaptchaFactory.newReCaptcha(publicKey, privateKey, false).createRecaptchaHtml(null, "white", 0)
-   }
+  val verificationUrl = "https://www.google.com/recaptcha/api/siteverify"
 
-  def check(addr: String, challenge: String, response: String): Boolean = { // TODO: Make this asynchronous
-    val reCaptcha = new ReCaptchaImpl()
-    reCaptcha.setPrivateKey(privateKey)
-    val reCaptchaResponse = reCaptcha.checkAnswer(addr, challenge, response)
-    reCaptchaResponse.isValid
+  def check(addr: String, response: String): Future[Boolean] = {
+    val uri = verificationUrl ? ("secret" -> privateKey) & ("response" -> response) & ("remoteip" -> addr)
+    val request = url(uri)
+    val result = Http(request OK as.String)
+    result.map { res => Json.parse(res).get("success").asBoolean() } // TODO: Proper error handling, check recaptcha documentation
   }
+
 }

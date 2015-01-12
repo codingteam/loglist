@@ -31,7 +31,7 @@ object ApplicationBuild extends Build with UniversalKeys {
     base = file(sharedSrcDir)
   ) settings (sharedScalaSettings: _*)
 
-  lazy val scalajvmSettings = 
+  lazy val scalajvmSettings =
     Seq(
       name := "loglist-jvm",
       version := Versions.app,
@@ -96,11 +96,12 @@ object Dependencies {
   val scalajvm = Seq(
     jdbc,
     cache,
+    "net.databinder.dispatch" %% "dispatch-core" % "0.11.2",
+    "com.netaporter" %% "scala-uri" % "0.4.4",
     "org.scalikejdbc" %% "scalikejdbc" % "2.1.2",
     "org.scalikejdbc" %% "scalikejdbc-play-dbplugin-adapter" % "2.3.2",
     "org.postgresql" % "postgresql" % "9.3-1102-jdbc41",
     "com.lihaoyi" %% "upickle" % "0.2.5",
-    "net.tanesha.recaptcha4j" % "recaptcha4j" % "0.0.7",
     "javax.mail" % "mail" % "1.5.0-b01"
   ) ++ shared
 
