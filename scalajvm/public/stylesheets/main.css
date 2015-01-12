@@ -174,3 +174,9 @@ button {
 .button-block button {
     width: 250px;
 }
+
+/* For recaptcha */
+.g-recaptcha {
+    margin-top: auto;
+    margin-bottom: 10px;
+}

@@ -1,4 +1,4 @@
-@(title: String, menu: Html = Html(""))(content: Html)
+@(title: String, menu: Html = Html(""), scripts: Html = Html(""))(content: Html)
 
 <!DOCTYPE html>
 
@@ -10,6 +10,7 @@
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 		<script src="@routes.Assets.at("javascripts/loglist-scalajs-fastopt.js")"></script>
 		<script src="@routes.Assets.at("javascripts/loglist-scalajs-launcher.js")"></script>
+        @scripts
     </head>
     <body>
         <div class="plate header center-content">

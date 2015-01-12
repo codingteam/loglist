@@ -3,13 +3,19 @@
 @import helper._
 @import views.fields.FieldHelpers._
 
-@main("Log List") {
+@scripts = {
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+}
+
+@main("Log List", Html(""), scripts) {
 	@form(action = routes.SuggestedQuotes.addQuote()) {
 		<div class="form-body">
 			<div class="stretch">
 				@textarea(quoteForm("content"), '_label -> "Цитата")
 			</div>
-			@Html(helpers.ReCaptcha.render())
+			<div class="g-recaptcha"
+			     data-sitekey="@play.api.Play.current.configuration.getString("recaptcha.publickey")"
+				 data-theme="dark"></div>
 		</div>
 		<button type="submit">Отправить</button>
 	}
