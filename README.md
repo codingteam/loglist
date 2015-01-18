@@ -31,3 +31,5 @@ The same sample setup for Windows:
     PS> notepad devenv.ps1 # Edit the configuration...
     PS> .\devenv.ps1
     PS> sbt run
+
+The quick brown mixer jumps over the lazy fornever.
