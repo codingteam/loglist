@@ -42,7 +42,7 @@
     @quotes.map { quote =>
         <div class="quote">
             <div class="quote-header">
-                <a href="@routes.Quotes.quote(quote.id.toString)">#@quote.id</a>
+                <a href="@routes.Quotes.quote(quote.id)">#@quote.id</a>
                 @voting.ratingPanel(quote)
                 <span class="quote-time">@quote.time</span>
                 <span class="clear"></span>

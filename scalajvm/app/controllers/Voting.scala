@@ -9,17 +9,12 @@ import scalikejdbc._
 import ru.org.codingteam.loglist.QuoteRating
 
 object Voting extends Controller {
-  def vote(id: String, up: Boolean) = ActionWithTx { request =>
+  def vote(id: Long, up: Boolean) = ActionWithTx { request =>
     import request.dbSession
 
-    val action = VotingQueries().updateRating(if (up) 1 else -1) _
-    parseLong(id).map(action) match {
-      case Some(rating) =>
-        val data = QuoteRating(rating)
-        val json = upickle.write(data)
-        Ok(json).as("application/json")
-      case _ =>
-        NotFound("Not found")
-    }
+    val rating = VotingQueries().updateRating(if (up) 1 else -1)(id)
+    val data = QuoteRating(rating)
+    val json = upickle.write(data)
+    Ok(json).as("application/json")
   }
 }

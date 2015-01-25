@@ -35,12 +35,16 @@ object Approving extends Controller {
           case Some(suggestedQuote) => {
             form.action match {
               case "approve" => {
-                QuoteQueries().insertQuote(form.content)
+                val approvedQuote = QuoteQueries().getQuoteById(QuoteQueries().insertQuote(form.content)).get
+                val approvers = ApproverQueries().getAllApprovers
                 SuggestedQuoteQueries().deleteQueuedQuoteByToken(form.token)
+                Notifications.notifyApproversAboutApprovedQuote(approvers, suggestedQuote, approvedQuote)
                 Ok("approved")
               }
               case "decline" => {
+                val approvers = ApproverQueries().getAllApprovers
                 SuggestedQuoteQueries().deleteQueuedQuoteByToken(form.token)
+                Notifications.notifyApproversAboutDeclinedQuote(approvers, suggestedQuote)
                 Ok("declined")
               }
               case _ => BadRequest("Invalid parameters")

@@ -22,11 +22,11 @@ object Quotes extends Controller {
     Ok(views.html.index(quotes, pageNumber, countPages, order, filter))
   }
 
-  def quote(idString: String) = ActionWithTx { request =>
+  def quote(id: Long) = ActionWithTx { request =>
     import request.dbSession
-    parseLong(idString).flatMap(QuoteQueries().getQuoteById) match {
+    QuoteQueries().getQuoteById(id) match {
       case Some(quote) => Ok(views.html.quote(quote))
-      case _           => NotFound("Not found")
+      case _           => NotFound("Not Found")
     }
   }
 
@@ -45,13 +45,11 @@ object Quotes extends Controller {
     }
   }
 
-  def deleteQuote(idString: String) = BasicAuth {
+  def deleteQuote(id: Long) = BasicAuth {
     ActionWithTx { request =>
       import request.dbSession
-      parseLong(idString).flatMap(id => Some(QuoteQueries().removeQuoteById(id))) match {
-        case Some(true) => Ok(s"The quote $idString has been deleted")
-        case _          => NotFound(s"There is no quote with id $idString")
-      }
+      if (QuoteQueries().removeQuoteById(id)) Ok(s"The quote $id has been deleted")
+      else NotFound(s"There is no quote with id $id")
     }
   }
 }
