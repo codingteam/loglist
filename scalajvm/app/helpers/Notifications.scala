@@ -25,10 +25,12 @@ object Notifications {
 
     try {
       val message = new MimeMessage(session)
+      val content = views.html.email.suggestedQuoteNotification(suggestedQuote,
+        routes.Approving.getApprovalForm(suggestedQuote.token).absoluteURL()).toString()
       message.setFrom(new InternetAddress(approvalEmail))
       approvers.foreach(a => message.addRecipients(Message.RecipientType.TO, a.email))
       message.setSubject(s"LogList Suggested Quote: ${subjectFromContent(suggestedQuote.content)}", "UTF-8")
-      message.setText(s"Please check the quote here: ${routes.Approving.getApprovalForm(suggestedQuote.token).absoluteURL()}")
+      message.setContent(content, "text/html; charset=utf-8")
       Transport.send(message, approvalEmail, approvalEmailPassword)
     } catch {
       case e: MessagingException => e.printStackTrace()
