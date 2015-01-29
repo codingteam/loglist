@@ -8,7 +8,7 @@ case class SuggestedQuote(id: Long, time: DateTime,
                           token: String)
 
 object SuggestedQuote extends SQLSyntaxSupport[SuggestedQuote] {
-  override val tableName = "queued_quote"
+  override val tableName = "suggested_quote"
   def apply(rs: WrappedResultSet) =
     new SuggestedQuote(rs.long("id"), rs.jodaDateTime("time"),
       rs.string("content"), rs.stringOpt("submitter_ip"),

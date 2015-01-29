@@ -17,6 +17,16 @@ object Application extends js.JSApp {
     }
   }
 
+  def fillSuggestedQuoteCounters() = {
+    import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+    Ajax.get(s"/quote/count/suggested").onSuccess { case request =>
+      val response = upickle.read[SuggestedQuoteCount](request.responseText)
+      dom.document.querySelectorAll(".suggested-quote-counter").map { node =>
+        node.textContent = response.count.toString
+      }
+    }
+  }
+
   def main(): Unit = {
     dom.window.onload = { event: Event =>
       dom.document.querySelectorAll(".quote-rating").map { node =>
@@ -30,6 +40,8 @@ object Application extends js.JSApp {
         plus.addEventListener("click", voteHandler("upvote", id, rating) _)
         minus.addEventListener("click", voteHandler("downvote", id, rating) _)
       }
+
+      fillSuggestedQuoteCounters()
     }
   }
 
