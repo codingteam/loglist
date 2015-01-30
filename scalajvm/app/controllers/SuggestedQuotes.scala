@@ -7,10 +7,19 @@ import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
 
+import ru.org.codingteam.loglist.SuggestedQuoteCount
+
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
 object SuggestedQuotes extends Controller {
+
+  def countSuggestedQuotes() = ActionWithTx { implicit request =>
+    import request.dbSession
+    val data = SuggestedQuoteCount(SuggestedQuoteQueries().countSuggestedQuote())
+    val json = upickle.write(data)
+    Ok(json).as("application/json")
+  }
 
   def newQuote() = Action { request =>
     Ok(views.html.newQuote(quoteForm))
@@ -27,8 +36,8 @@ object SuggestedQuotes extends Controller {
       form => {
         val remoteAddress = request.remoteAddress
         if (Await.result(ReCaptcha.check(remoteAddress, form.reCapthaResponse), 30.seconds)) { // TODO: Async check
-          val id = SuggestedQuoteQueries().insertQueuedQuote(form.content, Some(remoteAddress))
-          SuggestedQuoteQueries().getQueuedQuoteById(id) match {
+          val id = SuggestedQuoteQueries().insertSuggestedQuote(form.content, Some(remoteAddress))
+          SuggestedQuoteQueries().getSuggestedQuoteById(id) match {
             case Some(suggestedQuote) => {
               val approvers = ApproverQueries().getAllApprovers
               Notifications.notifyApproversAboutSuggestedQuote(approvers, suggestedQuote)

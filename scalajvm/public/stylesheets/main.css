@@ -4,6 +4,14 @@ body {
     font-family: Monospace;
 }
 
+.pages {
+    margin-top: 20px;
+}
+
+.suggested-quote-counter {
+    font-weight: bold;
+}
+
 strong {
     font-weight: bold;
 }
@@ -28,7 +36,7 @@ ul.menu {
     justify-content: space-between;
 	padding: 5px;
 	margin-top: 5px;
-	margin-bottom: 20px;
+	margin-bottom: 5px;
 	box-sizing: border-box;
 }
 
@@ -37,7 +45,7 @@ ul.menu {
 }
 
 .quote {
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .quote-header {
