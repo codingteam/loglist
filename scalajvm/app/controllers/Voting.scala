@@ -1,7 +1,6 @@
 package controllers
 
 import helpers.ActionWithTx
-import helpers.TypeParsers._
 import models.queries.VotingQueries
 import play.api.Play.current
 import play.api.mvc._

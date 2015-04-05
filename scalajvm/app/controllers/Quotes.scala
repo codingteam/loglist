@@ -1,7 +1,6 @@
 package controllers
 
 import helpers.ActionWithTx
-import helpers.TypeParsers._
 import models.queries.{QuoteFilter, QuoteOrdering, QuoteQueries}
 import play.api.Play.current
 import play.api.mvc._
