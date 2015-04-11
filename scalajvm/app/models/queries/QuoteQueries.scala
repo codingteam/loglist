@@ -1,5 +1,8 @@
 package models.queries
 
+import scala.util.Random
+import scala.math._
+
 import helpers.BindableEnumeration
 import models.data.Quote
 import org.joda.time.DateTime
@@ -64,12 +67,24 @@ case class QuoteQueries(implicit session: DBSession) {
     }.map(rs => rs.int(1)).first().apply().getOrElse(0)
   }
 
+  def countQuotes: Int =
+    countQuotes(QuoteOrdering.Time, QuoteFilter.None)
+
   def getQuoteById(id: Long): Option[Quote] = {
     val q = Quote.syntax("q")
     withSQL {
       select(
         q.*
       ).from(Quote as q).where.eq(q.id, id)
+    }.map(rs => Quote(rs)).first().apply()
+  }
+
+  def getRandomQuote: Option[Quote] = {
+    val random = new Random()
+    val q = Quote.syntax("q")
+    withSQL {
+      select(q.*).from(Quote as q)
+        .offset(floor(random.nextFloat() * countQuotes).toInt).limit(1)
     }.map(rs => Quote(rs)).first().apply()
   }
 
