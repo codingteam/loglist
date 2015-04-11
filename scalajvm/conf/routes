@@ -15,7 +15,10 @@ GET           /quote/approve                     controllers.Approving.getApprov
 POST          /quote/approve                     controllers.Approving.approve
 GET           /quote/approve/notify              controllers.Approving.notifyAllApprovers
 GET           /quote/count/suggested             controllers.SuggestedQuotes.countSuggestedQuotes
+
+# API routes
 GET           /api/quote/$id<[0-9]+>             controllers.api.Quotes.getQuote(id: Long)
+GET           /api/quote/random                  controllers.api.Quotes.getRandomQuote()
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                      controllers.Assets.at(path="/public", file)
