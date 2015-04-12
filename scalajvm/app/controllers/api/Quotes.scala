@@ -19,7 +19,7 @@ object Quotes extends Controller {
 
   private def prepareResponse(probablyQuote: Option[Quote]) =
     probablyQuote.map(buildQuoteDto) match {
-      case Some(quoteDTO) => Ok(upickle.write(quoteDTO)).as("application/json")
+      case Some(quoteDTO) => Ok(upickle.write(quoteDTO)).as("application/json; charset=utf-8")
       case None           => NotFound("").as("text/plain")
     }
 
