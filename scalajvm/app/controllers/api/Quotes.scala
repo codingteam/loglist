@@ -24,5 +24,5 @@ object Quotes extends Controller {
     }
 
   private def buildQuoteDto(quote: Quote): QuoteDTO =
-    QuoteDTO(quote.id, quote.time.getMillis, quote.content, quote.rating)
+    QuoteDTO(quote.id, quote.time.getMillis, quote.content.getOrElse(""), quote.rating)
 }
