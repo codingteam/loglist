@@ -2,7 +2,8 @@ package controllers
 
 import helpers.{ActionWithTx, Notifications, ReCaptcha}
 import models.forms.SuggestQuoteForm
-import models.queries.{ApproverQueries, SuggestedQuoteQueries}
+import models.queries._
+import models.forms._
 import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
@@ -21,8 +22,10 @@ object SuggestedQuotes extends Controller {
     Ok(json).as("application/json")
   }
 
-  def newQuote() = Action { request =>
-    Ok(views.html.newQuote(quoteForm))
+  def newQuote(stagedQuoteToken: String) = ActionWithTx { request =>
+    implicit val db = request.dbSession
+    val content = StagedQuoteQueries().getStagedQuoteByToken(stagedQuoteToken).map(_.content).getOrElse("")
+    Ok(views.html.newQuote(quoteForm.fill(SuggestQuoteForm(content, ""))))
   }
 
   def addQuote() = ActionWithTx { implicit request =>

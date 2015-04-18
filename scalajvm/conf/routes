@@ -4,7 +4,7 @@
 
 # Main routes
 GET           /                                  controllers.Quotes.list(page: Int ?= 0, order: models.queries.QuoteOrdering.Value ?= models.queries.QuoteOrdering.Time, filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
-GET           /quote/new                         controllers.SuggestedQuotes.newQuote
+GET           /quote/new                         controllers.SuggestedQuotes.newQuote(stagedQuoteToken: String ?= "")
 POST          /quote/new                         controllers.SuggestedQuotes.addQuote
 GET           /quote/$id<[0-9]+>                 controllers.Quotes.quote(id: Long)
 POST          /quote/$id<[0-9]+>/upvote          controllers.Voting.vote(id: Long, up: Boolean = true)
