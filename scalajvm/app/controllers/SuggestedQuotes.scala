@@ -23,7 +23,7 @@ object SuggestedQuotes extends Controller {
   }
 
   def newQuote(stagedQuoteToken: String) = ActionWithTx { request =>
-    implicit val db = request.dbSession
+    import request.dbSession
     val content = StagedQuoteQueries().getStagedQuoteByToken(stagedQuoteToken).map(_.content).getOrElse("")
     Ok(views.html.newQuote(quoteForm.fill(SuggestQuoteForm(content, ""))))
   }

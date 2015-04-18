@@ -19,6 +19,7 @@ GET           /quote/count/suggested             controllers.SuggestedQuotes.cou
 # API routes
 GET           /api/quote/$id<[0-9]+>             controllers.api.Quotes.getQuote(id: Long)
 GET           /api/quote/random                  controllers.api.Quotes.getRandomQuote()
+POST          /api/quote/stage                   controllers.api.Quotes.stageQuote
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                      controllers.Assets.at(path="/public", file)

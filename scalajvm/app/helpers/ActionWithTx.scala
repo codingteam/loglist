@@ -14,5 +14,3 @@ object ActionWithTx extends ActionBuilder[RequestWithSession] {
     }
   }
 }
-
-
