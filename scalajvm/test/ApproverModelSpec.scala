@@ -1,3 +1,4 @@
+import helpers.DatabaseHelpers
 import org.specs2.mutable._
 
 import play.api.test._
@@ -7,7 +8,7 @@ import scalikejdbc._
 
 import models.data.Approver
 
-class ApproverModelSpec extends Specification {
+class ApproverModelSpec extends Specification with DatabaseHelpers {
   val approvers = List(
     ("rexim", "rexim@loglist.net"),
     ("ForNeVeR", "fornever@loglist.net")
@@ -17,7 +18,7 @@ class ApproverModelSpec extends Specification {
     "be able to add new approvers and return them back" in {
       running(FakeApplication()) {
         DB localTx { implicit session =>
-          withSQL { deleteFrom(Approver) }.update().apply()
+          clearTable(Approver)
 
           for ((name, email) <- approvers) {
             models.queries.ApproverQueries().insertApprover(name, email)

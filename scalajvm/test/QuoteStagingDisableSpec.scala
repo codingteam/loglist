@@ -1,3 +1,4 @@
+import helpers.DatabaseHelpers
 import org.specs2.mutable._
 
 import play.api.test._
@@ -11,10 +12,7 @@ import models.queries.{StagedQuoteQueries, DisabledActionQueries}
 
 import ru.org.codingteam.loglist.dto.StagedQuoteDTO
 
-class QuoteStagingDisableSpec extends Specification {
-
-  def clearTable[T](table : SQLSyntaxSupport[T])(implicit db: DBSession): Unit =
-    withSQL { deleteFrom(table) }.update().apply()
+class QuoteStagingDisableSpec extends Specification with DatabaseHelpers {
 
   "The quote stage operation" should {
     "stage the quote when the operation is enabled and return StagedQuoteDTO as JSON" in {
