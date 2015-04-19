@@ -1,6 +1,6 @@
 package controllers.api
 
-import helpers.ActionWithTx
+import helpers._
 import models.queries._
 import models.data._
 import play.api.mvc._
@@ -18,7 +18,7 @@ object Quotes extends Controller {
     prepareResponse(QuoteQueries().getRandomQuote)
   }
 
-  def stageQuote = ActionWithTx { request =>
+  def stageQuote = DisableableActionWithTx("stage", "Staging is disabled") { request =>
     import request.dbSession
     request.body.asText match {
       case Some(content) => {
