@@ -13,6 +13,11 @@ create table if not exists maintainer (
   email varchar not null
 );
 
+create table if not exists disabled_action (
+  name varchar not null unique
+);
+
 # --- !Downs
+drop table if exists disabled_action;
 drop table if exists maintainer;
 drop table if exists staged_quote;
