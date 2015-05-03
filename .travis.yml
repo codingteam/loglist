@@ -15,7 +15,6 @@ env:
     APPROVAL_SMTP_HOST="smtp.loglist.net"
     APPROVAL_EMAIL="noreply@loglist.net"
     APPROVAL_EMAIL_PASSWORD="hortahell"
-    STAGE_AREA_COUNT_LIMIT=100
 before_script:
   - psql -c 'create database loglist;' -U postgres
   - psql -c 'create extension pgcrypto;' -U postgres -d loglist

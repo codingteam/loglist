@@ -10,5 +10,3 @@ export BASIC_AUTH_PASSWORD=hell
 export APPROVAL_SMTP_HOST="smtp.loglist.net"
 export APPROVAL_EMAIL="noreply@loglist.net"
 export APPROVAL_EMAIL_PASSWORD="hortahell"
-
-export STAGE_AREA_COUNT_LIMIT=100
