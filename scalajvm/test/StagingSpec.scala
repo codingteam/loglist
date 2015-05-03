@@ -12,7 +12,7 @@ import ru.org.codingteam.loglist.dto.StagedQuoteDTO
 
 class StagingSpec extends Specification with DatabaseHelpers {
   "The quote stage operation" should {
-    "stage the quote when the operation and return StagedQuoteDTO as JSON" in {
+    "stage the quote and return StagedQuoteDTO as JSON" in {
       running(FakeApplication()) {
         DB localTx { implicit session =>
           withSQL { deleteFrom(StagedQuote) }.update().apply()
