@@ -3,6 +3,7 @@ import org.specs2.mutable._
 
 import play.api.test._
 import play.api.test.Helpers._
+import play.api.Play.current
 
 import scalikejdbc._
 
@@ -36,6 +37,19 @@ class StagingSpec extends Specification with DatabaseHelpers {
         dto.token mustEqual stagedQuote.token
         dto.content mustEqual stagedQuote.content
         dto.time mustEqual stagedQuote.time.getMillis
+      }
+    }
+
+    "should return 507 in case count limit is exceeded" in {
+      running(FakeApplication()) {
+        DB localTx { implicit session =>
+          clearTable(StagedQuote)
+        }
+
+        val stagingText = "Hello, World"
+
+        for (i <- 1 to 5) { status(route(stageRequestForText(stagingText)).get) mustEqual 200 }
+        status(route(stageRequestForText(stagingText)).get) mustEqual 507
       }
     }
   }

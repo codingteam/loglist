@@ -4,9 +4,15 @@ import helpers.ActionWithTx
 import models.queries._
 import models.data._
 import play.api.mvc._
+import play.api.Play.current
 import ru.org.codingteam.loglist.dto.{StagedQuoteDTO, QuoteDTO}
 
 object Quotes extends Controller {
+
+  private val stagingMaxCount =
+    current.configuration.getInt("staging.maxCount").get
+  private val stagingLifeTimePeriod =
+    current.configuration.getInt("staging.lifeTimePeriod").get
 
   def getQuote(id: Long) = ActionWithTx { request =>
     import request.dbSession
@@ -22,10 +28,16 @@ object Quotes extends Controller {
     import request.dbSession
     request.body.asText match {
       case Some(content) => {
-        val id = StagedQuoteQueries().insertStagedQuote(content, Some(request.remoteAddress))
-        StagedQuoteQueries().getStagedQuoteById(id) match {
-          case Some(stagedQuote) => Ok(upickle.write(buildStagedQuoteDto(stagedQuote))).as("application/json; charset=utf-8")
-          case None => InternalServerError("The quote was not staged properly").as("text/plain")
+        StagedQuoteQueries().deleteOldStagedQuotes(stagingLifeTimePeriod)
+
+        if (StagedQuoteQueries().countStagedQuotes() < stagingMaxCount) {
+          val id = StagedQuoteQueries().insertStagedQuote(content, Some(request.remoteAddress))
+          StagedQuoteQueries().getStagedQuoteById(id) match {
+            case Some(stagedQuote) => Ok(upickle.write(buildStagedQuoteDto(stagedQuote))).as("application/json; charset=utf-8")
+            case None => InternalServerError("The quote was not staged properly").as("text/plain")
+          }
+        } else {
+          InsufficientStorage("Staged quotes count limit exceeded. Please try again later.").as("text/plain")
         }
       }
       case None => BadRequest("The request body was not found!").as("text/plain")

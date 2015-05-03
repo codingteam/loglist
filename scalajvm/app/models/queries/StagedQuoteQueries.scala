@@ -22,7 +22,23 @@ case class StagedQuoteQueries(implicit session: DBSession) {
   def insertStagedQuote(content: String, stagerIp: Option[String]) = {
     val sq = StagedQuote.column
     withSQL {
-      insert.into(StagedQuote).columns(sq.time, sq.content, sq.stagerIp).values(DateTime.now(), content, stagerIp)
+      insert.into(StagedQuote)
+        .columns(sq.time, sq.content, sq.stagerIp)
+        .values(DateTime.now(), content, stagerIp)
     }.updateAndReturnGeneratedKey().apply()
+  }
+
+  def countStagedQuotes() = {
+    val sq = StagedQuote.syntax("sq")
+    withSQL {
+      select(sqls.count).from(StagedQuote as sq)
+    }.map(rs => rs.int(1)).first().apply().getOrElse(0)
+  }
+
+  def deleteOldStagedQuotes(interval: Int): Boolean = {
+    val sq = StagedQuote.column
+    withSQL {
+     delete.from(StagedQuote).where.lt(sq.time, DateTime.now().minusMinutes(interval))
+    }.update().apply() != 0
   }
 }
