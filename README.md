@@ -32,4 +32,3 @@ The same sample setup for Windows:
     PS> .\devenv.ps1
     PS> sbt run
 
-The quick brown mixer jumps over the lazy fornever.
