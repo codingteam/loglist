@@ -39,13 +39,13 @@ object Approving extends Controller {
                 val approvers = ApproverQueries().getAllApprovers
                 SuggestedQuoteQueries().deleteSuggestedQuoteByToken(form.token)
                 Notifications.notifyApproversAboutApprovedQuote(approvers, suggestedQuote, approvedQuote)
-                Ok("approved")
+                Redirect(controllers.routes.Quotes.quote(approvedQuote.id))
               }
               case "decline" => {
                 val approvers = ApproverQueries().getAllApprovers
                 SuggestedQuoteQueries().deleteSuggestedQuoteByToken(form.token)
                 Notifications.notifyApproversAboutDeclinedQuote(approvers, suggestedQuote)
-                Ok("declined")
+                Redirect(controllers.routes.Quotes.list(0, QuoteOrdering.Time, QuoteFilter.None))
               }
               case _ => BadRequest("Invalid parameters")
             }
