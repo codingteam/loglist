@@ -9,11 +9,11 @@ POST          /quote/new                         controllers.SuggestedQuotes.add
 GET           /quote/$id<[0-9]+>                 controllers.Quotes.quote(id: Long)
 POST          /quote/$id<[0-9]+>/upvote          controllers.Voting.vote(id: Long, up: Boolean = true)
 POST          /quote/$id<[0-9]+>/downvote        controllers.Voting.vote(id: Long, up: Boolean = false)
-POST          /quote                             controllers.Quotes.addQuote
-DELETE        /quote/$id<[0-9]+>                 controllers.Quotes.deleteQuote(id: Long)
+#POST          /quote                             controllers.Quotes.addQuote
+#DELETE        /quote/$id<[0-9]+>                 controllers.Quotes.deleteQuote(id: Long)
 GET           /quote/approve                     controllers.Approving.getApprovalForm(token: String)
 POST          /quote/approve                     controllers.Approving.approve
-GET           /quote/approve/notify              controllers.Approving.notifyAllApprovers
+#GET           /quote/approve/notify              controllers.Approving.notifyAllApprovers
 GET           /quote/count/suggested             controllers.SuggestedQuotes.countSuggestedQuotes
 
 # API routes
