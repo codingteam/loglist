@@ -54,7 +54,7 @@ object Notifications {
     properties.put("mail.smtp.host", approvalSmtpHost)
     properties.put("mail.smtp.starttls.enable", "true")
 
-    val message = new MimeMessage(Session.getDefaultInstance(properties))
+    val message = new MimeMessage(Session.getInstance(properties))
     message.setFrom(new InternetAddress(approvalEmail))
     approvers.foreach(a => message.addRecipients(Message.RecipientType.TO, a.email))
 
