@@ -1,5 +1,7 @@
 $env:DATABASE_URL = 'jdbc:postgresql:loglist?user=horta&password=hell'
 $env:APPLY_EVOLUTIONS_SILENTLY = 'false'
+# Any *valid* pair of keys will work for localhost. You can generate one here:
+# https://www.google.com/recaptcha/admin
 $env:RECAPTCHA_PUBLIC_KEY = 'public_key'
 $env:RECAPTCHA_PRIVATE_KEY = 'private_key'
 $env:BASIC_AUTH_USERNAME = 'horta'
