@@ -15,6 +15,7 @@ GET           /quote/approve                     controllers.Approving.getApprov
 POST          /quote/approve                     controllers.Approving.approve
 #GET           /quote/approve/notify              controllers.Approving.notifyAllApprovers
 GET           /quote/count/suggested             controllers.SuggestedQuotes.countSuggestedQuotes
+GET           /feed.rss                          controllers.Quotes.getRSSFeed
 
 # API routes
 GET           /api/quote/$id<[0-9]+>             controllers.api.Quotes.getQuote(id: Long)

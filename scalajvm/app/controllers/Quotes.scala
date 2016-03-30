@@ -1,11 +1,13 @@
 package controllers
 
 import helpers.ActionWithTx
+import models.data.FeedItem
 import models.queries.{QuoteFilter, QuoteOrdering, QuoteQueries}
 import play.api.Play.current
 import play.api.mvc._
-import security.BasicAuth
+import scala.xml.{Atom, PCData}
 import scalikejdbc._
+import security.BasicAuth
 
 object Quotes extends Controller {
 
@@ -19,6 +21,43 @@ object Quotes extends Controller {
     val quotes = QuoteQueries().getPageOfQuotes(pageNumber, pageSize, order, filter)
 
     Ok(views.html.index(quotes, pageNumber, countPages, order, filter))
+  }
+
+  def getRSSFeed = ActionWithTx { implicit request =>
+    import request.dbSession
+    import play.api.Play.current
+
+    val feedLimit = current.configuration.getInt("feed.limit").get
+
+    val quotes = QuoteQueries().getPageOfQuotes(0, feedLimit,
+        QuoteOrdering.Time, QuoteFilter.None)
+    val items = quotes.map(quote => {
+        val description = quote.content getOrElse ""
+        val cdataReady = description.replaceAll("]]>", "]]]]><![CDATA[>")
+        val escaped = scala.xml.Utility.escape(cdataReady)
+        val content = escaped.replaceAll("[\n\r]+", "<br/>")
+
+        val itemUrl = routes.Quotes.quote(quote.id).absoluteURL()
+
+        new FeedItem(
+          quote.time,
+          new scala.xml.Atom("Quote #" + quote.id.toString()),
+          scala.xml.PCData(content),
+          itemUrl,
+          // Using quote's URL as its GUID, which is a common practice
+          itemUrl
+          )})
+
+    val deploymentURL =
+      routes.Quotes.list(0, QuoteOrdering.Time, QuoteFilter.None).absoluteURL()
+    val feed = views.xml.rssFeed(
+        items,
+        "Latest LogList quotes",
+        deploymentURL,
+        "Last " + feedLimit + " approved quotes from " + deploymentURL
+      )
+
+    Ok(feed).as("application/rss+xml")
   }
 
   def quote(id: Long) = ActionWithTx { request =>

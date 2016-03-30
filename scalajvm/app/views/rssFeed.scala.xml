@@ -1,0 +1,23 @@
+@(items: Seq[models.data.FeedItem],
+        title: String,
+        link: String,
+        description: String)
+
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>@title</title>
+        <link>@link</link>
+        <description>@description</description>
+        @for(item <- items) {
+          <item>
+            <title>@item.title</title>
+            <link>@item.link</link>
+            <guid>@item.guid</guid>
+            <description>@item.description</description>
+            <pubDate>@item.time</pubDate>
+          </item>
+        }
+    </channel>
+</rss>
