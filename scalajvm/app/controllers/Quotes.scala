@@ -33,16 +33,16 @@ object Quotes extends Controller {
         QuoteOrdering.Time, QuoteFilter.None)
     val items = quotes.map(quote => {
         val description = quote.content getOrElse ""
-        val cdataReady = description.replaceAll("]]>", "]]]]><![CDATA[>")
-        val escaped = scala.xml.Utility.escape(cdataReady)
-        val content = escaped.replaceAll("[\n\r]+", "<br/>")
+        val content =
+          scala.xml.Utility.escape(description)
+          .replaceAll("[\n\r]+", "<br/>")
 
         val itemUrl = routes.Quotes.quote(quote.id).absoluteURL()
 
         new FeedItem(
           quote.time,
-          new scala.xml.Atom("Quote #" + quote.id.toString()),
-          scala.xml.PCData(content),
+          "Quote #" + quote.id.toString(),
+          content,
           itemUrl,
           // Using quote's URL as its GUID, which is a common practice
           itemUrl
