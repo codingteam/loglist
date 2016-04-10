@@ -8,6 +8,7 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/reset.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <link rel="alternate" type="application/rss+xml" title="@title" href="@routes.Quotes.getRSSFeed()">
 		<script src="@routes.Assets.at("javascripts/loglist-scalajs-fastopt.js")"></script>
 		<script src="@routes.Assets.at("javascripts/loglist-scalajs-launcher.js")"></script>
         @scripts
@@ -16,14 +17,22 @@
         <div class="plate header center-content">
             <a href="@routes.Quotes.list()"><span class="highlight">L</span>og<span class="highlight">L</span>ist</a>
         </div>
-        <ul class="plate menu center-content">
+        <ul class="plate spaced menu inline-block-li center-content">
             <li>Цитат на рассмотрении: <span class="suggested-quote-counter">?</span></li>
         </ul>
-	    <ul class="plate menu center-content">
+	    <ul class="plate spaced menu inline-block-li center-content">
             @menu
             <li class="menu-service"><a href="@routes.SuggestedQuotes.newQuote()">Добавить цитату</a></li>
 	    </ul>
         <div class="content center-content">@content</div>
-        <div class="footer center-content"><span class="highlight"><a href="https://github.com/codingteam/loglist">codingteam</a> ©</span> 2016</div>
+        <ul class="footer spaced inline-block-li center-content">
+            <li>
+                <a href="@routes.Quotes.getRSSFeed()">
+                    <img src="@routes.Assets.at("images/feedicon.svg")"
+                         id="feedicon" />
+                </a>
+            </li>
+            <li><span class="highlight"><a href="https://github.com/codingteam/loglist">codingteam</a> ©</span> 2016</li>
+        </ul>
     </body>
 </html>

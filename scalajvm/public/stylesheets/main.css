@@ -31,16 +31,23 @@ strong {
     color: #AAFF55
 }
 
-ul.menu {
-	display: flex;
+#feedicon {
+    height: 1.4em;
+}
+
+ul.spaced {
+    display: flex;
     justify-content: space-between;
+}
+
+ul.menu {
 	padding: 5px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	box-sizing: border-box;
 }
 
-.menu li {
+.inline-block-li li {
 	display: inline-block;
 }
 
