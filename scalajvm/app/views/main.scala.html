@@ -1,4 +1,4 @@
-@(title: String, menu: Html = Html(""), scripts: Html = Html(""))(content: Html)
+@(title: String, menu: Html = Html(""), scripts: Html = Html(""), showMenus: Boolean = true)(content: Html)
 
 <!DOCTYPE html>
 
@@ -17,13 +17,15 @@
         <div class="plate header center-content">
             <a href="@routes.Quotes.list()"><span class="highlight">L</span>og<span class="highlight">L</span>ist</a>
         </div>
-        <ul class="plate spaced menu inline-block-li center-content">
-            <li>Цитат на рассмотрении: <span class="suggested-quote-counter">?</span></li>
-        </ul>
-	    <ul class="plate spaced menu inline-block-li center-content">
-            @menu
-            <li class="menu-service"><a href="@routes.SuggestedQuotes.newQuote()">Добавить цитату</a></li>
-	    </ul>
+        @if(showMenus) {
+            <ul class="plate spaced menu inline-block-li center-content">
+                <li>Цитат на рассмотрении: <span class="suggested-quote-counter">?</span></li>
+            </ul>
+            <ul class="plate spaced menu inline-block-li center-content">
+                @menu
+                <li class="menu-service"><a href="@routes.SuggestedQuotes.newQuote()">Добавить цитату</a></li>
+            </ul>
+        }
         <div class="content center-content">@content</div>
         <ul class="footer spaced inline-block-li center-content">
             <li>
@@ -31,6 +33,9 @@
                     <img src="@routes.Assets.at("images/feedicon.svg")"
                          id="feedicon" />
                 </a>
+            </li>
+            <li>
+                <a href="@routes.Licenses.listLicenses()">Third-party licenses list</a>
             </li>
             <li><span class="highlight"><a href="https://github.com/codingteam/loglist">codingteam</a> ©</span> 2016</li>
         </ul>
