@@ -41,7 +41,7 @@ object Quotes extends Controller {
 
         new FeedItem(
           quote.time,
-          "Quote #" + quote.id.toString(),
+          "Цитата №" + quote.id.toString(),
           content,
           itemUrl,
           // Using quote's URL as its GUID, which is a common practice
@@ -52,9 +52,9 @@ object Quotes extends Controller {
       routes.Quotes.list(0, QuoteOrdering.Time, QuoteFilter.None).absoluteURL()
     val feed = views.xml.rssFeed(
         items,
-        "Latest LogList quotes",
+        "LogList: последние цитаты",
         deploymentURL,
-        "Last " + feedLimit + " approved quotes from " + deploymentURL
+        "Охапка свежайших цитат с " + deploymentURL
       )
 
     Ok(feed).as("application/rss+xml")
