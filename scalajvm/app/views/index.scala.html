@@ -52,12 +52,20 @@
     }
     </div>
     <div class="pages">
+        @if(currentPage > 0) {
+            <a href="@routes.Quotes.list(currentPage-1, order, filter)"
+               rel="previous">←</a>
+        }
         @for(i <- 0 to (countPages - 1)) {
             @if(i != currentPage) {
                 <a href="@routes.Quotes.list(i, order, filter)">@i</a>
             } else {
                 <strong>@i</strong>
             }
+        }
+        @if(currentPage < countPages - 1) {
+            <a href="@routes.Quotes.list(currentPage+1, order, filter)"
+               rel="next">→</a>
         }
     </div>
 }
