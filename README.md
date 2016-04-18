@@ -32,3 +32,10 @@ The same sample setup for Windows:
     PS> .\devenv.ps1
     PS> sbt run
 
+## License
+
+Loglist is licensed under the terms of MIT License. See License.md file for
+details.
+
+Some third-party components have their own licenses, please consult the
+corresponding site section for further details.
