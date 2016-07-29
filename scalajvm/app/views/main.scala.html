@@ -1,9 +1,9 @@
-@(title: String, menu: Html = Html(""), scripts: Html = Html(""), showMenus: Boolean = true)(content: Html)
+@(title: String, menu: Html = Html(""), scripts: Html = Html(""), showMenus: Boolean = true, ogMeta: Html = Html(""))(content: Html)
 
 <!DOCTYPE html>
 
-<html>
-    <head>
+<html prefix="og: http://ogp.me/ns#">
+    <head prefix="loglist: http://loglist.net/ns#">
         <title>@title</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/reset.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
@@ -11,6 +11,7 @@
         <link rel="alternate" type="application/rss+xml" title="@title" href="@routes.Quotes.getRSSFeed()">
 		<script src="@routes.Assets.at("javascripts/loglist-scalajs-fastopt.js")"></script>
 		<script src="@routes.Assets.at("javascripts/loglist-scalajs-launcher.js")"></script>
+        @ogMeta
         @scripts
     </head>
     <body>

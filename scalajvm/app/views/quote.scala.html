@@ -1,6 +1,8 @@
-@(quote: models.data.Quote)
+@(quote: models.data.Quote)(implicit requestHeader: play.api.mvc.RequestHeader)
 
-@main("Log List") {
+@main(s"Log List ⚙ Цитата #${quote.id}",
+      Html(""), Html(""), true,
+      meta.quoteEntity(quote)) {
   <div class="center-content quotes">
     <div class="quote">
         <div class="quote-header">

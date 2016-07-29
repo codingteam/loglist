@@ -1,0 +1,7 @@
+@(quote: models.data.Quote)(implicit requestHeader: play.api.mvc.RequestHeader)
+
+@entity(s"Log List ⚙ Цитата #${quote.id}",
+        "loglist:quote",
+        routes.Assets.at("images/gear_400x400.png").absoluteURL(),
+        quote.content.getOrElse(""),
+        routes.Quotes.quote(quote.id).absoluteURL())

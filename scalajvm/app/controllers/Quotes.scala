@@ -60,7 +60,7 @@ object Quotes extends Controller {
     Ok(feed).as("application/rss+xml")
   }
 
-  def quote(id: Long) = ActionWithTx { request =>
+  def quote(id: Long) = ActionWithTx { implicit request =>
     import request.dbSession
     QuoteQueries().getQuoteById(id) match {
       case Some(quote) => Ok(views.html.quote(quote))
