@@ -10,7 +10,7 @@
 // - SSH_PRIVATE_KEY: private key to access target server
 node {
     stage 'Checkout'
-    git branch: env.BRANCH_NAME,
+    git branch: BRANCH_NAME,
             credentialsId: GIT_CREDENTIALS,
             url: 'git@github.com:codingteam/loglist.git'
 
