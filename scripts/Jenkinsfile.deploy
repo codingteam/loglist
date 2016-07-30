@@ -1,0 +1,43 @@
+// This script will build and deploy the current LogList version to the target server.
+// Required properties:
+// - GIT_CREDENTIALS: credentials to download the source code
+// - SBT: path to sbt launch script or binary
+// - SCP: path to scp executable
+// - SSH: path to ssh executable
+// - SSH_HOST: name of the target server
+// - SSH_LOGIN: login to access target server
+// - SSH_PORT: port to access target server
+// - SSH_PRIVATE_KEY: private key to access target server
+node {
+    stage 'Checkout'
+    git branch: env.BRANCH_NAME,
+            credentialsId: GIT_CREDENTIALS,
+            url: 'git@github.com:codingteam/loglist.git'
+
+    stage 'Clean'
+    bat "$SBT clean"
+
+    stage 'Build'
+    bat "$SBT dist"
+
+    stage 'Prepare'
+    def keyFile = 'loglist.key'
+    writeFile file: keyFile, text: SSH_PRIVATE_KEY
+
+    def executeScript = { scriptPath ->
+        bat "type $scriptPath | $SSH -i $keyFile -p $SSH_PORT $SSH_LOGIN@$SSH_HOST"
+    }
+
+    try {
+        stage 'Stop'
+        executeScript 'scripts\\stop.sh'
+
+        stage 'Upload'
+        bat "$SCP scalajvm/target/universal/loglist-*.zip $SSH_LOGIN@$SSH_HOST:/opt/loglist_test"
+
+        stage 'Start'
+        executeScript 'scripts\\start.sh'
+    } finally {
+        bat "del $keyFile"
+    }
+}
