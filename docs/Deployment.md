@@ -20,33 +20,16 @@ credentials; make sure to set them up.
 CI environment
 --------------
 
-There is a Jenkins CI server set up to automatically deploy `master` branch
-after every commit.
+There is a Jenkins CI server set up to deploy `master` branch after any
+maintainer decides it's time to release.
 
-It executes the following instructions to rebuild the project:
+Build is operated by [Jenkins pipeline plugin][jenkins-pipeline-plugin]. Make
+sure it's installed and all dependencies are met. Consult
+`scripts/Jenkinsfile.deploy` and set up all the build parameters on your server.
 
-    sbt clean dist
+The deployment is performed over SSH, so make sure that CI have SSH access to
+the target machine as the same `loglist` user and a permission to execute
+`sudo /sbin/stop loglist` and `sudo /sbin/start loglist` commands (and nothing
+else).
 
-Make sure that CI have SSH access to target machine as the same `loglist` user
-and a permission to execute `sudo /sbin/stop loglist` and `sudo /sbin/start
-loglist` commands (and nothing else).
-
-After build it should to the target machine through SSH and execute the
-following script:
-
-    sudo /sbin/stop loglist
-    cd /opt/loglist
-    rm -r bin
-    rm -r conf
-    rm -r lib
-    rm -r share
-
-Then upload `scalajvm/target/universal/loglist-*.zip` file from local CI
-directory to `/opt/loglist` directory on the target machine and execute the
-following script to start the new LogList version:
-
-    cd /opt/loglist
-    unzip *.zip
-    mv loglist-jvm-*/* .
-    rm -r loglist-jvm-*
-    sudo /sbin/start loglist
+[jenkins-pipeline-plugin]: https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin
