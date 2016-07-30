@@ -34,7 +34,7 @@ node {
         executeScript 'scripts\\stop.sh'
 
         stage 'Upload'
-        bat "$SCP scalajvm/target/universal/loglist-*.zip $SSH_LOGIN@$SSH_HOST:/opt/loglist_test"
+        bat "$SCP -P $SSH_PORT scalajvm/target/universal/loglist-*.zip $SSH_LOGIN@$SSH_HOST:/opt/loglist_test"
 
         stage 'Start'
         executeScript 'scripts\\start.sh'
