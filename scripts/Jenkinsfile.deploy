@@ -1,5 +1,6 @@
 // This script will build and deploy the current LogList version to the target server.
 // Required properties:
+// - GIT_BRANCH: name of the branch to be deployed
 // - GIT_CREDENTIALS: credentials to download the source code
 // - SBT: path to sbt launch script or binary
 // - SCP: path to scp executable
@@ -10,7 +11,7 @@
 // - SSH_PRIVATE_KEY: private key to access target server
 node {
     stage 'Checkout'
-    git branch: BRANCH_NAME,
+    git branch: GIT_BRANCH,
             credentialsId: GIT_CREDENTIALS,
             url: 'git@github.com:codingteam/loglist.git'
 
