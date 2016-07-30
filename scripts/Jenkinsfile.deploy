@@ -48,9 +48,8 @@ node {
     stage 'Notify'
     def isSuccess = currentBuild.result == null
     def buildStatus = isSuccess ? 'SUCCESS' : currentBuild.result
-    for (String maintainer : MAINTAINERS.split(' ')) {
-        mail to: maintainer, subject: "${env.JOB_NAME}#${env.BUILD_NUMBER}: ${buildStatus}", body: """Build #${env.BUILD_NUMBER} of Jenkins job ${env.JOB_NAME} has been finished with status ${buildStatus}.
+
+    mail to: MAINTAINERS, subject: "${env.JOB_NAME}#${env.BUILD_NUMBER}: ${buildStatus}", body: """Build #${env.BUILD_NUMBER} of Jenkins job ${env.JOB_NAME} has been finished with status ${buildStatus}.
 
 Check ${env.BUILD_URL} for details."""
-    }
 }
