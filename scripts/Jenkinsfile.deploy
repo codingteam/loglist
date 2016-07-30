@@ -2,6 +2,7 @@
 // Required properties:
 // - GIT_BRANCH: name of the branch to be deployed
 // - GIT_CREDENTIALS: credentials to download the source code
+// - MAINTAINERS: space-separated email list
 // - SBT: path to sbt launch script or binary
 // - SCP: path to scp executable
 // - SSH: path to ssh executable
@@ -29,16 +30,27 @@ node {
         bat "type $scriptPath | $SSH -o StrictHostKeyChecking=no -i $keyFile -p $SSH_PORT $SSH_LOGIN@$SSH_HOST"
     }
 
-    try {
-        stage 'Stop'
-        executeScript 'scripts\\stop.sh'
+    catchError {
+        try {
+            stage 'Stop'
+            executeScript 'scripts\\stop.sh'
 
-        stage 'Upload'
-        bat "$SCP -o StrictHostKeyChecking=no -i $keyFile -P $SSH_PORT scalajvm/target/universal/loglist-*.zip $SSH_LOGIN@$SSH_HOST:/opt/loglist"
+            stage 'Upload'
+            bat "$SCP -o StrictHostKeyChecking=no -i $keyFile -P $SSH_PORT scalajvm/target/universal/loglist-*.zip $SSH_LOGIN@$SSH_HOST:/opt/loglist"
 
-        stage 'Start'
-        executeScript 'scripts\\start.sh'
-    } finally {
-        bat "del $keyFile"
+            stage 'Start'
+            executeScript 'scripts\\start.sh'
+        } finally {
+            bat "del $keyFile"
+        }
+    }
+
+    stage 'Notify'
+    def isSuccess = currentBuild.result == null
+    def buildStatus = isSuccess ? 'SUCCESS' : currentBuild.result
+    MAINTAINERS.split(' ').each { maintainer ->
+        mail to: maintainer, subject: "${env.JOB_NAME}#${env.BUILD_NUMBER}: ${buildStatus}", body: """Build #${env.BUILD_NUMBER} of Jenkins job ${env.JOB_NAME} has been finished with status ${buildStatus}.
+
+Check ${env.BUILD_URL} for details."""
     }
 }
