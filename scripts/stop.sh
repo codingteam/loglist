@@ -1,5 +1,5 @@
-sudo /sbin/stop loglist_test
-cd /opt/loglist_test
+sudo /sbin/stop loglist
+cd /opt/loglist
 rm -rf bin
 rm -rf conf
 rm -rf lib

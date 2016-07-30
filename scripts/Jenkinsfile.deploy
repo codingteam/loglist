@@ -34,7 +34,7 @@ node {
         executeScript 'scripts\\stop.sh'
 
         stage 'Upload'
-        bat "$SCP -o StrictHostKeyChecking=no -i $keyFile -P $SSH_PORT scalajvm/target/universal/loglist-*.zip $SSH_LOGIN@$SSH_HOST:/opt/loglist_test"
+        bat "$SCP -o StrictHostKeyChecking=no -i $keyFile -P $SSH_PORT scalajvm/target/universal/loglist-*.zip $SSH_LOGIN@$SSH_HOST:/opt/loglist"
 
         stage 'Start'
         executeScript 'scripts\\start.sh'
