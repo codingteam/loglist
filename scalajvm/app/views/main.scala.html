@@ -4,6 +4,7 @@
 
 <html prefix="og: http://ogp.me/ns#">
     <head prefix="loglist: http://loglist.net/ns#">
+        <meta name=viewport content="width=device-width, initial-scale=1">
         <title>@title</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/reset.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
@@ -19,16 +20,16 @@
             <a href="@routes.Quotes.list()"><span class="highlight">L</span>og<span class="highlight">L</span>ist</a>
         </div>
         @if(showMenus) {
-            <ul class="plate spaced menu inline-block-li center-content">
-                <li>Цитат на рассмотрении: <span class="suggested-quote-counter">?</span></li>
-            </ul>
-            <ul class="plate spaced menu inline-block-li center-content">
+            <div class="plate spaced menu center-content column-on-mobile">
+                <div>Цитат на рассмотрении: <span class="suggested-quote-counter">?</span></div>
+            </div>
+            <div id="main-menu" class="plate spaced menu center-content column-on-mobile">
                 @menu
-                <li class="menu-service"><a href="@routes.SuggestedQuotes.newQuote()">Добавить цитату</a></li>
-            </ul>
+                <div><a href="@routes.SuggestedQuotes.newQuote()">Добавить цитату</a></div>
+            </div>
         }
         <div class="content center-content">@content</div>
-        <ul class="footer spaced inline-block-li center-content">
+        <ul class="footer spaced inline-block-li center-content column-on-mobile">
             <li>
                 <a href="@routes.Quotes.getRSSFeed()">
                     <img src="@routes.Assets.at("images/feedicon.svg")"
