@@ -9,7 +9,7 @@
 
 @main("Log List", Html(""), scripts) {
 	@form(action = routes.SuggestedQuotes.addQuote()) {
-		<div class="form-body">
+		<div class="form-body column-on-mobile">
 			<div class="stretch">
 				@textarea(quoteForm("content"), '_label -> "Цитата")
 			</div>

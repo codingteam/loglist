@@ -24,30 +24,40 @@
 }
 
 @menu = {
-    <li>
-        Сортировка: @renderOrdering(QuoteOrdering.Time, "по дате")
-        | @renderOrdering(QuoteOrdering.Rating, "по рейтингу")
-    </li>
-    <li>
-        Фильтр: @renderFilter(QuoteFilter.None, "нет")
-        | @renderFilter(QuoteFilter.Year, "за год")
-        | @renderFilter(QuoteFilter.Month, "за месяц")
-        | @renderFilter(QuoteFilter.Week, "за неделю")
-        | @renderFilter(QuoteFilter.Day, "за день")
-    </li>
+    <div class="spaced space-around">
+        <span>Сортировка:&nbsp;</span>
+        <div class="spaced space-around">
+            <span>@renderOrdering(QuoteOrdering.Time, "по дате")</span>
+            <span>&nbsp;| @renderOrdering(QuoteOrdering.Rating, "по рейтингу")</span>
+        </div>
+    </div>
+    <div class="spaced space-around">
+        <span>Фильтр:&nbsp;</span>
+        <div class="spaced space-around">
+            <span>@renderFilter(QuoteFilter.None, "нет")</span>
+            <span>&nbsp;| @renderFilter(QuoteFilter.Year, "за год")</span>
+            <span>&nbsp;| @renderFilter(QuoteFilter.Month, "за месяц")</span>
+            <span>&nbsp;| @renderFilter(QuoteFilter.Week, "за неделю")</span>
+            <span>&nbsp;| @renderFilter(QuoteFilter.Day, "за день")</span>
+        </div>
+    </div>
 }
 
 @main("Log List", menu) {
     <div class="center-content quotes">
     @quotes.map { quote =>
         <div class="quote">
-            <div class="quote-header">
-                <a href="@routes.Quotes.quote(quote.id)">#@quote.id</a>
-                @voting.ratingPanel(quote)
-                <span class="quote-time">@quote.time</span>
-                <span class="clear"></span>
+            <div class="spaced quote-header">
+                <div>
+                    <span><a href="@routes.Quotes.quote(quote.id)">#@quote.id</a></span>
+                    <span class="desktop-only">@voting.ratingPanel(quote)</span>
+                </div>
+                <span>@quote.time</span>
             </div>
             <div class="quote-content plate">@quote.content.getOrElse("")</div>
+            <div class="mobile-only plate mobile-rating-panel">
+                @voting.ratingPanel(quote)
+            </div>
         </div>
     }
     </div>

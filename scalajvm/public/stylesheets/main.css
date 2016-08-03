@@ -50,12 +50,13 @@ strong {
     height: 1.4em;
 }
 
-ul.spaced {
+.spaced {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
-ul.menu {
+.menu {
 	padding: 5px;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -72,6 +73,7 @@ ul.menu {
 
 .quote-header {
     margin-bottom: 5px;
+    justify-content: space-between;
 }
 
 .quote-content {
@@ -94,24 +96,16 @@ ul.menu {
 	background: #445566;
 }
 
-.quote-time {
-    float: right;
-}
-
-.clear {
-    clear: both;
-}
-
 .footer {
     margin-top: 20px;
     padding-bottom: 10px;
 }
 
 .center-content {
-    display: block;
     margin-left: auto;
     margin-right: auto;
     width: 960px;
+    max-width: 100vw;
 }
 
 a:link {
@@ -205,8 +199,63 @@ button {
     width: 250px;
 }
 
+.space-around {
+    display: flex;
+    justify-content: space-around;
+}
+
 /* For recaptcha */
 .g-recaptcha {
     margin-top: auto;
     margin-bottom: 10px;
+}
+
+.mobile-only {
+    display: none;
+}
+
+@media screen and (max-width: 960px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: block;
+    }
+
+    .quote-rating,
+    .pages {
+        font-size: 1.6em;
+    }
+
+    .pages > a {
+        /* spacing pagalinks out for easier clickability */
+        margin-left: 0.2em;
+        margin-right: 0.2em;
+    }
+
+    .quote-button {
+        padding: 0.2em;
+        width: 1em;
+        height: 1em;
+    }
+
+    .column-on-mobile {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mobile-rating-panel {
+        margin-top: 5px;
+        text-align: center;
+        background: #273927; /* halfway between #223322 and #334433 */
+    }
+
+    .stretch {
+        align-self: stretch;
+    }
+
+    #main-menu div + div {
+        margin-top: 1.5em;
+    }
 }
