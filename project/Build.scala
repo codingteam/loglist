@@ -3,10 +3,10 @@ import Keys._
 import play.Play._
 import play.Play.autoImport._
 import PlayKeys._
-import scala.scalajs.sbtplugin.ScalaJSPlugin._
-import ScalaJSKeys._
 import com.typesafe.sbt.packager.universal.UniversalKeys
 import com.typesafe.sbteclipse.core.EclipsePlugin.EclipseKeys
+import org.scalajs.sbtplugin.ScalaJSPlugin
+import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 
 object ApplicationBuild extends Build with UniversalKeys {
 
@@ -24,7 +24,7 @@ object ApplicationBuild extends Build with UniversalKeys {
   lazy val scalajs = Project(
     id   = "scalajs",
     base = file("scalajs")
-  ) settings (scalajsSettings: _*)
+  ) enablePlugins (ScalaJSPlugin) settings (scalajsSettings: _*)
 
   lazy val sharedScala = Project(
     id = "sharedScala",
@@ -39,7 +39,7 @@ object ApplicationBuild extends Build with UniversalKeys {
       scalajsOutputDir := (crossTarget in Compile).value / "classes" / "public" / "javascripts",
       compile in Compile <<= (compile in Compile) dependsOn (
         fullOptJS in (scalajs, Compile),
-        packageLauncher in (scalajs, Compile)),
+        packageScalaJSLauncher in (scalajs, Compile)),
       scalacOptions in Compile ++= Seq("-unchecked", "-deprecation", "-feature"),
       javacOptions in Compile ++= Seq("-source", "1.7", "-target", "1.7"),
       dist <<= dist dependsOn (fullOptJS in (scalajs, Compile)),
@@ -48,13 +48,13 @@ object ApplicationBuild extends Build with UniversalKeys {
       EclipseKeys.skipParents in ThisBuild := false
     ) ++ (
       // ask scalajs project to put its outputs in scalajsOutputDir
-      Seq(packageExternalDepsJS, packageInternalDepsJS, packageExportedProductsJS, packageLauncher, fastOptJS, fullOptJS) map { packageJSKey =>
+      Seq(packageScalaJSLauncher, fastOptJS, fullOptJS) map { packageJSKey =>
         crossTarget in (scalajs, Compile, packageJSKey) := scalajsOutputDir.value
       }
     ) ++ sharedDirectorySettings
 
   lazy val scalajsSettings =
-    scalaJSSettings ++ Seq(
+    Seq(
       name := "loglist-scalajs",
       version := Versions.app,
       scalaVersion := Versions.scala,
@@ -62,8 +62,8 @@ object ApplicationBuild extends Build with UniversalKeys {
       persistLauncher in Test := false,
       resolvers += Resolver.sonatypeRepo("releases"),
       libraryDependencies ++= Seq(
-        "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
-        "com.lihaoyi" %%% "upickle" % "0.2.5"
+        "org.scala-js" %%% "scalajs-dom" % "0.9.0",
+        "com.lihaoyi" %%% "upickle" % "0.4.1"
       ) ++ Dependencies.scalajs
     ) ++ sharedDirectorySettings
 
@@ -114,5 +114,5 @@ object Dependencies {
 
 object Versions {
   val app = "1.2.1"
-  val scala = "2.11.2"
+  val scala = "2.11.8"
 }
