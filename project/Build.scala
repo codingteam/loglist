@@ -37,7 +37,9 @@ object ApplicationBuild extends Build with UniversalKeys {
       version := Versions.app,
       scalaVersion := Versions.scala,
       scalajsOutputDir := (crossTarget in Compile).value / "classes" / "public" / "javascripts",
-      compile in Compile <<= (compile in Compile) dependsOn (fastOptJS in (scalajs, Compile)),
+      compile in Compile <<= (compile in Compile) dependsOn (
+        fullOptJS in (scalajs, Compile),
+        packageLauncher in (scalajs, Compile)),
       scalacOptions in Compile ++= Seq("-unchecked", "-deprecation", "-feature"),
       javacOptions in Compile ++= Seq("-source", "1.7", "-target", "1.7"),
       dist <<= dist dependsOn (fullOptJS in (scalajs, Compile)),
