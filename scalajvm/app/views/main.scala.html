@@ -31,8 +31,9 @@
         <div class="content center-content">@content</div>
         <ul class="footer spaced inline-block-li center-content column-on-mobile">
             <li>
-                <a href="@routes.Quotes.getRSSFeed()">
+                <a href="@routes.Quotes.getRSSFeed()" title="RSS лента">
                     <img src="@routes.Assets.at("images/feedicon.svg")"
+                         alt="RSS лента"
                          id="feedicon" />
                 </a>
             </li>
