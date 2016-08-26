@@ -1,8 +1,6 @@
-# LogList [![BuildStatus](https://travis-ci.org/codingteam/loglist.png?branch=master)](https://travis-ci.org/codingteam/loglist)
+# LogList [![gitter room][gitter-logo]][gitter] [![Build status][build-status]][travis]
 
-[![Join the chat at https://gitter.im/codingteam/loglist](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/codingteam/loglist?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![codingteam/loglist](http://issuestats.com/github/codingteam/loglist/badge/pr?style=flat-square)](http://www.issuestats.com/github/codingteam/loglist) [![codingteam/loglist](http://issuestats.com/github/codingteam/loglist/badge/issue?style=flat-square)](http://www.issuestats.com/github/codingteam/loglist)
-
-Reincarnation of [the famous service](http://www.loglist.net/).
+[Reincarnation][loglist] of the famous service.
 
 # Development Configuration #
 
@@ -18,7 +16,7 @@ activate the following extensions:
 Possible environment variables can be found in the `devenv.example`
 file. Supposed workflow:
 
-    $ cp devenv.example devenv # devenv is gitignored so you won't accidentally commit it 
+    $ cp devenv.example devenv # devenv is gitignored so you won't accidentally commit it
     $ emacs devenv
       ... Modify variables ...
       ... All variable names should be self-explanatory
@@ -39,3 +37,10 @@ details.
 
 Some third-party components have their own licenses, please consult the
 corresponding site section for further details.
+
+[gitter]: https://gitter.im/codingteam/loglist
+[loglist]: https://www.loglist.net/
+[travis]: https://travis-ci.org/codingteam/loglist
+
+[build-status]: https://travis-ci.org/codingteam/loglist.png?branch=master
+[gitter-logo]: https://badges.gitter.im/Join%20Chat.svg
