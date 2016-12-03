@@ -7,15 +7,16 @@ LogList to it.
 Target environment
 ------------------
 
-LogList targets Linux Ubuntu 14.04. There should be `loglist` user created on
+LogList targets Linux Ubuntu 16.04. There should be `loglist` user created on
 the target machine, and he should have full access to `/opt/loglist` directory.
 
 Also there should be PostgreSQL database and the `loglist` user should be
 granted access to his own database instance.
 
-`loglist.conf` file (see it in the same directory as this document) should be
-deployed into `/etc/init` directory. It contains various settings and
-credentials; make sure to set them up.
+`loglist.service` file (see it in the same directory as this document) should be
+copied to `/etc/systemd/system` directory; `loglist.conf` should be copied to
+`/etc/loglist`. The latter file contains various settings and credentials; make
+sure to set them up.
 
 CI environment
 --------------
@@ -29,7 +30,7 @@ sure it's installed and all dependencies are met. Consult
 
 The deployment is performed over SSH, so make sure that CI have SSH access to
 the target machine as the same `loglist` user and a permission to execute
-`sudo /sbin/stop loglist` and `sudo /sbin/start loglist` commands (and nothing
-else).
+`sudo /usr/bin/systemctl start loglist` and
+`sudo /usr/bin/systemctl stop loglist` commands (and nothing else).
 
 [jenkins-pipeline-plugin]: https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin
