@@ -11,10 +11,10 @@ activate the following extensions:
 
 * pgcrypto
 
-If you are using Debian-like distro, install extentions with apt-get install postgresql-contrib.
+If you are using Debian-like distro, install extensions with apt-get install postgresql-contrib.
 You can activate extension pgcrypto with following line in postgresql console:
 ```SQL
-CREATE EXTENSTION pgcrypto;
+CREATE EXTENSION pgcrypto;
 ```
 
 ## Environment Variables ##
