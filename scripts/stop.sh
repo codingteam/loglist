@@ -1,4 +1,4 @@
-sudo /usr/bin/systemctl stop loglist
+sudo /bin/systemctl stop loglist
 cd /opt/loglist
 rm -rf bin
 rm -rf conf
