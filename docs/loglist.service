@@ -5,6 +5,8 @@ After=network.target
 [Service]
 EnvironmentFile=/etc/loglist/loglist.conf
 ExecStart=/opt/loglist/bin/loglist-jvm -Dhttp.port=9000 -Dhttp.address=127.0.0.1
+Restart=always
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
