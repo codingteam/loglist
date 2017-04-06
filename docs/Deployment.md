@@ -30,7 +30,7 @@ sure it's installed and all dependencies are met. Consult
 
 The deployment is performed over SSH, so make sure that CI have SSH access to
 the target machine as the same `loglist` user and a permission to execute
-`sudo /usr/bin/systemctl start loglist` and
-`sudo /usr/bin/systemctl stop loglist` commands (and nothing else).
+`sudo /bin/systemctl start loglist` and `sudo /bin/systemctl stop loglist`
+commands (and nothing else).
 
 [jenkins-pipeline-plugin]: https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin
