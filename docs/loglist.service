@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 EnvironmentFile=/etc/loglist/loglist.conf
-ExecStart=/opt/loglist/bin/loglist-jvm -Dhttp.port=9000 -Dhttp.address=127.0.0.1
+ExecStart=/opt/loglist/bin/loglist-jvm -Dhttp.port=9000 -Dhttp.address=127.0.0.1 -Dpidfile.path=/dev/null
 Restart=always
 RestartSec=5
 
