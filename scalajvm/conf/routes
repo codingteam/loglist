@@ -20,6 +20,7 @@ GET           /licenses                          controllers.Licenses.listLicens
 
 # API routes
 GET           /api/quote/$id<[0-9]+>             controllers.api.Quotes.getQuote(id: Long)
+GET           /api/quote/count                   controllers.api.Quotes.getCount(order: models.queries.QuoteOrdering.Value ?= models.queries.QuoteOrdering.Time, filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
 GET           /api/quote/random                  controllers.api.Quotes.getRandomQuote()
 
 # Map static resources from the /public folder to the /assets URL path
