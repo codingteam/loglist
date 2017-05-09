@@ -7,20 +7,10 @@ import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
 
-import ru.org.codingteam.loglist.QuoteCount
-
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
 object SuggestedQuotes extends Controller {
-
-  def countSuggestedQuotes() = ActionWithTx { implicit request =>
-    import request.dbSession
-    val data = QuoteCount(SuggestedQuoteQueries().countSuggestedQuote())
-    val json = upickle.write(data)
-    Ok(json).as("application/json")
-  }
-
   def newQuote() = Action { request =>
     Ok(views.html.newQuote(quoteForm))
   }

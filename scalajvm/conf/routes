@@ -12,7 +12,6 @@ GET           /quote/$id<[0-9]+>                 controllers.Quotes.quote(id: Lo
 GET           /quote/approve                     controllers.Approving.getApprovalForm(token: String)
 POST          /quote/approve                     controllers.Approving.approve
 #GET           /quote/approve/notify              controllers.Approving.notifyAllApprovers
-GET           /quote/count/suggested             controllers.SuggestedQuotes.countSuggestedQuotes
 GET           /feed.rss                          controllers.Quotes.getRSSFeed
 GET           /licenses                          controllers.Licenses.listLicenses
 
@@ -23,6 +22,8 @@ POST          /api/quote/$id<[0-9]+>/downvote    controllers.api.Voting.vote(id:
 GET           /api/quote/random                  controllers.api.Quotes.getRandomQuote()
 GET           /api/quote/count                   controllers.api.Quotes.getCount(filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
 GET           /api/quote/list                    controllers.api.Quotes.getList(limit: Int ?= 50, page: Int ?= 0, order: models.queries.QuoteOrdering.Value ?= models.queries.QuoteOrdering.Time, filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
+
+GET           /api/quote/count/suggested         controllers.api.SuggestedQuotes.countSuggestedQuotes()
 
 # CORS support
 OPTIONS       /api/*url                          global.Options.corsSupport(url: String)

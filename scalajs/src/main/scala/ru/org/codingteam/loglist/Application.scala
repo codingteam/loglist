@@ -19,7 +19,7 @@ object Application extends js.JSApp {
 
   def fillSuggestedQuoteCounters() = {
     import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
-    Ajax.get(s"/quote/count/suggested").onSuccess { case request =>
+    Ajax.get(s"/api/quote/count/suggested").onSuccess { case request =>
       val response = upickle.read[QuoteCount](request.responseText)
       dom.document.querySelectorAll(".suggested-quote-counter").map { node =>
         node.textContent = response.count.toString
