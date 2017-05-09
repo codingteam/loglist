@@ -113,6 +113,6 @@ object Dependencies {
 }
 
 object Versions {
-  val app = "1.2.3"
+  val app = "1.3.0"
   val scala = "2.11.2"
 }
