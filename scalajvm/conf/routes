@@ -26,7 +26,7 @@ GET           /api/quote/list                    controllers.api.Quotes.getList(
 GET           /api/quote/count/suggested         controllers.api.SuggestedQuotes.countSuggestedQuotes()
 
 # CORS support
-OPTIONS       /api/*url                          global.Options.corsSupport(url: String)
+OPTIONS       /api/*url                          cors.Options.corsSupport(url: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                      controllers.Assets.at(path="/public", file)

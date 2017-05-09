@@ -1,6 +1,6 @@
 package controllers.api
 
-import helpers.Cors
+import cors.Cors
 import models.queries.VotingQueries
 import play.api.mvc._
 import ru.org.codingteam.loglist.QuoteRating

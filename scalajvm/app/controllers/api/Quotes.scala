@@ -1,6 +1,6 @@
 package controllers.api
 
-import helpers.Cors
+import cors.Cors
 import models.queries.{QuoteFilter, QuoteOrdering, QuoteQueries}
 import models.data.Quote
 import play.api.mvc._

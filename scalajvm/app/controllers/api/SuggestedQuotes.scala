@@ -1,6 +1,6 @@
 package controllers.api
 
-import helpers.Cors
+import cors.Cors
 import models.queries.SuggestedQuoteQueries
 import play.api.mvc.{Action, AnyContent, Controller}
 import ru.org.codingteam.loglist.QuoteCount

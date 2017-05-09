@@ -1,6 +1,7 @@
-package helpers
+package cors
 
-import global.Options.ORIGIN
+import cors.Options.ORIGIN
+import helpers.{ActionWithTx, RequestWithSession}
 import play.api.Play.current
 import play.api.mvc.{AnyContent, Headers, Result}
 

@@ -1,6 +1,5 @@
-package global
+package cors
 
-import helpers.Cors
 import play.api.mvc._
 
 object Options extends Controller with Cors {
