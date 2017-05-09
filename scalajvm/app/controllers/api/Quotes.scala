@@ -18,10 +18,10 @@ object Quotes extends Controller {
     prepareResponse(QuoteQueries().getRandomQuote)
   }
 
-  def getCount(order: QuoteOrdering.Value, filter: QuoteFilter.Value) =
+  def getCount(filter: QuoteFilter.Value) =
     ActionWithTx { request =>
       import request.dbSession
-      val count = QuoteQueries().countQuotes(order, filter)
+      val count = QuoteQueries().countQuotes(filter)
       val response = QuoteCount(count)
       json(upickle.write(response))
     }

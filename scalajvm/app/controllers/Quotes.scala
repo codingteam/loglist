@@ -13,7 +13,7 @@ object Quotes extends Controller {
 
   def list(page: Int, order: QuoteOrdering.Value, filter: QuoteFilter.Value) = ActionWithTx { request =>
     import request.dbSession
-    val countQuotes = QuoteQueries().countQuotes(order, filter)
+    val countQuotes = QuoteQueries().countQuotes(filter)
     val pageSize = 50
     val countPages = (countQuotes + pageSize - 1) / pageSize
 

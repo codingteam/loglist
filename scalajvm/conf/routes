@@ -21,7 +21,7 @@ GET           /licenses                          controllers.Licenses.listLicens
 # API routes
 GET           /api/quote/$id<[0-9]+>             controllers.api.Quotes.getQuote(id: Long)
 GET           /api/quote/random                  controllers.api.Quotes.getRandomQuote()
-GET           /api/quote/count                   controllers.api.Quotes.getCount(order: models.queries.QuoteOrdering.Value ?= models.queries.QuoteOrdering.Time, filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
+GET           /api/quote/count                   controllers.api.Quotes.getCount(filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
 GET           /api/quote/list                    controllers.api.Quotes.getList(limit: Int ?= 50, page: Int ?= 0, order: models.queries.QuoteOrdering.Value ?= models.queries.QuoteOrdering.Time, filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
 
 # Map static resources from the /public folder to the /assets URL path

@@ -57,8 +57,7 @@ case class QuoteQueries(implicit session: DBSession) {
     }.map(rs => Quote(rs)).list().apply()
   }
 
-  def countQuotes(ordering: QuoteOrdering.Value,
-                  filter: QuoteFilter.Value): Int = {
+  def countQuotes(filter: QuoteFilter.Value): Int = {
     val q = Quote.syntax("q")
     withSQL {
       select(sqls.count)
@@ -67,8 +66,8 @@ case class QuoteQueries(implicit session: DBSession) {
     }.map(rs => rs.int(1)).first().apply().getOrElse(0)
   }
 
-  def countQuotes: Int =
-    countQuotes(QuoteOrdering.Time, QuoteFilter.None)
+  def countQuotes(): Int =
+    countQuotes(QuoteFilter.None)
 
   def getQuoteById(id: Long): Option[Quote] = {
     val q = Quote.syntax("q")
