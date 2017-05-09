@@ -24,5 +24,8 @@ GET           /api/quote/random                  controllers.api.Quotes.getRando
 GET           /api/quote/count                   controllers.api.Quotes.getCount(filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
 GET           /api/quote/list                    controllers.api.Quotes.getList(limit: Int ?= 50, page: Int ?= 0, order: models.queries.QuoteOrdering.Value ?= models.queries.QuoteOrdering.Time, filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
 
+# CORS support
+OPTIONS       /api/*url                          global.Options.corsSupport(url: String)
+
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                      controllers.Assets.at(path="/public", file)
