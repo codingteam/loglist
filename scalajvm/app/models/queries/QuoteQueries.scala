@@ -2,10 +2,9 @@ package models.queries
 
 import scala.util.Random
 import scala.math._
-
 import helpers.BindableEnumeration
 import models.data.Quote
-import org.joda.time.DateTime
+import org.joda.time.{DateTime, DateTimeZone}
 import scalikejdbc._
 
 object QuoteOrdering extends BindableEnumeration {
@@ -25,7 +24,7 @@ object QuoteFilter extends BindableEnumeration {
 
   def toSQL(provider: QuerySQLSyntaxProvider[SQLSyntaxSupport[Quote], Quote],
             value: QuoteFilter.Value): Option[SQLSyntax] = {
-    val today = DateTime.now().withTimeAtStartOfDay()
+    val today = DateTime.now(DateTimeZone.UTC).withTimeAtStartOfDay()
     val periodStart = value match {
       case QuoteFilter.None => Option.empty[DateTime]
       case QuoteFilter.Year => Some(today.withDayOfYear(1))

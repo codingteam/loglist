@@ -29,7 +29,7 @@ object Quotes extends Controller with Cors {
     corsActionWithTx { request =>
       import request.dbSession
 
-      val pageSize = if (0 <= limit && limit <= 1000) limit else 50
+      val pageSize = if (0 < limit && limit <= 1000) limit else 50
       val pageNumber = if (0 <= page) page else 0
       val quotes = QuoteQueries()
         .getPageOfQuotes(pageNumber, pageSize, order, filter)

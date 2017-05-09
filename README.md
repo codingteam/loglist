@@ -2,6 +2,10 @@
 
 [Reincarnation][loglist] of [the famous service][loglist-original].
 
+# Site API #
+
+Take a look at [the documentation][docs-api].
+
 # Development Configuration #
 
 ## PostgreSQL ##
@@ -43,6 +47,8 @@ details.
 
 Some third-party components have their own licenses, please consult the
 corresponding site section for further details.
+
+[docs-api]: docs/API.md
 
 [gitter]: https://gitter.im/codingteam/loglist
 [loglist]: https://www.loglist.net/
