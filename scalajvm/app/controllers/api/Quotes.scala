@@ -13,6 +13,11 @@ object Quotes extends Controller {
     prepareResponse(QuoteQueries().getQuoteById(id))
   }
 
+  def getRandomQuote = ActionWithTx { request =>
+    import request.dbSession
+    prepareResponse(QuoteQueries().getRandomQuote)
+  }
+
   def getCount(order: QuoteOrdering.Value, filter: QuoteFilter.Value) =
     ActionWithTx { request =>
       import request.dbSession
@@ -21,10 +26,18 @@ object Quotes extends Controller {
       json(upickle.write(response))
     }
 
-  def getRandomQuote = ActionWithTx { request =>
-    import request.dbSession
-    prepareResponse(QuoteQueries().getRandomQuote)
-  }
+  def getList(limit: Int, page: Int, order: QuoteOrdering.Value, filter: QuoteFilter.Value) =
+    ActionWithTx { request =>
+      import request.dbSession
+
+      val pageSize = if (0 <= limit && limit <= 1000) limit else 50
+      val pageNumber = if (0 <= page) page else 0
+      val quotes = QuoteQueries()
+        .getPageOfQuotes(pageNumber, pageSize, order, filter)
+        .map(buildQuoteDto)
+
+      json(upickle.write(quotes))
+    }
 
   private def prepareResponse(probablyQuote: Option[Quote]) =
     probablyQuote.map(buildQuoteDto) match {
