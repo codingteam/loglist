@@ -11,7 +11,7 @@ object Application extends js.JSApp {
 
   def voteHandler(action: String, id: String, ratingContainer: Element)(event: Event) = {
     import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
-    Ajax.post(s"/quote/$id/$action").onSuccess { case request =>
+    Ajax.post(s"/api/quote/$id/$action").onSuccess { case request =>
       val response = upickle.read[QuoteRating](request.responseText)
       ratingContainer.textContent = response.rating.toString
     }

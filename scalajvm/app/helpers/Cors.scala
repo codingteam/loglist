@@ -2,15 +2,15 @@ package helpers
 
 import global.Options.ORIGIN
 import play.api.Play.current
-import play.api.mvc.Headers
+import play.api.mvc.{AnyContent, Headers, Result}
 
-object Cors {
+trait Cors {
   private lazy val corsHosts: Set[String] = {
     val config = current.configuration.getString("cors.allowedOrigins")
     config.map(_.split(' ').toSet).getOrElse(Set())
   }
 
-  def headers(requestHeaders: Headers): List[(String, String)] = {
+  protected def corsHeaders(requestHeaders: Headers): List[(String, String)] = {
     requestHeaders.get(ORIGIN) match {
       case Some(origin) if corsHosts.contains(origin) =>
         List (
@@ -22,5 +22,11 @@ object Cors {
         )
       case _ => List()
     }
+  }
+
+  protected def corsActionWithTx(responseAction: RequestWithSession[AnyContent] => Result) = ActionWithTx { request =>
+    val response = responseAction(request)
+    val headers = corsHeaders(request.headers)
+    response.withHeaders(headers: _*)
   }
 }

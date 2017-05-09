@@ -7,8 +7,6 @@ GET           /                                  controllers.Quotes.list(page: I
 GET           /quote/new                         controllers.SuggestedQuotes.newQuote
 POST          /quote/new                         controllers.SuggestedQuotes.addQuote
 GET           /quote/$id<[0-9]+>                 controllers.Quotes.quote(id: Long)
-POST          /quote/$id<[0-9]+>/upvote          controllers.Voting.vote(id: Long, up: Boolean = true)
-POST          /quote/$id<[0-9]+>/downvote        controllers.Voting.vote(id: Long, up: Boolean = false)
 #POST          /quote                             controllers.Quotes.addQuote
 #DELETE        /quote/$id<[0-9]+>                 controllers.Quotes.deleteQuote(id: Long)
 GET           /quote/approve                     controllers.Approving.getApprovalForm(token: String)
@@ -20,6 +18,8 @@ GET           /licenses                          controllers.Licenses.listLicens
 
 # API routes
 GET           /api/quote/$id<[0-9]+>             controllers.api.Quotes.getQuote(id: Long)
+POST          /api/quote/$id<[0-9]+>/upvote      controllers.api.Voting.vote(id: Long, up: Boolean = true)
+POST          /api/quote/$id<[0-9]+>/downvote    controllers.api.Voting.vote(id: Long, up: Boolean = false)
 GET           /api/quote/random                  controllers.api.Quotes.getRandomQuote()
 GET           /api/quote/count                   controllers.api.Quotes.getCount(filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
 GET           /api/quote/list                    controllers.api.Quotes.getList(limit: Int ?= 50, page: Int ?= 0, order: models.queries.QuoteOrdering.Value ?= models.queries.QuoteOrdering.Time, filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
