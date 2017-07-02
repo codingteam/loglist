@@ -42,6 +42,28 @@ API Methods
 
 ### Quote access
 
+#### Post the quote
+
+Send `POST` request to `/api/quote/new`. Quote should have the following form:
+
+```json
+{
+    "text": "quote test",
+    "apiKey": "xxx"
+}
+```
+
+To get your secret API key, please contact the server administrator.
+
+Example:
+
+```console
+$ curl --include --header "Content-type: application/json" --request POST --data "{\"text\": \"xxx\", \"apiKey\": \"xxx\"}" https://loglist.net/api/quote/new
+HTTP/1.1 200 OK
+```
+
+The new quote will be posted into the approval queue.
+
 #### Get quote by id
 
 Send `GET` request to `/api/quote/xxxx`, where `xxxx` is quote id. Example:
