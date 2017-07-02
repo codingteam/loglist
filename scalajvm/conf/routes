@@ -17,6 +17,7 @@ GET           /licenses                          controllers.Licenses.listLicens
 
 # API routes
 GET           /api/quote/$id<[0-9]+>             controllers.api.Quotes.getQuote(id: Long)
+POST          /api/quote/new                     controllers.api.SuggestedQuotes.newQuote
 POST          /api/quote/$id<[0-9]+>/upvote      controllers.api.Voting.vote(id: Long, up: Boolean = true)
 POST          /api/quote/$id<[0-9]+>/downvote    controllers.api.Voting.vote(id: Long, up: Boolean = false)
 GET           /api/quote/random                  controllers.api.Quotes.getRandomQuote()
