@@ -35,7 +35,7 @@ object Approving extends Controller {
           case Some(suggestedQuote) => {
             form.action match {
               case "approve" => {
-                val approvedQuote = QuoteQueries().getQuoteById(QuoteQueries().insertQuote(form.content)).get
+                val approvedQuote = QuoteQueries().getQuoteById(QuoteQueries().insertQuote(form.content, suggestedQuote.source)).get
                 val approvers = ApproverQueries().getAllApprovers
                 SuggestedQuoteQueries().deleteSuggestedQuoteByToken(form.token)
                 Notifications.notifyApproversAboutApprovedQuote(approvers, suggestedQuote, approvedQuote)

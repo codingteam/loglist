@@ -73,7 +73,7 @@ object Quotes extends Controller {
       import request.dbSession
       request.body.asText match {
         case Some(content) => {
-          QuoteQueries().insertQuote(content)
+          QuoteQueries().insertQuote(content, "admin")
           Ok("The quote has been added")
         }
 

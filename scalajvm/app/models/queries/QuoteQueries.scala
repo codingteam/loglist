@@ -86,10 +86,10 @@ case class QuoteQueries(implicit session: DBSession) {
     }.map(rs => Quote(rs)).first().apply()
   }
 
-  def insertQuote(content: String): Long = {
+  def insertQuote(content: String, source: String): Long = {
     val q = Quote.column
     withSQL {
-      insert.into(Quote).columns(q.content, q.time).values(content, DateTime.now())
+      insert.into(Quote).columns(q.content, q.time, q.source).values(content, DateTime.now(), source)
     }.updateAndReturnGeneratedKey().apply()
   }
 
