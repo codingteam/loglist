@@ -1,11 +1,11 @@
 package controllers
 
-import helpers.{ActionWithTx, Notifications, ReCaptcha}
+import helpers.{ActionWithTx, ReCaptcha}
 import models.forms.SuggestQuoteForm
-import models.queries.{ApproverQueries, SuggestedQuoteQueries}
 import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
+import services.SuggestedQuoteService
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -26,15 +26,7 @@ object SuggestedQuotes extends Controller {
       form => {
         val remoteAddress = request.remoteAddress
         if (Await.result(ReCaptcha.check(remoteAddress, form.reCapthaResponse), 30.seconds)) { // TODO: Async check
-          val id = SuggestedQuoteQueries().insertSuggestedQuote(form.content, Some(remoteAddress))
-          SuggestedQuoteQueries().getSuggestedQuoteById(id) match {
-            case Some(suggestedQuote) => {
-              val approvers = ApproverQueries().getAllApprovers
-              Notifications.notifyApproversAboutSuggestedQuote(approvers, suggestedQuote)
-            }
-
-            case None =>
-          }
+          SuggestedQuoteService.insertAndNotify(form.content, remoteAddress, "user")
           Ok(views.html.quoteSuggested())
         } else {
           BadRequest(views.html.newQuote(quoteForm.bind(form.toMap))) // TODO: Report captcha error to user

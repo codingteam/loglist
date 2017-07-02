@@ -6,7 +6,7 @@ import scalikejdbc._
 
 case class SuggestedQuoteQueries(implicit session: DBSession) {
 
-  def insertSuggestedQuote(content: String, submitterIp: Option[String], source: String): Long = {
+  def insertSuggestedQuote(content: String, submitterIp: String, source: String): Long = {
     val q = SuggestedQuote.column
     withSQL {
       insert.into(SuggestedQuote).columns(q.time, q.content, q.submitterIp, q.source).values(DateTime.now(), content, submitterIp, source)

@@ -1,3 +1,3 @@
 package models.data
 
-case class PostQuoteRequest(apiToken: String, text: String)
+case class PostQuoteRequest(apiKey: String, text: String)
