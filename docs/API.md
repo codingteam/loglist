@@ -48,7 +48,7 @@ Send `POST` request to `/api/quote/new`. Quote should have the following form:
 
 ```json
 {
-    "text": "quote test",
+    "text": "quote text",
     "apiKey": "xxx"
 }
 ```
