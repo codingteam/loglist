@@ -83,6 +83,11 @@ strong {
    word-wrap: break-word;
 }
 
+.quote-source {
+    text-align: right;
+    padding: 0 10px 10px 0;
+}
+
 .quote-button {
 	display: inline-block;
 	width: 16px;

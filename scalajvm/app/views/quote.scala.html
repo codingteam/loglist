@@ -13,6 +13,9 @@
             <span>@quote.time</span>
         </div>
         <div class="quote-content plate">@quote.content.getOrElse("")</div>
+        @if(quote.source != "user") {
+            <div class="quote-source plate">(Источник: @quote.source)</div>
+        }
         <div class="mobile-only plate mobile-rating-panel">
             @voting.ratingPanel(quote)
         </div>
