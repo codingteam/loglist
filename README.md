@@ -1,14 +1,19 @@
-# LogList [![gitter room][gitter-logo]][gitter] [![Build status][build-status]][travis]
+LogList [![gitter room][gitter-logo]][gitter] [![Build status][build-status]][travis]
+=======
 
 [Reincarnation][loglist] of [the famous service][loglist-original].
 
-# Site API #
+Additional Documentation
+------------------------
 
-Take a look at [the documentation][docs-api].
+- [API][docs-api]
+- [Deployment][docs-deployment]
+- [Administration][docs-admin]
 
-# Development Configuration #
+Development Configuration
+-------------------------
 
-## PostgreSQL ##
+### PostgreSQL
 
 Install PostgreSQL, create database and user for LogList. Install and
 activate the following extensions:
@@ -21,7 +26,7 @@ You can activate extension pgcrypto with following line in postgresql console:
 CREATE EXTENSION pgcrypto;
 ```
 
-## Environment Variables ##
+### Environment Variables
 
 Possible environment variables can be found in the `devenv.example`
 file. Supposed workflow:
@@ -40,7 +45,8 @@ The same sample setup for Windows:
     PS> .\devenv.ps1
     PS> sbt run
 
-## License
+License
+-------
 
 Loglist is licensed under the terms of MIT License. See License.md file for
 details.
@@ -48,7 +54,9 @@ details.
 Some third-party components have their own licenses, please consult the
 corresponding site section for further details.
 
+[docs-admin]: docs/Administration.md
 [docs-api]: docs/API.md
+[docs-deployment]: docs/Deployment.md
 
 [gitter]: https://gitter.im/codingteam/loglist
 [loglist]: https://www.loglist.net/
