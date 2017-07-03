@@ -54,7 +54,7 @@ details.
 Some third-party components have their own licenses, please consult the
 corresponding site section for further details.
 
-[docs-admin]: docs/Administration.md
+[docs-admin]: docs/Admin.md
 [docs-api]: docs/API.md
 [docs-deployment]: docs/Deployment.md
 
