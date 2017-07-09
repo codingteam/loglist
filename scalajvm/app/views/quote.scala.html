@@ -13,8 +13,14 @@
             <span>@quote.time</span>
         </div>
         <div class="quote-content plate">@quote.content.getOrElse("")</div>
-        @if(quote.source != "user") {
-            <div class="quote-source plate">(Источник: @quote.source)</div>
+        @(quote.source, quote.sourceUrl) match {
+            case ("user", _) => {}
+            case (source, None) => {
+                <div class="quote-source plate">(Источник: @quote.source)</div>
+            }
+            case (source, Some(url)) => {
+                <div class="quote-source plate">(Источник: <a href="@url">@quote.source</a>)</div>
+            }
         }
         <div class="mobile-only plate mobile-rating-panel">
             @voting.ratingPanel(quote)

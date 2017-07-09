@@ -71,6 +71,8 @@ Send `GET` request to `/api/quote/xxxx`, where `xxxx` is quote id. Example:
 ```
 GET /api/quote/7921
 => { "id": "7921",
+     "source": "loglist.ru",
+     "sourceUrl": "http://loglist.ru/",
      "time": "1418549262553", # UTC timestamp
      "content": "<quote content>",
      "rating": 5 }
@@ -85,6 +87,8 @@ Send `GET` request to `/api/quote/random`. Example:
 ```
 GET /api/quote/random
 => { "id": "7921",
+     "source": "loglist.ru",
+     "sourceUrl": "http://loglist.ru/",
      "time": "1418549262553",
      "content": "<quote content>",
      "rating": 5 }
@@ -127,10 +131,14 @@ Send `GET` request to `/api/quote/list?limit=x&page=y&order=o&filter=f`, where:
 ```
 GET /api/quote/list?limit=10&page=1&filter=none&order=time
 => [{ "id": "7911",
+      "source": "loglist.ru",
+      "sourceUrl": "http://loglist.ru/",
       "time": "1301903967000",
       "content": "<quote text>",
       "rating": 0 },
     { "id": "7912",
+      "source": "loglist.ru",
+      "sourceUrl": "http://loglist.ru/",
       "time": "1301903967001",
       "content": "<quote text>",
       "rating": 0 }]
