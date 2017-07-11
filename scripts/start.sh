@@ -1,3 +1,4 @@
+set -e
 cd /opt/loglist
 unzip *.zip
 mv loglist-jvm-*/* .

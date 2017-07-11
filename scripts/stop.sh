@@ -1,3 +1,4 @@
+set -e
 sudo /bin/systemctl stop loglist
 cd /opt/loglist
 rm -rf bin
