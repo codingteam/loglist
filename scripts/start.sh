@@ -1,4 +1,4 @@
-cd /opt/loglist
+cd /opt/loglist || exit 1
 unzip *.zip
 mv loglist-jvm-*/* .
 rm -r loglist-jvm-*
