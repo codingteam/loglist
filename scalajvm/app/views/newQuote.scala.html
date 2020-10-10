@@ -1,4 +1,4 @@
-@(quoteForm: Form[models.forms.SuggestQuoteForm])
+@(quoteForm: Form[models.forms.SuggestQuoteForm])(implicit messagesProvider: MessagesProvider, configuration: play.api.Configuration)
 
 @import helper._
 @import views.fields.FieldHelpers._
@@ -11,10 +11,10 @@
 	@form(action = routes.SuggestedQuotes.addQuote()) {
 		<div class="form-body column-on-mobile">
 			<div class="stretch">
-				@textarea(quoteForm("content"), '_label -> "Цитата")
+				@textarea(quoteForm("content"), Symbol("_label") -> "Цитата")
 			</div>
 			<div class="g-recaptcha"
-			     data-sitekey="@play.api.Play.current.configuration.getString("recaptcha.publickey")"
+			     data-sitekey="@configuration.get[String]("recaptcha.publickey")"
 				 data-theme="dark"></div>
 		</div>
 		<button type="submit">Отправить</button>

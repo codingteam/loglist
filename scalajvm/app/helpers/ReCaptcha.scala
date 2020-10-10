@@ -1,23 +1,24 @@
 package helpers
 
-import com.netaporter.uri.dsl._
-import dispatch._, Defaults._
-import play.api.Play.current
 import play.libs.Json
+import play.api.Configuration
+import javax.inject._
+import scalaj.http._
 
-import scala.concurrent.Future
+import scala.concurrent.{Future, blocking}
+import scala.concurrent.ExecutionContext.Implicits.global
 
-object ReCaptcha {
+@Singleton
+class ReCaptcha @Inject()(implicit configuration: Configuration) {
 
-  lazy val publicKey = current.configuration.getString("recaptcha.publickey").get
-  lazy val privateKey = current.configuration.getString("recaptcha.privatekey").get
+  lazy val publicKey = configuration.get[String]("recaptcha.publickey")
+  lazy val privateKey = configuration.get[String]("recaptcha.privatekey")
 
   val verificationUrl = "https://www.google.com/recaptcha/api/siteverify"
 
   def check(addr: String, response: String): Future[Boolean] = {
-    val uri = verificationUrl ? ("secret" -> privateKey) & ("response" -> response) & ("remoteip" -> addr)
-    val request = url(uri)
-    val result = Http(request OK as.String)
+    val request = Http(verificationUrl).params("secret" -> privateKey, "response" -> response, "remoteip" -> addr)
+    val result = Future { blocking { request.asString.body } }
     result.map { res => Json.parse(res).get("success").asBoolean() } // TODO: Proper error handling, check recaptcha documentation
   }
 

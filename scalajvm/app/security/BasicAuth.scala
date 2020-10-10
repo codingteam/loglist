@@ -1,15 +1,14 @@
 package security
 
-import play.api.Logger
-import sun.misc.BASE64Decoder
+import play.api.Logging
+import java.util.Base64
 import play.api.mvc._
 import scala.concurrent.Future
-import play.api.Play.current
 import play.mvc.Results._
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.Configuration
 
 // Stolen from here: http://www.mentful.com/2014/06/14/basic-authentication-filter-for-play-framework/
-case class BasicAuth[A](action: Action[A]) extends Action[A] {
+case class BasicAuth[A](action: Action[A])(implicit configuration: Configuration) extends Action[A] with Logging {
   private lazy val unauthResult = Results.Unauthorized.withHeaders(("WWW-Authenticate",
     "Basic realm=\"LogList\""))
   //need the space at the end
@@ -21,7 +20,7 @@ case class BasicAuth[A](action: Action[A]) extends Action[A] {
   }
 
   private def logFailedAttempt(request: Request[A]) = {
-    Logger.warn(s"IP address ${getUserIPAddress(request)} failed to log in, " +
+    logger.warn(s"IP address ${getUserIPAddress(request)} failed to log in, " +
       s"requested uri: ${request.uri}")
   }
 
@@ -34,9 +33,7 @@ case class BasicAuth[A](action: Action[A]) extends Action[A] {
       return None
     }
     val basicAuthSt = auth.replaceFirst(basicReqSt, "")
-    //BESE64Decoder is not thread safe, don't make it a field of this object
-    val decoder = new BASE64Decoder()
-    val decodedAuthSt = new String(decoder.decodeBuffer(basicAuthSt), "UTF-8")
+    val decodedAuthSt = new String(decoder.decode(basicAuthSt), "UTF-8")
     val usernamePassword = decodedAuthSt.split(":")
     if (usernamePassword.length >= 2) {
       //account for ":" in passwords
@@ -47,8 +44,8 @@ case class BasicAuth[A](action: Action[A]) extends Action[A] {
 
   def apply(request: Request[A]): Future[Result] = {
     val result = for (
-      username     <- current.configuration.getString("basicAuth.username");
-      password     <- current.configuration.getString("basicAuth.password");
+      username     <- configuration.getOptional[String]("basicAuth.username");
+      password     <- configuration.getOptional[String]("basicAuth.password");
       basicAuth    <- request.headers.get("authorization");
       (user, pass) <- decodeBasicAuth(basicAuth) if username == user && password == pass
     ) yield action(request)
@@ -59,5 +56,9 @@ case class BasicAuth[A](action: Action[A]) extends Action[A] {
     }
   }
 
+  def executionContext = scala.concurrent.ExecutionContext.global
+
   lazy val parser = action.parser
+
+  private final val decoder = Base64.getDecoder()
 }

@@ -1,13 +1,14 @@
 package cors
 
-import cors.Options.ORIGIN
+import play.api.http.HeaderNames.ORIGIN
 import helpers.{ActionWithTx, RequestWithSession}
-import play.api.Play.current
-import play.api.mvc.{AnyContent, Headers, Result}
+import play.api.mvc._
+import play.api.Configuration
+import javax.inject.Inject
 
-trait Cors {
+class CorsController @Inject()(cc: ControllerComponents, configuration: Configuration) extends AbstractController(cc) {
   private lazy val corsHosts: Set[String] = {
-    val config = current.configuration.getString("cors.allowedOrigins")
+    val config = configuration.getOptional[String]("cors.allowedOrigins")
     config.map(_.split(' ').toSet).getOrElse(Set())
   }
 
@@ -25,9 +26,10 @@ trait Cors {
     }
   }
 
-  protected def corsActionWithTx(responseAction: RequestWithSession[AnyContent] => Result) = ActionWithTx { request =>
-    val response = responseAction(request)
-    val headers = corsHeaders(request.headers)
-    response.withHeaders(headers: _*)
-  }
+  protected def corsActionWithTx(responseAction: RequestWithSession[AnyContent] => Result)(implicit cc: ControllerComponents) =
+    (new ActionWithTx(cc)) { request =>
+      val response = responseAction(request)
+      val headers = corsHeaders(request.headers)
+      response.withHeaders(headers: _*)
+    }
 }

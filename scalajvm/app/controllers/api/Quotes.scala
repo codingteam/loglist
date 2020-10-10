@@ -1,13 +1,18 @@
 package controllers.api
 
-import cors.Cors
+import cors.CorsController
 import models.queries.{QuoteFilter, QuoteOrdering, QuoteQueries}
 import models.data.Quote
 import play.api.mvc._
+import play.api.Configuration
+import io.circe.generic.auto._
+import io.circe.syntax._
 import ru.org.codingteam.loglist.dto.QuoteDTO
 import ru.org.codingteam.loglist.QuoteCount
+import javax.inject._
 
-object Quotes extends Controller with Cors {
+@Singleton
+class Quotes @Inject()(implicit cc: ControllerComponents, configuration: Configuration) extends CorsController(cc, configuration) {
   def getQuote(id: Long) = corsActionWithTx { request =>
     import request.dbSession
     prepareResponse(QuoteQueries().getQuoteById(id))
@@ -22,7 +27,7 @@ object Quotes extends Controller with Cors {
     import request.dbSession
     val count = QuoteQueries().countQuotes(filter)
     val response = QuoteCount(count)
-    json(upickle.write(response))
+    json(response.asJson.noSpaces)
   }
 
   def getList(limit: Int, page: Int, order: QuoteOrdering.Value, filter: QuoteFilter.Value) =
@@ -35,12 +40,12 @@ object Quotes extends Controller with Cors {
         .getPageOfQuotes(pageNumber, pageSize, order, filter)
         .map(buildQuoteDto)
 
-      json(upickle.write(quotes))
+      json(quotes.asJson.noSpaces)
     }
 
   private def prepareResponse(probablyQuote: Option[Quote]) =
     probablyQuote.map(buildQuoteDto) match {
-      case Some(quoteDTO) => json(upickle.write(quoteDTO))
+      case Some(quoteDTO) => json(quoteDTO.asJson.noSpaces)
       case None           => NotFound("").as("text/plain")
     }
 

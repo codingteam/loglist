@@ -1,9 +1,10 @@
 package controllers
 
-import helpers.ActionWithTx
 import play.api.mvc._
+import javax.inject._
 
-object Licenses extends Controller {
+@Singleton
+class Licenses @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
   def listLicenses() = Action {
       Ok(views.html.licenses())
   }

@@ -3,20 +3,23 @@ package controllers
 import helpers.{Notifications, ActionWithTx}
 import models.forms.{ApprovalForm}
 import models.queries._
-import play.api.Logger
-import play.api.Play.current
+import play.api.Logging
 import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
+import play.api.i18n
+import play.api.Configuration
 import scalikejdbc._
 import security.BasicAuth
+import javax.inject._
 
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 
-object Approving extends Controller {
+@Singleton
+class Approving @Inject()(implicit cc: ControllerComponents, configuration: Configuration) extends AbstractController(cc) with i18n.I18nSupport with Logging {
 
-  def getApprovalForm(token: String) = ActionWithTx { request =>
+  def getApprovalForm(token: String) = (new ActionWithTx(cc)) { implicit request =>
     import request.dbSession
     SuggestedQuoteQueries().getSuggestedQuoteByToken(token) match {
       case Some(suggestedQuote) =>
@@ -25,9 +28,9 @@ object Approving extends Controller {
     }
   }
 
-  def approve = ActionWithTx { implicit request =>
+  def approve = (new ActionWithTx(cc)) { implicit request =>
     import request.dbSession
-    approvalForm.bindFromRequest.fold(
+    approvalForm.bindFromRequest().fold(
       formWithErrors => BadRequest("Invalid parameters"),
 
       form => {
@@ -68,12 +71,14 @@ object Approving extends Controller {
             Thread sleep 5000
           }
         }
-      } onFailure {
-        case e => Logger.error(e.getMessage)
+      }.failed.foreach {
+        case e => logger.error(e.getMessage)
       }
       Ok("Notifying all approvers about all suggested quotes...")
     }
   }
+
+  override def messagesApi: i18n.MessagesApi = cc.messagesApi
 
   private val approvalForm = Form(
     mapping(

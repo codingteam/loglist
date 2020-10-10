@@ -3,7 +3,7 @@ package models.queries
 import models.data.Quote
 import scalikejdbc._
 
-case class VotingQueries(implicit session: DBSession) {
+case class VotingQueries()(implicit session: DBSession) {
   def updateRating(increment: Int)(id: Long): Int = {
     val q = Quote.column
     withSQL {

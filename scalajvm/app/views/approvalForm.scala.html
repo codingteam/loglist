@@ -1,4 +1,4 @@
-@(approvalForm: Form[models.forms.ApprovalForm])
+@(approvalForm: Form[models.forms.ApprovalForm])(implicit messagesProvider: MessagesProvider)
 
 @import helper._
 @import views.fields.FieldHelpers._
@@ -8,7 +8,7 @@
         <div class="form-body">
             <input type="hidden" name="token" value="@approvalForm.data.get("token")" />
             <div class="stretch">
-                @textarea(approvalForm("content"), '_label -> "Цитата")
+                @textarea(approvalForm("content"), Symbol("_label") -> "Цитата")
             </div>
         </div>
         <div class="button-block">
