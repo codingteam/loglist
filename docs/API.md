@@ -126,7 +126,7 @@ Send `GET` request to `/api/quote/list?limit=x&page=y&order=o&filter=f`, where:
   default
 - `page` is page number starting from `0`; `0` by default
 - `order` is quote ordering mode, see above
-- `filter` is quote filtering mode, see below
+- `filter` is quote filtering mode, see above
 
 ```
 GET /api/quote/list?limit=10&page=1&filter=none&order=time
