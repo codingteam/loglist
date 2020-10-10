@@ -4,20 +4,20 @@
 
 # Main routes
 GET           /                                  controllers.Quotes.list(page: Int ?= 0, order: models.queries.QuoteOrdering.Value ?= models.queries.QuoteOrdering.Time, filter: models.queries.QuoteFilter.Value ?= models.queries.QuoteFilter.None)
-GET           /quote/new                         controllers.SuggestedQuotes.newQuote
-POST          /quote/new                         controllers.SuggestedQuotes.addQuote
+GET           /quote/new                         controllers.SuggestedQuotes.newQuote()
+POST          /quote/new                         controllers.SuggestedQuotes.addQuote()
 GET           /quote/$id<[0-9]+>                 controllers.Quotes.quote(id: Long)
 #POST          /quote                             controllers.Quotes.addQuote
 #DELETE        /quote/$id<[0-9]+>                 controllers.Quotes.deleteQuote(id: Long)
 GET           /quote/approve                     controllers.Approving.getApprovalForm(token: String)
-POST          /quote/approve                     controllers.Approving.approve
+POST          /quote/approve                     controllers.Approving.approve()
 #GET           /quote/approve/notify              controllers.Approving.notifyAllApprovers
-GET           /feed.rss                          controllers.Quotes.getRSSFeed
-GET           /licenses                          controllers.Licenses.listLicenses
+GET           /feed.rss                          controllers.Quotes.getRSSFeed()
+GET           /licenses                          controllers.Licenses.listLicenses()
 
 # API routes
 GET           /api/quote/$id<[0-9]+>             controllers.api.Quotes.getQuote(id: Long)
-POST          /api/quote/new                     controllers.api.SuggestedQuotes.newQuote
+POST          /api/quote/new                     controllers.api.SuggestedQuotes.newQuote()
 POST          /api/quote/$id<[0-9]+>/upvote      controllers.api.Voting.vote(id: Long, up: Boolean = true)
 POST          /api/quote/$id<[0-9]+>/downvote    controllers.api.Voting.vote(id: Long, up: Boolean = false)
 GET           /api/quote/random                  controllers.api.Quotes.getRandomQuote()

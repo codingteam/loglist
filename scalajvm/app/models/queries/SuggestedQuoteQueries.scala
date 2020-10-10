@@ -4,7 +4,7 @@ import models.data.SuggestedQuote
 import org.joda.time.DateTime
 import scalikejdbc._
 
-case class SuggestedQuoteQueries(implicit session: DBSession) {
+case class SuggestedQuoteQueries()(implicit session: DBSession) {
 
   def insertSuggestedQuote(content: String, submitterIp: String, source: String): Long = {
     val q = SuggestedQuote.column
@@ -23,23 +23,23 @@ case class SuggestedQuoteQueries(implicit session: DBSession) {
   def getAllSuggestedQuotes: List[SuggestedQuote] = {
     val sq = SuggestedQuote.syntax("sq")
     withSQL {
-      select(sq.*).from(SuggestedQuote as sq)
-    }.map(rs => SuggestedQuote(rs)).list().apply()
+      select.from(SuggestedQuote as sq)
+    }.map(SuggestedQuote(sq.resultName)).list().apply()
   }
 
   def getSuggestedQuoteById(id: Long): Option[SuggestedQuote] = {
     val sq = SuggestedQuote.syntax("sq")
     withSQL {
-      select(sq.*).from(SuggestedQuote as sq).where.eq(sq.id, id)
-    }.map(rs => SuggestedQuote(rs)).first().apply()
+      select.from(SuggestedQuote as sq).where.eq(sq.id, id)
+    }.map(SuggestedQuote(sq.resultName)).first().apply()
   }
 
   def getSuggestedQuoteByToken(token: String): Option[SuggestedQuote] = {
     val sq = SuggestedQuote.syntax("sq")
     withSQL {
-      select(sq.*).from(SuggestedQuote as sq).where.eq(sq.token, token)
-    }
-  }.map(rs => SuggestedQuote(rs)).first().apply()
+      select.from(SuggestedQuote as sq).where.eq(sq.token, token)
+    }.map(SuggestedQuote(sq.resultName)).first().apply()
+  }
 
   def deleteSuggestedQuoteByToken(token: String): Unit = {
     val sq = SuggestedQuote.column

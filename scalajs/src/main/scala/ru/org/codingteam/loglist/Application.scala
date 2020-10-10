@@ -1,33 +1,36 @@
 package ru.org.codingteam.loglist
 
 import org.scalajs.dom
-import org.scalajs.dom.extensions.Ajax
-import org.scalajs.dom.extensions._
+import org.scalajs.dom.ext.Ajax
+import org.scalajs.dom.ext._
 import org.scalajs.dom.{Element, Event}
 
-import scala.scalajs.js
+import io.circe.generic.auto._
+import io.circe.parser.decode
 
-object Application extends js.JSApp {
+object Application {
 
   def voteHandler(action: String, id: String, ratingContainer: Element)(event: Event) = {
     import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
-    Ajax.post(s"/api/quote/$id/$action").onSuccess { case request =>
-      val response = upickle.read[QuoteRating](request.responseText)
-      ratingContainer.textContent = response.rating.toString
+    Ajax.post(s"/api/quote/$id/$action").foreach { case request =>
+      decode[QuoteRating](request.responseText).foreach { case response =>
+        ratingContainer.textContent = response.rating.toString
+      }
     }
   }
 
   def fillSuggestedQuoteCounters() = {
     import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
-    Ajax.get(s"/api/quote/count/suggested").onSuccess { case request =>
-      val response = upickle.read[QuoteCount](request.responseText)
-      dom.document.querySelectorAll(".suggested-quote-counter").map { node =>
-        node.textContent = response.count.toString
+    Ajax.get(s"/api/quote/count/suggested").foreach { case request =>
+      decode[QuoteCount](request.responseText).foreach { case response =>
+        dom.document.querySelectorAll(".suggested-quote-counter").map { node =>
+          node.textContent = response.count.toString
+        }
       }
     }
   }
 
-  def main(): Unit = {
+  def main(args: Array[String]): Unit = {
     dom.window.onload = { event: Event =>
       dom.document.querySelectorAll(".quote-rating").map { node =>
         val id = node.attributes.getNamedItem("data-id").value

@@ -3,15 +3,17 @@ package controllers
 import helpers.ActionWithTx
 import models.data.FeedItem
 import models.queries.{QuoteFilter, QuoteOrdering, QuoteQueries}
-import play.api.Play.current
 import play.api.mvc._
+import play.api.Configuration
 import scala.xml.{Atom, PCData}
 import scalikejdbc._
 import security.BasicAuth
+import javax.inject._
 
-object Quotes extends Controller {
+@Singleton
+class Quotes @Inject()(implicit cc: ControllerComponents, configuration: Configuration) extends AbstractController(cc) {
 
-  def list(page: Int, order: QuoteOrdering.Value, filter: QuoteFilter.Value) = ActionWithTx { request =>
+  def list(page: Int, order: QuoteOrdering.Value, filter: QuoteFilter.Value) = (new ActionWithTx(cc)) { request =>
     import request.dbSession
     val countQuotes = QuoteQueries().countQuotes(filter)
     val pageSize = 50
@@ -23,11 +25,10 @@ object Quotes extends Controller {
     Ok(views.html.index(quotes, pageNumber, countPages, order, filter))
   }
 
-  def getRSSFeed = ActionWithTx { implicit request =>
+  def getRSSFeed = (new ActionWithTx(cc)) { implicit request =>
     import request.dbSession
-    import play.api.Play.current
 
-    val feedLimit = current.configuration.getInt("feed.limit").get
+    val feedLimit = configuration.get[Int]("feed.limit")
 
     val quotes = QuoteQueries().getPageOfQuotes(0, feedLimit,
         QuoteOrdering.Time, QuoteFilter.None)
@@ -60,7 +61,7 @@ object Quotes extends Controller {
     Ok(feed).as("application/rss+xml")
   }
 
-  def quote(id: Long) = ActionWithTx { implicit request =>
+  def quote(id: Long) = (new ActionWithTx(cc)) { implicit request =>
     import request.dbSession
     QuoteQueries().getQuoteById(id) match {
       case Some(quote) => Ok(views.html.quote(quote))
@@ -69,7 +70,7 @@ object Quotes extends Controller {
   }
 
   def addQuote = BasicAuth {
-    ActionWithTx { request =>
+    (new ActionWithTx(cc)) { request =>
       import request.dbSession
       request.body.asText match {
         case Some(content) => {
@@ -84,7 +85,7 @@ object Quotes extends Controller {
   }
 
   def deleteQuote(id: Long) = BasicAuth {
-    ActionWithTx { request =>
+    (new ActionWithTx(cc)) { request =>
       import request.dbSession
       if (QuoteQueries().removeQuoteById(id)) Ok(s"The quote $id has been deleted")
       else NotFound(s"There is no quote with id $id")

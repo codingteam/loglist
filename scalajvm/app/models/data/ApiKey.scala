@@ -6,6 +6,6 @@ case class ApiKey(id: Long, key: String, source: String, sourceUrl: Option[Strin
 
 object ApiKey extends SQLSyntaxSupport[ApiKey] {
   override val tableName = "api_key"
-  def apply(rs: WrappedResultSet) =
-    new ApiKey(rs.long("id"), rs.string("key"), rs.string("source"), rs.stringOpt("source_url"))
+  def apply(n: ResultName[ApiKey])(rs: WrappedResultSet) =
+    new ApiKey(rs.long(n.id), rs.string(n.key), rs.string(n.source), rs.stringOpt(n.sourceUrl))
 }

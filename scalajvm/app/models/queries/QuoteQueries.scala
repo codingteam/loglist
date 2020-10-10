@@ -6,6 +6,7 @@ import helpers.BindableEnumeration
 import models.data.Quote
 import org.joda.time.{DateTime, DateTimeZone}
 import scalikejdbc._
+import scalikejdbc.jodatime.JodaParameterBinderFactory._
 
 object QuoteOrdering extends BindableEnumeration {
   val Time, Rating = Value
@@ -37,7 +38,7 @@ object QuoteFilter extends BindableEnumeration {
   }
 }
 
-case class QuoteQueries(implicit session: DBSession) {
+case class QuoteQueries()(implicit session: DBSession) {
 
   def getPageOfQuotes(pageNumber: Int,
                       pageSize: Int,
@@ -46,14 +47,13 @@ case class QuoteQueries(implicit session: DBSession) {
     val q = Quote.syntax("q")
 
     withSQL {
-      select(
-        q.*
-      ).from(Quote as q)
+      select
+        .from(Quote as q)
         .where(QuoteFilter.toSQL(q, filter))
         .orderBy(QuoteOrdering.toSQL(q, order)).desc
         .offset(pageNumber * pageSize)
         .limit(pageSize)
-    }.map(rs => Quote(rs)).list().apply()
+    }.map(Quote(q.resultName)).list().apply()
   }
 
   def countQuotes(filter: QuoteFilter.Value): Int = {
@@ -71,19 +71,18 @@ case class QuoteQueries(implicit session: DBSession) {
   def getQuoteById(id: Long): Option[Quote] = {
     val q = Quote.syntax("q")
     withSQL {
-      select(
-        q.*
-      ).from(Quote as q).where.eq(q.id, id)
-    }.map(rs => Quote(rs)).first().apply()
+      select
+        .from(Quote as q).where.eq(q.id, id)
+    }.map(Quote(q.resultName)).first().apply()
   }
 
   def getRandomQuote: Option[Quote] = {
     val random = new Random()
     val q = Quote.syntax("q")
     withSQL {
-      select(q.*).from(Quote as q)
-        .offset(floor(random.nextFloat() * countQuotes).toInt).limit(1)
-    }.map(rs => Quote(rs)).first().apply()
+      select.from(Quote as q)
+        .offset(floor(random.nextFloat() * countQuotes()).toInt).limit(1)
+    }.map(Quote(q.resultName)).first().apply()
   }
 
   def insertQuote(content: String, source: String): Long = {

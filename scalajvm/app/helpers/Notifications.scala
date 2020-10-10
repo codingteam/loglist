@@ -7,13 +7,15 @@ import controllers.routes
 import models.data.{SuggestedQuote, Approver, Quote}
 import java.util.Properties
 
-import play.api.Play.current
+import play.api.Configuration
+import javax.inject._
 import play.api.mvc.RequestHeader
 
-object Notifications {
-  private val approvalSmtpHost = current.configuration.getString("approval.smtpHost").get
-  private val approvalEmail = current.configuration.getString("approval.email").get
-  private val approvalEmailPassword = current.configuration.getString("approval.emailPassword").get
+@Singleton
+class Notifications @Inject()(implicit configuration: Configuration) {
+  private val approvalSmtpHost = configuration.get[String]("approval.smtpHost")
+  private val approvalEmail = configuration.get[String]("approval.email")
+  private val approvalEmailPassword = configuration.get[String]("approval.emailPassword")
 
   def notifyApproversAboutSuggestedQuote(approvers: List[Approver], suggestedQuote: SuggestedQuote)
                                         (implicit request: RequestHeader) = {

@@ -1,37 +1,37 @@
 package controllers.api
 
-import cors.Cors
+import cors.CorsController
 import models.data.PostQuoteRequest
 import models.queries.{ApiKeyQueries, SuggestedQuoteQueries}
 import play.api.mvc._
+import play.api.Configuration
 import ru.org.codingteam.loglist.QuoteCount
 import scalikejdbc.DBSession
 import services.SuggestedQuoteService
-import upickle.Invalid
+import io.circe.generic.auto._
+import io.circe.parser._
+import io.circe.syntax._
+import javax.inject._
 
-object SuggestedQuotes extends Controller with Cors {
+@Singleton
+class SuggestedQuotes @Inject()(implicit cc: ControllerComponents, configuration: Configuration) extends CorsController(cc, configuration) {
   def countSuggestedQuotes(): Action[AnyContent] = corsActionWithTx { request =>
     import request.dbSession
     val data = QuoteCount(SuggestedQuoteQueries().countSuggestedQuote())
-    val json = upickle.write(data)
+    val json = data.asJson.noSpaces
     Ok(json).as("application/json")
   }
 
   def newQuote(): Action[AnyContent] = corsActionWithTx { implicit request =>
-    request.body.asJson map (_.toString()) flatMap tryReadJson[PostQuoteRequest] match {
+    val json = request.body.asJson
+    val string = json.toString()
+    val decoded = decode[PostQuoteRequest](string).toOption
+    decoded match {
       case None =>
         BadRequest
       case Some(quote) =>
         import request.dbSession
         insertSuggestedQuote(request.remoteAddress, quote)
-    }
-  }
-
-  private def tryReadJson[T](body: String)(implicit reader: upickle.Reader[T]): Option[T] = {
-    try {
-      Some(upickle.read[T](body))
-    } catch {
-      case e: Invalid => None
     }
   }
 
