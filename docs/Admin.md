@@ -4,7 +4,7 @@ Site administration
 How to grant API access to the client
 -------------------------------------
 
-To access some site API, client should pass API token. To add an API token,
+To access certain site APIs, client must pass an API token. To create a new token,
 execute the following SQL query:
 
 ```sql
