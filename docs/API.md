@@ -107,7 +107,7 @@ GET /api/quote/count
 
 (e.g. https://loglist.net/api/quote/count)
 
-#### Get suggested quote count
+#### Get how many quotes are in the approval queue
 
 Send `GET` request to `/api/quote/count/suggested`. Example:
 
