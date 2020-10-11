@@ -59,7 +59,7 @@ corresponding site section for further details.
 [docs-deployment]: docs/Deployment.md
 
 [gitter]: https://gitter.im/codingteam/loglist
-[loglist]: https://www.loglist.net/
+[loglist]: https://www.loglist.xyz/
 [loglist-original]: http://loglist.ru/
 [travis]: https://travis-ci.org/codingteam/loglist
 

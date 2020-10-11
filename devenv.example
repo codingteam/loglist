@@ -9,6 +9,6 @@ export RECAPTCHA_PRIVATE_KEY=private_key
 export BASIC_AUTH_USERNAME=horta
 export BASIC_AUTH_PASSWORD=hell
 
-export APPROVAL_SMTP_HOST="smtp.loglist.net"
-export APPROVAL_EMAIL="noreply@loglist.net"
+export APPROVAL_SMTP_HOST="smtp.loglist.xyz"
+export APPROVAL_EMAIL="noreply@loglist.xyz"
 export APPROVAL_EMAIL_PASSWORD="hortahell"

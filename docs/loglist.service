@@ -1,5 +1,5 @@
 [Unit]
-Description=loglist.net site
+Description=loglist.xyz site
 After=network.target
 
 [Service]

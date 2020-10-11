@@ -12,8 +12,8 @@ env:
     RECAPTCHA_PRIVATE_KEY=horta
     BASIC_AUTH_USERNAME=horta
     BASIC_AUTH_PASSWORD=hell
-    APPROVAL_SMTP_HOST="smtp.loglist.net"
-    APPROVAL_EMAIL="noreply@loglist.net"
+    APPROVAL_SMTP_HOST="smtp.loglist.xyz"
+    APPROVAL_EMAIL="noreply@loglist.xyz"
     APPROVAL_EMAIL_PASSWORD="hortahell"
 before_script:
   - psql -c 'create database loglist;' -U postgres

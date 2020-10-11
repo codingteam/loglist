@@ -7,8 +7,8 @@ import scalikejdbc._
 
 class ApproverModelSpec extends Specification {
   val approvers = List(
-    ("rexim", "rexim@loglist.net"),
-    ("ForNeVeR", "fornever@loglist.net")
+    ("rexim", "rexim@loglist.xyz"),
+    ("ForNeVeR", "fornever@loglist.xyz")
   )
 
   "The Approvers model" should {

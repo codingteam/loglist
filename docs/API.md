@@ -14,7 +14,7 @@ only thing you need is to set up the `cors.allowedOrigins` parameter in the
 server configuration file.
 
 If you want your origin to be added to the main LogList configuration (so your
-browser agents could access our main [loglist.net][] instance), please [raise an
+browser agents could access our main [loglist.xyz][] instance), please [raise an
 issue](https://github.com/codingteam/loglist/issues).
 
 API Types
@@ -58,7 +58,7 @@ To get your secret API key, please contact the server administrator.
 Example:
 
 ```console
-$ curl --include --header "Content-type: application/json" --request POST --data "{\"text\": \"xxx\", \"apiKey\": \"xxx\"}" https://loglist.net/api/quote/new
+$ curl --include --header "Content-type: application/json" --request POST --data "{\"text\": \"xxx\", \"apiKey\": \"xxx\"}" https://loglist.xyz/api/quote/new
 HTTP/1.1 200 OK
 ```
 
@@ -78,7 +78,7 @@ GET /api/quote/7921
      "rating": 5 }
 ```
 
-(e.g. https://loglist.net/api/quote/8119)
+(e.g. https://loglist.xyz/api/quote/8119)
 
 #### Get random quote
 
@@ -94,7 +94,7 @@ GET /api/quote/random
      "rating": 5 }
 ```
 
-(e.g. https://loglist.net/api/quote/random)
+(e.g. https://loglist.xyz/api/quote/random)
 
 #### Get quote count
 
@@ -105,7 +105,7 @@ GET /api/quote/count
 => { "count": 7921 }
 ```
 
-(e.g. https://loglist.net/api/quote/count)
+(e.g. https://loglist.xyz/api/quote/count)
 
 #### Get how many quotes are in the approval queue
 
@@ -116,7 +116,7 @@ GET /api/quote/count/suggested
 => { "count": 7921 }
 ```
 
-(e.g. https://loglist.net/api/quote/count/suggested)
+(e.g. https://loglist.xyz/api/quote/count/suggested)
 
 #### Get quote list
 
@@ -144,7 +144,7 @@ GET /api/quote/list?limit=10&page=1&filter=none&order=time
       "rating": 0 }]
 ```
 
-(e.g. https://loglist.net/api/quote/list?limit=10&page=1&filter=none&order=time)
+(e.g. https://loglist.xyz/api/quote/list?limit=10&page=1&filter=none&order=time)
 
 ### Voting access
 
@@ -164,4 +164,4 @@ POST /api/quote/1234/downvote
 
 [cors]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
 [iso-8601-weeks]: https://en.wikipedia.org/wiki/ISO_8601#Week_dates
-[loglist.net]: https://loglist.net/
+[loglist.xyz]: https://loglist.xyz/
