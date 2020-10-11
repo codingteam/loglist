@@ -20,6 +20,3 @@ before_script:
   - psql -c 'create extension pgcrypto;' -U postgres -d loglist
 script:
   - sbt -jvm-opts compile test
-notifications:
-  email:
-    - reximkut@gmail.com
