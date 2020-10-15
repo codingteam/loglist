@@ -1,10 +1,12 @@
 language: scala
-jdk: oraclejdk7
+jdk: oraclejdk11
 sudo: false
 scala:
-  - 2.11.1
+  - 2.13.3
 addons:
   postgresql: "9.3"
+services:
+  - postgresql
 env:
   - DATABASE_URL=jdbc:postgresql:loglist?user=postgres
     APPLY_EVOLUTIONS_SILENTLY=true
