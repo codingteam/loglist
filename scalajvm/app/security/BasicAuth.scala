@@ -33,7 +33,6 @@ case class BasicAuth[A](action: Action[A])(implicit configuration: Configuration
       return None
     }
     val basicAuthSt = auth.replaceFirst(basicReqSt, "")
-    val decoder = Base64.getDecoder()
     val decodedAuthSt = new String(decoder.decode(basicAuthSt), "UTF-8")
     val usernamePassword = decodedAuthSt.split(":")
     if (usernamePassword.length >= 2) {
@@ -60,4 +59,6 @@ case class BasicAuth[A](action: Action[A])(implicit configuration: Configuration
   def executionContext = scala.concurrent.ExecutionContext.global
 
   lazy val parser = action.parser
+
+  private final val decoder = Base64.getDecoder()
 }
