@@ -1,12 +1,12 @@
 package models.queries
 
+import java.time.{LocalDate, ZonedDateTime, ZoneOffset}
+
 import scala.util.Random
 import scala.math._
 import helpers.BindableEnumeration
 import models.data.Quote
-import org.joda.time.{DateTime, DateTimeZone}
 import scalikejdbc._
-import scalikejdbc.jodatime.JodaParameterBinderFactory._
 
 object QuoteOrdering extends BindableEnumeration {
   val Time, Rating = Value
@@ -25,12 +25,12 @@ object QuoteFilter extends BindableEnumeration {
 
   def toSQL(provider: QuerySQLSyntaxProvider[SQLSyntaxSupport[Quote], Quote],
             value: QuoteFilter.Value): Option[SQLSyntax] = {
-    val today = DateTime.now(DateTimeZone.UTC).withTimeAtStartOfDay()
+    val today = LocalDate.now(ZoneOffset.UTC).atStartOfDay(ZoneOffset.UTC)
     val periodStart = value match {
-      case QuoteFilter.None => Option.empty[DateTime]
+      case QuoteFilter.None => Option.empty[ZonedDateTime]
       case QuoteFilter.Year => Some(today.withDayOfYear(1))
       case QuoteFilter.Month => Some(today.withDayOfMonth(1))
-      case QuoteFilter.Week => Some(today.withDayOfWeek(1))
+      case QuoteFilter.Week => Some(today.minusDays(today.getDayOfWeek.ordinal()))
       case QuoteFilter.Day => Some(today)
     }
 
@@ -88,7 +88,7 @@ case class QuoteQueries()(implicit session: DBSession) {
   def insertQuote(content: String, source: String): Long = {
     val q = Quote.column
     withSQL {
-      insert.into(Quote).columns(q.content, q.time, q.source).values(content, DateTime.now(), source)
+      insert.into(Quote).columns(q.content, q.time, q.source).values(content, ZonedDateTime.now(ZoneOffset.UTC), source)
     }.updateAndReturnGeneratedKey().apply()
   }
 

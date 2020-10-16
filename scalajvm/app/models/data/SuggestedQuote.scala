@@ -1,10 +1,10 @@
 package models.data
 
-import org.joda.time.DateTime
-import scalikejdbc._
-import scalikejdbc.jodatime.JodaTypeBinder._
+import java.time.ZonedDateTime
 
-case class SuggestedQuote(id: Long, source: String, time: DateTime,
+import scalikejdbc._
+
+case class SuggestedQuote(id: Long, source: String, time: ZonedDateTime,
                           content: String, submitterIp: Option[String],
                           token: String)
 

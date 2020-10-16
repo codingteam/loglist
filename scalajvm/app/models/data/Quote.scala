@@ -1,10 +1,10 @@
 package models.data
 
-import org.joda.time.DateTime
-import scalikejdbc._
-import scalikejdbc.jodatime.JodaTypeBinder._
+import java.time.ZonedDateTime
 
-case class Quote(id: Long, source: String, sourceUrl: Option[String], time: DateTime, content: Option[String], rating: Int)
+import scalikejdbc._
+
+case class Quote(id: Long, source: String, sourceUrl: Option[String], time: ZonedDateTime, content: Option[String], rating: Int)
 object Quote extends SQLSyntaxSupport[Quote] {
   override val tableName = "quote"
 

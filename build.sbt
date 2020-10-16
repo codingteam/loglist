@@ -34,7 +34,6 @@ lazy val scalajvmSettings = Seq(
     "org.scalikejdbc" %% "scalikejdbc" % "3.5.0",
     "org.scalikejdbc" %% "scalikejdbc-config" % "3.5.0",
     "org.scalikejdbc" %% "scalikejdbc-play-initializer" % "2.8.0-scalikejdbc-3.5",
-    "org.scalikejdbc" %% "scalikejdbc-joda-time" % "3.5.0",
     "org.postgresql" % "postgresql" % "9.3-1104-jdbc41",
     "jakarta.mail" % "jakarta.mail-api" % "1.6.5",
     "com.sun.mail" % "smtp" % "1.6.5",

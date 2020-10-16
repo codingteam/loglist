@@ -1,6 +1,5 @@
 package models.data
 
-import org.joda.time.DateTime
-import scala.xml._
+import java.time.ZonedDateTime
 
-case class FeedItem(time: DateTime, title: String, description: String, link: String, guid: String)
+case class FeedItem(time: ZonedDateTime, title: String, description: String, link: String, guid: String)
