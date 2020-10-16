@@ -8,17 +8,12 @@ import models.data.{SuggestedQuote, Approver, Quote}
 import java.util.Properties
 
 import play.api.Configuration
-import javax.inject._
 import play.api.mvc.RequestHeader
 
-@Singleton
-class Notifications @Inject()(implicit configuration: Configuration) {
-  private val approvalSmtpHost = configuration.get[String]("approval.smtpHost")
-  private val approvalEmail = configuration.get[String]("approval.email")
-  private val approvalEmailPassword = configuration.get[String]("approval.emailPassword")
-
+object Notifications {
   def notifyApproversAboutSuggestedQuote(approvers: List[Approver], suggestedQuote: SuggestedQuote)
-                                        (implicit request: RequestHeader) = {
+                                        (implicit request: RequestHeader,
+                                         configuration: Configuration) = {
     try {
       val content = views.html.email.suggestedQuoteNotification(suggestedQuote,
         routes.Approving.getApprovalForm(suggestedQuote.token).absoluteURL()).toString()
@@ -31,7 +26,8 @@ class Notifications @Inject()(implicit configuration: Configuration) {
   def notifyApproversAboutApprovedQuote(approvers: List[Approver],
                                         suggestedQuote: SuggestedQuote,
                                         approvedQuote: Quote)
-                                       (implicit request: RequestHeader)= {
+                                       (implicit request: RequestHeader,
+                                        configuration: Configuration) = {
     try {
       val content = views.html.email.approvedQuoteNotification(approvedQuote,
         routes.Quotes.quote(approvedQuote.id).absoluteURL()).toString()
@@ -42,7 +38,8 @@ class Notifications @Inject()(implicit configuration: Configuration) {
   }
 
   def notifyApproversAboutDeclinedQuote(approvers: List[Approver],
-                                        suggestedQuote: SuggestedQuote) = {
+                                        suggestedQuote: SuggestedQuote)
+                                       (implicit configuration: Configuration) = {
     try {
       sendApprovalMessage(approvers, subjectFromContent(suggestedQuote.content),
         "<p>This quote has been <b>declined</b></p>")
@@ -51,7 +48,12 @@ class Notifications @Inject()(implicit configuration: Configuration) {
     }
   }
 
-  private def sendApprovalMessage(approvers: List[Approver], subject: String, htmlContent: String) = {
+  private def sendApprovalMessage(approvers: List[Approver], subject: String, htmlContent: String)
+                                 (implicit configuration: Configuration) = {
+    val approvalSmtpHost = configuration.get[String]("approval.smtpHost")
+    val approvalEmail = configuration.get[String]("approval.email")
+    val approvalEmailPassword = configuration.get[String]("approval.emailPassword")
+
     val properties = new Properties
     properties.put("mail.smtp.host", approvalSmtpHost)
     properties.put("mail.smtp.starttls.enable", "true")

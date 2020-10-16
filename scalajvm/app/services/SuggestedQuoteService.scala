@@ -14,7 +14,7 @@ object SuggestedQuoteService {
     SuggestedQuoteQueries().getSuggestedQuoteById(id) match {
       case Some(suggestedQuote) => {
         val approvers = ApproverQueries().getAllApprovers
-        (new Notifications).notifyApproversAboutSuggestedQuote(approvers, suggestedQuote)
+        Notifications.notifyApproversAboutSuggestedQuote(approvers, suggestedQuote)
       }
 
       case None =>

@@ -41,13 +41,13 @@ class Approving @Inject()(implicit cc: ControllerComponents, configuration: Conf
                 val approvedQuote = QuoteQueries().getQuoteById(QuoteQueries().insertQuote(form.content, suggestedQuote.source)).get
                 val approvers = ApproverQueries().getAllApprovers
                 SuggestedQuoteQueries().deleteSuggestedQuoteByToken(form.token)
-                notifications.notifyApproversAboutApprovedQuote(approvers, suggestedQuote, approvedQuote)
+                Notifications.notifyApproversAboutApprovedQuote(approvers, suggestedQuote, approvedQuote)
                 Redirect(controllers.routes.Quotes.quote(approvedQuote.id))
               }
               case "decline" => {
                 val approvers = ApproverQueries().getAllApprovers
                 SuggestedQuoteQueries().deleteSuggestedQuoteByToken(form.token)
-                notifications.notifyApproversAboutDeclinedQuote(approvers, suggestedQuote)
+                Notifications.notifyApproversAboutDeclinedQuote(approvers, suggestedQuote)
                 Redirect(controllers.routes.Quotes.list(0, QuoteOrdering.Time, QuoteFilter.None))
               }
               case _ => BadRequest("Invalid parameters")
@@ -66,7 +66,7 @@ class Approving @Inject()(implicit cc: ControllerComponents, configuration: Conf
           val approvers = ApproverQueries().getAllApprovers
           val suggestedQuotes = SuggestedQuoteQueries().getAllSuggestedQuotes
           suggestedQuotes.foreach { quote =>
-            notifications.notifyApproversAboutSuggestedQuote(approvers, quote)
+            Notifications.notifyApproversAboutSuggestedQuote(approvers, quote)
             // With hope it won't be treated as SPAM...
             Thread sleep 5000
           }
@@ -87,6 +87,4 @@ class Approving @Inject()(implicit cc: ControllerComponents, configuration: Conf
       "action" -> nonEmptyText
     )(ApprovalForm.apply)(ApprovalForm.unapply)
   )
-
-  private val notifications = new Notifications
 }
