@@ -50,7 +50,7 @@ class Quotes @Inject()(implicit cc: ControllerComponents, configuration: Configu
     }
 
   private def buildQuoteDto(quote: Quote): QuoteDTO =
-    QuoteDTO(quote.id, quote.source, quote.sourceUrl.orNull, quote.time.getMillis, quote.content.getOrElse(""), quote.rating)
+    QuoteDTO(quote.id, quote.source, quote.sourceUrl.orNull, quote.time.toInstant.toEpochMilli, quote.content.getOrElse(""), quote.rating)
 
   private def json(text: String) = Ok(text).as("application/json; charset=utf-8")
 }

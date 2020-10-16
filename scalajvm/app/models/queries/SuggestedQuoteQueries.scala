@@ -1,7 +1,8 @@
 package models.queries
 
+import java.time.{ZonedDateTime, ZoneOffset}
+
 import models.data.SuggestedQuote
-import org.joda.time.DateTime
 import scalikejdbc._
 
 case class SuggestedQuoteQueries()(implicit session: DBSession) {
@@ -9,7 +10,7 @@ case class SuggestedQuoteQueries()(implicit session: DBSession) {
   def insertSuggestedQuote(content: String, submitterIp: String, source: String): Long = {
     val q = SuggestedQuote.column
     withSQL {
-      insert.into(SuggestedQuote).columns(q.time, q.content, q.submitterIp, q.source).values(DateTime.now(), content, submitterIp, source)
+      insert.into(SuggestedQuote).columns(q.time, q.content, q.submitterIp, q.source).values(ZonedDateTime.now(ZoneOffset.UTC), content, submitterIp, source)
     }.updateAndReturnGeneratedKey().apply()
   }
 
