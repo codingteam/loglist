@@ -18,6 +18,7 @@ class ReCaptcha @Inject()(implicit configuration: Configuration) {
 
   def check(addr: String, response: String): Future[Boolean] = {
     val request = Http(verificationUrl).params("secret" -> privateKey, "response" -> response, "remoteip" -> addr)
+    // scalaj-http is a synchronous library, so calling `asString` will block the executor's thread - which is why we annotate the call with `blocking`
     val result = Future { blocking { request.asString.body } }
     result.map { res => Json.parse(res).get("success").asBoolean() } // TODO: Proper error handling, check recaptcha documentation
   }
