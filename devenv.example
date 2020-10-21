@@ -1,8 +1,7 @@
 export DATABASE_URL="jdbc:postgresql:loglist?user=horta&password=hell"
 export APPLY_EVOLUTIONS_SILENTLY=false
 
-# Any *valid* pair of keys will work for localhost. You can generate one here:
-# https://www.google.com/recaptcha/admin
+# Generate a valid pair of keys here: https://www.google.com/recaptcha/admin
 export RECAPTCHA_PUBLIC_KEY=public_key
 export RECAPTCHA_PRIVATE_KEY=private_key
 

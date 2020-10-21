@@ -20,7 +20,7 @@ services:
       - DATABASE_URL=jdbc:postgresql://db/loglist?user=horta&password=hell
       - APPLY_EVOLUTIONS_SILENTLY=true
 
-      # Any *valid* pair of keys will work for localhost. You can generate one here: https://www.google.com/recaptcha/admin
+      # Generate a valid pair of keys here: https://www.google.com/recaptcha/admin
       - RECAPTCHA_PUBLIC_KEY
       - RECAPTCHA_PRIVATE_KEY
 
