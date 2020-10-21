@@ -14,7 +14,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 
 @Singleton
-class SuggestedQuotes @Inject()(implicit cc: ControllerComponents, configuration: Configuration) extends AbstractController(cc) with i18n.I18nSupport {
+class SuggestedQuotes @Inject()(implicit cc: ControllerComponents, configuration: Configuration, recaptcha: ReCaptcha) extends AbstractController(cc) with i18n.I18nSupport {
   def newQuote() = Action { implicit request =>
     Ok(views.html.newQuote(quoteForm))
   }
@@ -29,7 +29,7 @@ class SuggestedQuotes @Inject()(implicit cc: ControllerComponents, configuration
       },
       form => {
         val remoteAddress = request.remoteAddress
-        if (Await.result((new ReCaptcha).check(remoteAddress, form.reCapthaResponse), 30.seconds)) { // TODO: Async check
+        if (Await.result(recaptcha.check(remoteAddress, form.reCapthaResponse), 30.seconds)) { // TODO: Async check
           SuggestedQuoteService.insertAndNotify(form.content, remoteAddress, "user")
           Ok(views.html.quoteSuggested())
         } else {
