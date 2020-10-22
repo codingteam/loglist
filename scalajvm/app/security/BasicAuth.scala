@@ -60,5 +60,5 @@ case class BasicAuth[A](action: Action[A])(implicit configuration: Configuration
 
   lazy val parser = action.parser
 
-  private final val decoder = Base64.getDecoder()
+  private val decoder = Base64.getDecoder()
 }
