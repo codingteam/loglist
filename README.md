@@ -72,6 +72,22 @@ command:
 $ sbt scalajvm/run
 ```
 
+Testing
+-------
+
+Automated test suite requires empty database. To start a new container with an
+empty database, you may use a command like this:
+
+```console
+$ docker-compose run --rm --name 'loglist_test' --publish '5432:5432' db
+```
+
+Then, set up the environment variables and run the test suite:
+
+```console
+$ sbt test
+```
+
 License
 -------
 
