@@ -1,0 +1,56 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+
+    services:
+      postgres:
+        image: postgres:9.3
+        env:
+          POSTGRES_USER: horta
+          POSTGRES_PASSWORD: hell
+          POSTGRES_DB: loglist
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: jdbc:postgresql:loglist?user=horta&password=hell
+      APPLY_EVOLUTIONS_SILENTLY: true
+      RECAPTCHA_PUBLIC_KEY: horta
+      RECAPTCHA_PRIVATE_KEY: horta
+      BASIC_AUTH_USERNAME: horta
+      BASIC_AUTH_PASSWORD: hell
+      APPROVAL_SMTP_HOST: "smtp.loglist.xyz"
+      APPROVAL_EMAIL: "noreply@loglist.xyz"
+      APPROVAL_EMAIL_PASSWORD: "hortahell"
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: SBT Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.ivy2/cache
+            ~/.sbt
+          key: test.${{ runner.os }}.sbt.${{ hashFiles('**/*.sbt') }}+${{ hashFiles('project/build.properties') }}
+
+      - name: Database Setup
+        run: psql postgresql://horta:hell@localhost/loglist -c 'create extension pgcrypto;'
+
+      - name: Test
+        run: sbt test
