@@ -10,10 +10,8 @@ Additional Documentation
 - [Deployment][docs-deployment]
 - [Administration][docs-admin]
 
-Development Configuration
--------------------------
-
-### PostgreSQL
+Database Configuration
+----------------------
 
 Install PostgreSQL, create database and user for LogList. Install and
 activate the following extensions:
@@ -26,6 +24,19 @@ You can activate extension pgcrypto with following line in postgresql console:
 CREATE EXTENSION pgcrypto;
 ```
 
+Development Configuration
+-------------------------
+
+### PostgreSQL container
+
+If you want to quickly run LogList in a dockerized environment while keeping the
+code locally (e.g. to debug the code), run the following commands to start
+development PostgreSQL instance:
+
+```console
+$ docker-compose run --publish '5432:5432' db
+```
+
 ### Environment Variables
 
 Possible environment variables can be found in the `devenv.example`
@@ -36,14 +47,30 @@ file. Supposed workflow:
       ... Modify variables ...
       ... All variable names should be self-explanatory
     $ . ./devenv
-    $ sbt run
 
 The same sample setup for Windows:
 
     PS> cp devenv.ps1.example devenv.ps1
     PS> notepad devenv.ps1 # Edit the configuration...
     PS> .\devenv.ps1
-    PS> sbt run
+
+### Running the application
+
+To run the application in a container, run the following command:
+
+```console
+$ docker-compose --project-name loglist up
+```
+
+And then open `http://localhost:9000` in a browser.
+
+To run the application locally, make sure you've set up the environment
+variables as described in the previous section, and then execute the following
+command:
+
+```console
+$ sbt scalajvm/run
+```
 
 License
 -------
