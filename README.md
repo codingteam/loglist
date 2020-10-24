@@ -1,4 +1,4 @@
-LogList [![gitter room][gitter-logo]][gitter] [![Build status][build-status]][travis]
+LogList [![Build status][build-status]][travis]
 =======
 
 [Reincarnation][loglist] of [the famous service][loglist-original].
@@ -101,10 +101,8 @@ corresponding site section for further details.
 [docs-api]: docs/API.md
 [docs-deployment]: docs/Deployment.md
 
-[gitter]: https://gitter.im/codingteam/loglist
 [loglist]: https://www.loglist.xyz/
 [loglist-original]: http://loglist.ru/
 [travis]: https://travis-ci.org/codingteam/loglist
 
 [build-status]: https://travis-ci.org/codingteam/loglist.png?branch=master
-[gitter-logo]: https://badges.gitter.im/Join%20Chat.svg
