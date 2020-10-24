@@ -1,20 +1,9 @@
-/.bsp
+/.bsp/
+/.idea/
+/project/project/
+/project/target/
 
-logs
-project/project
-project/target
-target
-tmp
-.history
-dist
-/.idea
-*.iml
-/out
-/.idea_modules
-/.classpath
-/.project
-/RUNNING_PID
-/.settings
+/devenv
+/devenv.ps1
 
-devenv
-devenv.ps1
+target/
