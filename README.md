@@ -1,4 +1,4 @@
-LogList [![Build status][build-status]][travis]
+LogList
 =======
 
 [Reincarnation][loglist] of [the famous service][loglist-original].
@@ -103,6 +103,3 @@ corresponding site section for further details.
 
 [loglist]: https://www.loglist.xyz/
 [loglist-original]: http://loglist.ru/
-[travis]: https://travis-ci.org/codingteam/loglist
-
-[build-status]: https://travis-ci.org/codingteam/loglist.png?branch=master
