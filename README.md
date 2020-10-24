@@ -91,7 +91,7 @@ $ sbt test
 License
 -------
 
-Loglist is licensed under the terms of MIT License. See License.md file for
+LogList is licensed under the terms of MIT License. See License.md file for
 details.
 
 Some third-party components have their own licenses, please consult the
