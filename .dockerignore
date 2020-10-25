@@ -1,0 +1,11 @@
+/.bsp/
+/.idea/
+/project/project/
+/project/target/
+
+/devenv
+/devenv.ps1
+/docker-compose.yml
+/*.dockerfile
+
+*/target/
