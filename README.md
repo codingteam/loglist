@@ -7,7 +7,6 @@ Additional Documentation
 ------------------------
 
 - [API][docs-api]
-- [Deployment][docs-deployment]
 - [Administration][docs-admin]
 
 Database Configuration
@@ -108,6 +107,35 @@ $ docker push codingteam/loglist:$LOGLIST_VERSION
 $ docker push codingteam/loglist:latest
 ```
 
+Deployment
+----------
+
+To install the application from Docker, run the following command:
+
+```console
+$ docker run -d --restart unless-stopped --name $NAME -v $CONFIG:/app/conf/application.conf --env-file $ENV_FILE --net host codingteam/loglist:$VERSION
+```
+
+Where
+- `$NAME` is the container name
+- `$CONFIG` is the **absolute** path to the configuration file
+- `$VERSION` is the version you want to deploy, or `latest` for the latest
+  available one
+- `$ENF_FILE` is the path to the env file (see `docs/loglist.env` for example)
+
+For example, a production server may use the following settings (note this
+command uses the Bash syntax; adapt for your shell if necessary):
+
+```bash
+NAME=loglist
+CONFIG=/opt/loglist/conf/application.conf
+VERSION=latest
+ENV_FILE=/opt/loglist/conf/loglist.env
+docker pull codingteam/loglist:$VERSION
+docker rm -f $NAME
+docker run -d --restart unless-stopped --name $NAME -v $CONFIG:/app/conf/application.conf --env-file $ENV_FILE --net host codingteam/loglist:$VERSION
+```
+
 License
 -------
 
@@ -121,7 +149,6 @@ corresponding site section for further details.
 
 [docs-admin]: docs/Admin.md
 [docs-api]: docs/API.md
-[docs-deployment]: docs/Deployment.md
 
 [docker-hub]: https://hub.docker.com/r/codingteam/loglist
 [loglist]: https://www.loglist.xyz/
