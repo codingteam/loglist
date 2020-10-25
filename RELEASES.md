@@ -15,3 +15,12 @@ Remember to update the configuration file (`application.conf`):
 
 - `logger.*` parameters has been migrated to `logback.xml`, remove them from
   your config
+
+The following section is now required for use in production:
+
+```
+play.filters.enabled += play.filters.hosts.AllowedHostsFilter
+play.filters.hosts {
+  allowed = ["loglist.xyz"]
+}
+```
