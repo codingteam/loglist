@@ -1,4 +1,4 @@
-LogList
+LogList [![Docker Image][badge.docker]][docker-hub]
 =======
 
 [Reincarnation][loglist] of [the famous service][loglist-original].
@@ -88,6 +88,26 @@ Then, set up the environment variables and run the test suite:
 $ sbt test
 ```
 
+Publishing
+----------
+
+This application uses Docker for deployment. To create a Docker image, use the
+following command:
+
+```console
+$ docker build -t codingteam/loglist:$LOGLIST_VERSION -t codingteam/loglist:latest -f loglist.dockerfile .
+```
+
+(where `$LOGLIST_VERSION` is the version for the image to publish)
+
+Then push the image to the Docker Hub:
+
+```console
+$ docker login # if necessary
+$ docker push codingteam/loglist:$LOGLIST_VERSION
+$ docker push codingteam/loglist:latest
+```
+
 License
 -------
 
@@ -97,9 +117,12 @@ details.
 Some third-party components have their own licenses, please consult the
 corresponding site section for further details.
 
+[badge.docker]: https://img.shields.io/docker/v/codingteam/loglist?sort=semver
+
 [docs-admin]: docs/Admin.md
 [docs-api]: docs/API.md
 [docs-deployment]: docs/Deployment.md
 
+[docker-hub]: https://hub.docker.com/r/codingteam/loglist
 [loglist]: https://www.loglist.xyz/
 [loglist-original]: http://loglist.ru/
