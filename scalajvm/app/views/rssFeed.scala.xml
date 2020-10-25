@@ -16,7 +16,7 @@
             <link>@item.link</link>
             <guid>@item.guid</guid>
             <description>@item.description</description>
-            <pubDate>@item.time</pubDate>
+            <pubDate>@item.rfcFormattedTime</pubDate>
           </item>
         }
     </channel>

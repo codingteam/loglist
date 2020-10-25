@@ -10,7 +10,7 @@
                 <span><a href="@quote.id">#@quote.id</a></span>
                 <span class="desktop-only">@voting.ratingPanel(quote)</span>
             </div>
-            <span>@quote.time</span>
+            <span>@quote.formattedTime</span>
         </div>
         <div class="quote-content plate">@quote.content.getOrElse("")</div>
         @(quote.source, quote.sourceUrl) match {
