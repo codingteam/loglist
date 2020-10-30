@@ -125,7 +125,7 @@ $ docker run -d --restart unless-stopped \
 Where
 - `$NAME` is the container name
 - `$CONFIG` is the **absolute** path to the configuration file
-- `$ENF_FILE` is the path to the env file (see
+- `$ENV_FILE` is the path to the env file (see
   [`docs/loglist.env`][docs-loglist.env] for example)
 - `$DB_IP` is the IP address of the database service
 - `$PORT` is external port the site will be available on
