@@ -113,15 +113,24 @@ Deployment
 To install the application from Docker, run the following command:
 
 ```console
-$ docker run -d --restart unless-stopped --name $NAME -v $CONFIG:/app/conf/application.conf --env-file $ENV_FILE --net host codingteam/loglist:$VERSION
+$ docker run -d --restart unless-stopped \
+    --name $NAME \
+    -v $CONFIG:/app/conf/application.conf \
+    --env-file $ENV_FILE \
+    --add-host db:$DB_IP \
+    -p:$PORT:9000 \
+    codingteam/loglist:$VERSION
 ```
 
 Where
 - `$NAME` is the container name
 - `$CONFIG` is the **absolute** path to the configuration file
+- `$ENF_FILE` is the path to the env file (see
+  [`docs/loglist.env`][docs-loglist.env] for example)
+- `$DB_IP` is the IP address of the database service
+- `$PORT` is external port the site will be available on
 - `$VERSION` is the version you want to deploy, or `latest` for the latest
   available one
-- `$ENF_FILE` is the path to the env file (see `docs/loglist.env` for example)
 
 For example, a production server may use the following settings (note this
 command uses the Bash syntax; adapt for your shell if necessary):
@@ -130,10 +139,18 @@ command uses the Bash syntax; adapt for your shell if necessary):
 NAME=loglist
 CONFIG=/opt/loglist/conf/application.conf
 VERSION=latest
+PORT=9000
 ENV_FILE=/opt/loglist/conf/loglist.env
+DB_IP=`ip -4 addr show scope global dev docker0 | grep inet | awk '{print $2}' | cut -d / -f 1 | sed -n 1p`
 docker pull codingteam/loglist:$VERSION
 docker rm -f $NAME
-docker run -d --restart unless-stopped --name $NAME -v $CONFIG:/app/conf/application.conf --env-file $ENV_FILE --net host codingteam/loglist:$VERSION
+docker run -d --restart unless-stopped \
+    --name $NAME \
+    -v $CONFIG:/app/conf/application.conf \
+    --env-file $ENV_FILE \
+    --add-host db:$DB_IP \
+    -p:$PORT:9000 \
+    codingteam/loglist:$VERSION
 ```
 
 License
@@ -149,6 +166,7 @@ corresponding site section for further details.
 
 [docs-admin]: docs/Admin.md
 [docs-api]: docs/API.md
+[docs-loglist.env]: docs/loglist.env
 
 [docker-hub]: https://hub.docker.com/r/codingteam/loglist
 [loglist]: https://www.loglist.xyz/
