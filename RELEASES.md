@@ -1,8 +1,13 @@
 LogList Release Notes
 =====================
 
-2.0.0
------
+2.0.1 (2021-01-13)
+------------------
+**Fixed issues**:
+- [#235: NullPointerException when fetching the quotes through the API][issue-235]
+
+2.0.0 (2020-10-30)
+------------------
 This is the first release after Play framework update.
 
 Remember to update the configuration file (`application.conf`):
@@ -24,3 +29,5 @@ play.filters.hosts {
   allowed = ["loglist.xyz"]
 }
 ```
+
+[issue-235]: https://github.com/codingteam/loglist/issues/235
