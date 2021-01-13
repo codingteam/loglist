@@ -1,4 +1,4 @@
-FROM hseeberger/scala-sbt:11.0.8_1.4.0_2.13.3 as build
+FROM hseeberger/scala-sbt:11.0.8_1.3.13_2.13.3 as build
 
 WORKDIR /loglist
 COPY . .
