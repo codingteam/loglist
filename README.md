@@ -141,7 +141,7 @@ CONFIG=/opt/loglist/conf/application.conf
 VERSION=latest
 PORT=9000
 ENV_FILE=/opt/loglist/conf/loglist.env
-DB_IP=`ip -4 addr show scope global dev docker0 | grep inet | awk '{print $2}' | cut -d / -f 1 | sed -n 1p`
+DB_IP=$(docker network inspect --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}' bridge)
 docker pull codingteam/loglist:$VERSION
 docker rm -f $NAME
 docker run -d --restart unless-stopped \
