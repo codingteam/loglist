@@ -109,49 +109,33 @@ $ docker push codingteam/loglist:latest
 
 Deployment
 ----------
-
-To install the application from Docker, run the following command:
-
-```console
-$ docker run -d --restart unless-stopped \
-    --name $NAME \
-    -v $CONFIG:/app/conf/application.conf \
-    --env-file $ENV_FILE \
-    --add-host db:$DB_IP \
-    -p:$PORT:9000 \
-    codingteam/loglist:$VERSION
+Consider using the following [Ansible][ansible] task for deployment:
+```yaml
+- name: Set up the application container
+  community.docker.docker_container:
+    name: loglist.app
+    image_name_mismatch: recreate
+    image: codingteam/loglist:{{ loglist_version }}
+    published_ports:
+      - '9000:9000'
+    env:
+      APPLY_EVOLUTIONS_SILENTLY: 'true'
+      APPROVAL_EMAIL: '{{ loglist_secrets.approval_email.name }}'
+      APPROVAL_EMAIL_PASSWORD: '{{ loglist_secrets.approval_email.password }}'
+      APPROVAL_SMTP_HOST: '{{ loglist_secrets.approval_email.smtp_host }}'
+      BASIC_AUTH_PASSWORD: '{{ loglist_secrets.basic_auth.password }}'
+      BASIC_AUTH_USERNAME: '{{ loglist_secrets.basic_auth.username }}'
+      DATABASE_URL: 'jdbc:postgresql://loglist.postgresql/loglist?user=loglist&password={{ loglist_secrets.db_password }}'
+      JAVA_OPTS: '-Xmx200m -Xss512k -XX:+UseCompressedOops'
+      RECAPTCHA_PRIVATE_KEY: '{{ loglist_secrets.recaptcha.private_key }}'
+      RECAPTCHA_PUBLIC_KEY: '{{ loglist_secrets.recaptcha.public_key }}'
+      HTTP_SECRET_KEY: '{{ loglist_secrets.http_secret_key }}'
+    volumes:
+      - '{{ host_config_dir }}/application.conf:/app/conf/application.conf'
+    default_host_ip: ''
 ```
 
-Where
-- `$NAME` is the container name
-- `$CONFIG` is the **absolute** path to the configuration file
-- `$ENV_FILE` is the path to the env file (see
-  [`docs/loglist.env`][docs-loglist.env] for example)
-- `$DB_IP` is the IP address of the database service
-- `$PORT` is external port the site will be available on
-- `$VERSION` is the version you want to deploy, or `latest` for the latest
-  available one
-
-For example, a production server may use the following settings (note this
-command uses the Bash syntax; adapt for your shell if necessary):
-
-```bash
-NAME=loglist
-CONFIG=/opt/loglist/conf/application.conf
-VERSION=latest
-PORT=9000
-ENV_FILE=/opt/loglist/conf/loglist.env
-DB_IP=$(docker network inspect --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}' bridge)
-docker pull codingteam/loglist:$VERSION
-docker rm -f $NAME
-docker run -d --restart unless-stopped \
-    --name $NAME \
-    -v $CONFIG:/app/conf/application.conf \
-    --env-file $ENV_FILE \
-    --add-host db:$DB_IP \
-    -p:$PORT:9000 \
-    codingteam/loglist:$VERSION
-```
+See a full example in the [devops repository][devops].
 
 License
 -------
@@ -162,12 +146,12 @@ details.
 Some third-party components have their own licenses, please consult the
 corresponding site section for further details.
 
+[ansible]: https://docs.ansible.com/
 [badge.docker]: https://img.shields.io/docker/v/codingteam/loglist?sort=semver
-
+[devops]: https://github.com/codingteam/devops/blob/HEAD/xmpp2/loglist.yml
+[docker-hub]: https://hub.docker.com/r/codingteam/loglist
 [docs-admin]: docs/Admin.md
 [docs-api]: docs/API.md
 [docs-loglist.env]: docs/loglist.env
-
-[docker-hub]: https://hub.docker.com/r/codingteam/loglist
-[loglist]: https://www.loglist.xyz/
 [loglist-original]: http://loglist.ru/
+[loglist]: https://www.loglist.xyz/
